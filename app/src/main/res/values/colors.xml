@@ -5,6 +5,16 @@
     <color name="colorAccent">#F6973D</color>
     <!--<color name="colorAccent">#DE867A</color>-->
 
-    <color name="colorTextPrimary">#D4D3CD</color>
-    <color name="colorTextSecondary">#A7A6A2</color>
+    <color name="colorTextPrimaryDark">#313E48</color>
+    <color name="colorTextSecondaryDark">#8C313E48</color>
+
+    <color name="colorTextPrimaryLight">#FFFFFFFF</color>
+    <color name="colorTextSecondaryLight">#B3FFFFFF</color>
+
+    <!--<color name="colorText">#E6000000</color>-->
+    <!--<color name="colorTextSecondary">#8C000000</color>-->
+    <!--<color name="colorTextHint">#66000000</color>-->
+
+    <!--Sunny-->
+    <color name="sunnyBg">#4fc1e9</color>
 </resources>

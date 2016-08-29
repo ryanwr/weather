@@ -1,22 +1,20 @@
-package com.example.ryan.weather.ui.activities;
+package com.ryanwelch.weather.ui.activities;
 
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.TextView;
 
-import com.example.ryan.weather.R;
+import com.ryanwelch.weather.R;
+import com.ryanwelch.weather.ui.fragments.MainFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.txt_temperature) TextView mTextTemperature;
 
     private Typeface mTypeface;
 
@@ -31,12 +29,18 @@ public class MainActivity extends AppCompatActivity {
         // Use support library action bar instead of default
         setSupportActionBar(mToolbar);
 
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setTitle("London");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
+        //mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
 
-        mTextTemperature.setTypeface(mTypeface);
+        //mTextTemperature.setTypeface(EasyFonts.robot(this));
+
+        if (savedInstanceState == null) {
+            MainFragment fragment = MainFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content_frame, fragment)
+                    .commit();
+        }
     }
 
     // Menu icons are inflated just as they were with actionbar

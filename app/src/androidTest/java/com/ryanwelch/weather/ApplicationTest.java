@@ -1,4 +1,4 @@
-package com.example.ryan.weather;
+package com.ryanwelch.weather;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

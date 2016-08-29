@@ -1,4 +1,4 @@
-package com.example.ryan.weather;
+package com.ryanwelch.weather;
 
 import org.junit.Test;
 
