@@ -12,7 +12,5 @@
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <!--android:requiresFadingEdge="vertical"-->
-    <!--android:fadingEdgeLength="5dp"-->
 
 </RelativeLayout>

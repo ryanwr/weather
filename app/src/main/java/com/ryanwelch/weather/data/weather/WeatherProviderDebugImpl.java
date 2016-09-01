@@ -1,5 +1,6 @@
-package com.ryanwelch.weather.data;
+package com.ryanwelch.weather.data.weather;
 
+import com.ryanwelch.weather.data.helper.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
 import com.ryanwelch.weather.models.WeatherCondition;
 
@@ -30,7 +31,7 @@ public class WeatherProviderDebugImpl implements WeatherProvider {
                 break;
             case 3:
                 reply.updateTime = new Date();
-                reply.weatherCondition = WeatherCondition.SNOW;
+                reply.weatherCondition = WeatherCondition.THUNDERSTORMS;
                 reply.temperature = 5.0;
                 reply.countryCode = "CA";
                 reply.cityName = "Alaska";

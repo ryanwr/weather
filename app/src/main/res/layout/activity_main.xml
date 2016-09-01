@@ -45,20 +45,4 @@
         android:background="@color/colorAccent"
         android:layout_alignParentBottom="true"/>
 
-    <!--<com.arlib.floatingsearchview.FloatingSearchView-->
-        <!--android:id="@+id/floating_search_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:visibility="gone"-->
-        <!--app:floatingSearch_searchBarMarginLeft="4dp"-->
-        <!--app:floatingSearch_searchBarMarginTop="4dp"-->
-        <!--app:floatingSearch_searchBarMarginRight="4dp"-->
-        <!--app:floatingSearch_searchHint="Search"-->
-        <!--app:floatingSearch_suggestionsListAnimDuration="100"-->
-        <!--app:floatingSearch_showSearchKey="false"-->
-        <!--app:floatingSearch_leftActionMode="showHome"-->
-        <!--app:floatingSearch_menu="@menu/menu_search"-->
-        <!--app:floatingSearch_dismissOnOutsideTouch="true"-->
-        <!--app:floatingSearch_close_search_on_keyboard_dismiss="true"/>-->
-
 </RelativeLayout>

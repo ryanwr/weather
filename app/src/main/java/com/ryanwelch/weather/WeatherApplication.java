@@ -4,10 +4,10 @@ import android.app.Application;
 import android.location.Location;
 import android.support.annotation.Nullable;
 
-import com.ryanwelch.weather.data.LocationProvider;
-import com.ryanwelch.weather.data.WeatherProvider;
-import com.ryanwelch.weather.data.WeatherProviderDebugImpl;
-import com.ryanwelch.weather.data.WeatherProviderImpl;
+import com.ryanwelch.weather.data.location.LocationProvider;
+import com.ryanwelch.weather.data.weather.WeatherProvider;
+import com.ryanwelch.weather.data.weather.WeatherProviderDebugImpl;
+import com.ryanwelch.weather.data.weather.WeatherProviderImpl;
 
 public class WeatherApplication extends Application {
 
@@ -20,11 +20,11 @@ public class WeatherApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (BuildConfig.DEBUG) {
-            mWeatherProvider = new WeatherProviderDebugImpl();
-        } else {
+        //if (BuildConfig.DEBUG) {
+        //    mWeatherProvider = new WeatherProviderDebugImpl();
+        //} else {
             mWeatherProvider = new WeatherProviderImpl();
-        }
+        //}
 
         mLocationProvider = new LocationProvider(this, new LocationProvider.LocationCallback() {
             @Override

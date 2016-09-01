@@ -1,5 +1,6 @@
-package com.ryanwelch.weather.data;
+package com.ryanwelch.weather.data.weather;
 
+import com.ryanwelch.weather.data.helper.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
 
 public interface WeatherProvider {

@@ -17,6 +17,7 @@
 
     <!--Sunny-->
     <color name="sunnyBg">#4fc1e9</color>
+    <color name="cloudyBg">#4fc1e9</color>
     <color name="rainBg">#41ba9c</color>
     <color name="snowBg">#ccd1d9</color>
     <color name="clearBg">#000000</color>

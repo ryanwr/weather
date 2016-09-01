@@ -8,12 +8,15 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -29,11 +32,13 @@ public class WeatherIconView extends RelativeLayout {
     private ImageView mSunImage;
     private ImageView mSunBgImage;
     private ImageView mCloudImage;
+    private ImageView mBoltImage;
     private RelativeLayout mIconLayout;
 
     private Drawable mCloudDrawable;
     private Drawable mDropletDrawable;
     private Drawable mSnowflakeDrawable;
+    private Drawable mBoltDrawable;
 
     private ParticleSystem mParticleSystem;
     private boolean isEmitting = false;
@@ -46,6 +51,7 @@ public class WeatherIconView extends RelativeLayout {
         mCloudDrawable = ContextCompat.getDrawable(getContext(), R.drawable.cloud);
         mDropletDrawable = ContextCompat.getDrawable(getContext(), R.drawable.droplet);
         mSnowflakeDrawable = ContextCompat.getDrawable(getContext(), R.drawable.snowflake);
+        mBoltDrawable = ContextCompat.getDrawable(getContext(), R.drawable.lightning_bolt);
     }
 
     private ObjectAnimator createPulseAnim(View view) {
@@ -111,7 +117,28 @@ public class WeatherIconView extends RelativeLayout {
         switch(type) {
             case SUNNY:
                 createSun();
+                mIconLayout.addView(mSunImage);
+                mIconLayout.addView(mSunBgImage);
+                addView(mIconLayout);
                 createShadow();
+                addView(mShadowImage);
+
+                as.playTogether(
+                        createPulseAnim(mSunBgImage),
+                        createHoverAnim(mIconLayout),
+                        createHoverShadowAnim(mShadowImage));
+                as.start();
+
+                break;
+            case CLOUDY:
+                createSun();
+                createCloud(0xffffffff, 60, 30, true);
+                mIconLayout.addView(mSunImage);
+                mIconLayout.addView(mSunBgImage);
+                mIconLayout.addView(mCloudImage);
+                addView(mIconLayout);
+                createShadow();
+                addView(mShadowImage);
 
                 as.playTogether(
                         createPulseAnim(mSunBgImage),
@@ -122,7 +149,9 @@ public class WeatherIconView extends RelativeLayout {
                 break;
             case RAIN:
                 createCloud(0xffcccccc);
+                addView(mCloudImage);
                 createShadow();
+                addView(mShadowImage);
 
                 ObjectAnimator hoverRainAnim = createHoverAnim(mCloudImage);
 
@@ -151,7 +180,9 @@ public class WeatherIconView extends RelativeLayout {
 
             case SNOW:
                 createCloud(0xffffffff);
+                addView(mCloudImage);
                 createShadow();
+                addView(mShadowImage);
 
                 ObjectAnimator hoverSnowAnim = createHoverAnim(mCloudImage);
 
@@ -177,6 +208,48 @@ public class WeatherIconView extends RelativeLayout {
                 });
 
                 break;
+            case THUNDERSTORM:
+                createCloud(0xff393939);
+                createBolt();
+                mIconLayout.addView(mCloudImage);
+                mIconLayout.addView(mBoltImage);
+                addView(mIconLayout);
+                createShadow();
+                addView(mShadowImage);
+
+                ObjectAnimator hoverThunderAnim = createHoverAnim(mIconLayout);
+
+                as.playTogether(
+                        hoverThunderAnim,
+                        createHoverShadowAnim(mShadowImage));
+                as.start();
+
+                mBoltImage.setAlpha(0f);
+                hoverThunderAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        long time = valueAnimator.getCurrentPlayTime() % valueAnimator.getDuration();
+                        if(time > 0 && time < 150) {
+                            mBoltImage.setAlpha(1f);
+                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                            mBoltImage.setRotation(15);
+                        } else if(time > 150 && time < 300) {
+                            mBoltImage.setAlpha(1f);
+                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                            mBoltImage.setRotation(-10);
+                        } else if(time > 300 && time < 450) {
+                            mBoltImage.setAlpha(1f);
+                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                            mBoltImage.setRotation(5);
+                        } else {
+                            mBoltImage.setAlpha(0f);
+                        }
+                    }
+                });
+
         }
     }
 
@@ -197,7 +270,6 @@ public class WeatherIconView extends RelativeLayout {
             mShadowImage.setLayoutParams(params);
             mShadowImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.shadow));
         }
-        addView(mShadowImage);
     }
 
     private void createSun() {
@@ -231,26 +303,54 @@ public class WeatherIconView extends RelativeLayout {
             mSunImage.setLayoutParams(params);
             mSunImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.sun));
         }
-
-        mIconLayout.addView(mSunImage);
-        mIconLayout.addView(mSunBgImage);
-        addView(mIconLayout);
     }
 
-    private void createCloud(int color) {
+    private void createCloud(int color, int width, int height, boolean bottomRight) {
         if(mCloudImage == null) {
             mCloudImage = new ImageView(getContext());
             LayoutParams params = new LayoutParams(
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()),
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics())
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, getResources().getDisplayMetrics()),
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, getResources().getDisplayMetrics())
             );
+            if(bottomRight) {
+                params.setMargins(
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100-width, getResources().getDisplayMetrics()),
+                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100-height-10, getResources().getDisplayMetrics()), 0, 0);
+            }
             mCloudImage.setLayoutParams(params);
             // TODO: Just use different drawables? More efficient?
             mCloudDrawable = mCloudDrawable.mutate(); // Prevent affecting other versions of the cloud drawable
             mCloudDrawable.setColorFilter( color , PorterDuff.Mode.MULTIPLY );
             mCloudImage.setImageDrawable(mCloudDrawable);
         }
-        addView(mCloudImage);
+    }
+
+    private void createCloud(int color) {
+        createCloud(color, 100, 50, false);
+    }
+
+    private void createBolt() {
+        if(mIconLayout == null) {
+            mIconLayout = new RelativeLayout(getContext());
+            mIconLayout.setLayoutParams(new LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT
+            ));
+        } else {
+            mIconLayout.removeAllViews();
+        }
+
+        if(mBoltImage == null) {
+            mBoltImage = new ImageView(getContext());
+            LayoutParams params = new LayoutParams(
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()),
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics())
+            );
+            params.addRule(CENTER_HORIZONTAL, TRUE);
+            params.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics()), 0, 0);
+            mBoltImage.setLayoutParams(params);
+            mBoltImage.setImageDrawable(mBoltDrawable);
+        }
     }
 
     private interface ParticleCallback {

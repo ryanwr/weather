@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.data;
+package com.ryanwelch.weather.data.weather;
 
 import com.ryanwelch.weather.models.responses.CurrentWeatherResponse;
 

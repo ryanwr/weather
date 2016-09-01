@@ -4,8 +4,9 @@ import com.ryanwelch.weather.R;
 
 public enum WeatherIcon {
     SUNNY(R.color.sunnyBg),
+    //MOSTLY_SUNNY(R.color.sunnyBg),
     CLEAR(R.color.clearBg),
-    CLOUDY(R.color.rainBg),
+    CLOUDY(R.color.cloudyBg),
     RAIN(R.color.rainBg),
     SNOW(R.color.snowBg),
     THUNDERSTORM(R.color.stormBg);

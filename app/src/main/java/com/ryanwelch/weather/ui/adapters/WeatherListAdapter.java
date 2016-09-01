@@ -5,17 +5,13 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.data.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
-import com.ryanwelch.weather.models.WeatherIcon;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
@@ -121,7 +117,6 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         @BindView(R.id.txt_temperature) TextView mTemperature;
         @BindView(R.id.txt_temperature_hilo) TextView mTemperatureHiLo;
         @BindView(R.id.weather_icon) WeatherIconView mWeatherIcon;
-
 
         public WeatherItemViewHolder(View view) {
             super(view);

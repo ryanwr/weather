@@ -13,9 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.data.ResponseCallback;
+import com.ryanwelch.weather.data.helper.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
 import com.ryanwelch.weather.ui.adapters.WeatherListAdapter;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
@@ -78,9 +79,11 @@ public class MainFragment extends Fragment implements OnStartDragListener {
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        addWeatherLocation(51.507351, -0.127758);
-        addWeatherLocation(51.507351, -0.127758);
-        addWeatherLocation(51.507351, -0.127758);
+//        if(BuildConfig.DEBUG) {
+//            addWeatherLocation(51.507351, -0.127758);
+//            addWeatherLocation(51.507351, -0.127758);
+//            addWeatherLocation(51.507351, -0.127758);
+//        }
     }
 
     public void addWeatherLocation(double lat, double lon) {

@@ -1,6 +1,7 @@
-package com.ryanwelch.weather.data;
+package com.ryanwelch.weather.data.weather;
 
 import com.ryanwelch.weather.BuildConfig;
+import com.ryanwelch.weather.data.helper.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
 import com.ryanwelch.weather.models.WeatherCondition;
 import com.ryanwelch.weather.models.responses.CurrentWeatherResponse;

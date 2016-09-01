@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.data;
+package com.ryanwelch.weather.data.location;
 
 import android.app.Activity;
 import android.content.Context;
