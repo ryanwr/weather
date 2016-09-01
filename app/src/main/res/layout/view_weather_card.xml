@@ -7,7 +7,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         card_view:cardCornerRadius="4dp"
         card_view:cardBackgroundColor="@color/sunnyBg">
 
@@ -22,6 +22,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -45,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                android:orientation="horizontal">
                 <TextView
                     android:id="@+id/txt_temperature"
                     android:layout_width="wrap_content"
@@ -58,58 +59,19 @@
                     android:id="@+id/txt_temperature_hilo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
                     android:text="0°/0°"
                     android:textSize="18sp"
                     android:textColor="@color/colorTextSecondaryLight"/>
             </LinearLayout>
 
-            <RelativeLayout
+            <com.ryanwelch.weather.ui.views.WeatherIconView
+                android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true">
-
-                <RelativeLayout
-                    android:id="@+id/weather_icon_sun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/weather_icon_sun_center"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/sun"/>
-
-                    <ImageView
-                        android:id="@+id/weather_icon_sun_bg"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/sun_bg"/>
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/weather_icon_shadow"
-                    android:paddingTop="20dp"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:src="@drawable/shadow"/>
-
-            </RelativeLayout>
+                android:layout_alignParentEnd="true"/>
 
 
         </RelativeLayout>
-        <!--<TextView-->
-            <!--android:id="@+id/txt_condition_summary"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Overcast"-->
-            <!--android:textSize="24sp"-->
-            <!--android:textColor="@color/colorTextPrimary"/>-->
 
     </android.support.v7.widget.CardView>
 </FrameLayout>

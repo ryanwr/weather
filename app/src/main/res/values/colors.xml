@@ -2,13 +2,13 @@
 <resources>
     <color name="colorPrimary">#323538</color>
     <color name="colorPrimaryDark">#191b1c</color>
-    <color name="colorAccent">#F6973D</color>
+    <color name="colorAccent">#FE5E7B</color>
     <!--<color name="colorAccent">#DE867A</color>-->
 
     <color name="colorTextPrimaryDark">#313E48</color>
     <color name="colorTextSecondaryDark">#8C313E48</color>
 
-    <color name="colorTextPrimaryLight">#FFFFFFFF</color>
+    <color name="colorTextPrimaryLight">#FFFFFF</color>
     <color name="colorTextSecondaryLight">#B3FFFFFF</color>
 
     <!--<color name="colorText">#E6000000</color>-->
@@ -17,4 +17,8 @@
 
     <!--Sunny-->
     <color name="sunnyBg">#4fc1e9</color>
+    <color name="rainBg">#41ba9c</color>
+    <color name="snowBg">#ccd1d9</color>
+    <color name="clearBg">#000000</color>
+    <color name="stormBg">#656d78</color>
 </resources>

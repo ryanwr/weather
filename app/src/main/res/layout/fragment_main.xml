@@ -1,17 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ryanwelch.weather.ui.fragments.MainFragment">
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/weather_view"
+        android:paddingLeft="@dimen/scroll_horizontal_padding"
+        android:paddingRight="@dimen/scroll_horizontal_padding"
+        android:paddingTop="@dimen/scroll_horizontal_padding"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <!--android:requiresFadingEdge="vertical"-->
+    <!--android:fadingEdgeLength="5dp"-->
 
-</FrameLayout>
+</RelativeLayout>

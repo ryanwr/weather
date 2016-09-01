@@ -1,63 +1,77 @@
 package com.ryanwelch.weather.models;
 
 public enum WeatherCondition {
-    SUNNY("Sunny", "Clear"),
-    MOSTLY_SUNNY("Mostly Sunny"),
-    PARTLY_CLOUDY("Partly Cloudy"),
-    MOSTLY_CLOUDY("Mostly Cloudy"),
-    CLOUDY("Cloudy"),
-    OVERCAST("Overcast"),
+    SUNNY("Sunny", "Clear", WeatherIcon.SUNNY, WeatherIcon.CLEAR),
+    MOSTLY_SUNNY("Mostly Sunny", WeatherIcon.SUNNY),
+    PARTLY_CLOUDY("Partly Cloudy", WeatherIcon.CLOUDY),
+    MOSTLY_CLOUDY("Mostly Cloudy", WeatherIcon.CLOUDY),
+    CLOUDY("Cloudy", WeatherIcon.CLOUDY),
+    OVERCAST("Overcast", WeatherIcon.CLOUDY),
 
-    MIST("Mist"),
-    FOG("Fog"),
-    HAZE("Haze"),
-    SMOKE("Smoke"),
-    DUST("Dust"),
+    MIST("Mist", WeatherIcon.CLOUDY),
+    FOG("Fog", WeatherIcon.CLOUDY),
+    HAZE("Haze", WeatherIcon.CLOUDY),
+    SMOKE("Smoke", WeatherIcon.CLOUDY),
+    DUST("Dust", WeatherIcon.CLOUDY),
 
-    LIGHT_DRIZZLE("Light Drizzle"),
-    DRIZZLE("Drizzle"),
-    FREEZING_DRIZZLE("Freezing Drizzle"),
-    DRIZZLE_SHOWERS("Drizzle Showers"),
+    LIGHT_DRIZZLE("Light Drizzle", WeatherIcon.RAIN),
+    DRIZZLE("Drizzle", WeatherIcon.RAIN),
+    FREEZING_DRIZZLE("Freezing Drizzle", WeatherIcon.RAIN),
+    DRIZZLE_SHOWERS("Drizzle Showers", WeatherIcon.RAIN),
 
-    CHANCE_OF_RAIN("Chance of Rain"),
-    SCATTERED_SHOWERS("Scattered Showers"),
-    SHOWERS("Showers"),
-    LIGHT_RAIN("Light Rain"),
-    RAIN("Rain"),
-    FREEZING_RAIN("Freezing Rain"),
+    CHANCE_OF_RAIN("Chance of Rain", WeatherIcon.RAIN),
+    SCATTERED_SHOWERS("Scattered Showers", WeatherIcon.RAIN),
+    SHOWERS("Showers", WeatherIcon.RAIN),
+    LIGHT_RAIN("Light Rain", WeatherIcon.RAIN),
+    RAIN("Rain", WeatherIcon.RAIN),
+    FREEZING_RAIN("Freezing Rain", WeatherIcon.RAIN),
 
-    CHANCE_OF_SNOW("Chance of Snow"),
-    SNOW_SHOWERS("Snow Showers"),
-    LIGHT_SNOW("Light Snow"),
-    SNOW("Snow"),
-    BLIZZARD("Blizzard"),
+    CHANCE_OF_SNOW("Chance of Snow", WeatherIcon.SNOW),
+    SNOW_SHOWERS("Snow Showers", WeatherIcon.SNOW),
+    LIGHT_SNOW("Light Snow", WeatherIcon.SNOW),
+    SNOW("Snow", WeatherIcon.SNOW),
+    BLIZZARD("Blizzard", WeatherIcon.SNOW),
 
-    SLEET_SHOWERS("Sleet Showers"),
-    SLEET("Sleet"),
+    SLEET_SHOWERS("Sleet Showers", WeatherIcon.RAIN),
+    SLEET("Sleet", WeatherIcon.RAIN),
 
-    CHANCE_OF_STORM("Chance of Storm"),
-    STORM("Storm"),
-    SNOW_THUNDERSTORMS("Snow Thunderstorm"),
-    CHANCE_OF_THUNDERSTORM("Chance of Thunderstorm"),
-    THUNDERSTORMS("Thunderstorm");
+    CHANCE_OF_STORM("Chance of Storm", WeatherIcon.THUNDERSTORM),
+    STORM("Storm", WeatherIcon.THUNDERSTORM),
+    SNOW_THUNDERSTORMS("Snow Thunderstorm", WeatherIcon.THUNDERSTORM),
+    CHANCE_OF_THUNDERSTORM("Chance of Thunderstorm", WeatherIcon.THUNDERSTORM),
+    THUNDERSTORMS("Thunderstorm", WeatherIcon.THUNDERSTORM);
 
-    private String name;
-    private String nightName;
+    private String mName;
+    private String mNightName;
 
-    WeatherCondition(String dayName) {
-        this.name = dayName;
+    private WeatherIcon mIcon;
+    private WeatherIcon mNightIcon;
+
+    WeatherCondition(String name, WeatherIcon icon) {
+        this.mName = name;
+        this.mIcon = icon;
     }
 
-    WeatherCondition(String dayName, String nightName) {
-        this.name = dayName;
-        this.nightName = nightName;
+    WeatherCondition(String dayName, String nightName, WeatherIcon dayIcon, WeatherIcon nightIcon) {
+        this.mName = dayName;
+        this.mNightName = nightName;
+        this.mIcon = dayIcon;
+        this.mNightIcon = nightIcon;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getNightName() {
-        return nightName != null ? nightName : name;
+        return mNightName != null ? mNightName : mName;
+    }
+
+    public WeatherIcon getIcon() {
+        return mIcon;
+    }
+
+    public WeatherIcon getNightIcon() {
+        return mNightIcon != null ? mNightIcon : mIcon;
     }
 }
