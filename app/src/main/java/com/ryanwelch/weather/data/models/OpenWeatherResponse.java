@@ -1,13 +1,11 @@
-package com.ryanwelch.weather.models.responses;
+package com.ryanwelch.weather.data.models;
 
 import com.google.gson.annotations.SerializedName;
-import com.ryanwelch.weather.models.Coord;
-import com.ryanwelch.weather.models.Wind;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentWeatherResponse extends BaseWeatherResponse {
+public class OpenWeatherResponse {
 
     @SerializedName("coord")
     public Coord coord;
@@ -47,6 +45,9 @@ public class CurrentWeatherResponse extends BaseWeatherResponse {
 
     @SerializedName("name")
     public String cityName;
+
+    @SerializedName("cod")
+    public int cod;
 
     public static class Clouds {
         @SerializedName("all")
@@ -118,6 +119,24 @@ public class CurrentWeatherResponse extends BaseWeatherResponse {
 
         @SerializedName("icon")
         public String icon;
+    }
+
+    public static class Wind {
+        @SerializedName("speed")
+        public Double speed;
+
+        @SerializedName("deg")
+        public Integer deg;
+    }
+
+    public static class Coord {
+
+        @SerializedName("lon")
+        public Double lon;
+
+        @SerializedName("lat")
+        public Double lat;
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.ui.views;
+package com.ryanwelch.weather.ui.components;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -8,7 +8,6 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -16,7 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -25,6 +23,8 @@ import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.models.WeatherIcon;
 
 public class WeatherIconView extends RelativeLayout {
+
+    private static final String TAG = "WeatherIconView";
 
     private WeatherIconView ctx;
 
@@ -40,12 +40,27 @@ public class WeatherIconView extends RelativeLayout {
     private Drawable mSnowflakeDrawable;
     private Drawable mBoltDrawable;
 
+    private AnimatorSet as;
+
     private ParticleSystem mParticleSystem;
     private boolean isEmitting = false;
 
+    public WeatherIconView(Context context) {
+        super(context);
+        init();
+    }
+
     public WeatherIconView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
 
+    public WeatherIconView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
         ctx = this;
 
         mCloudDrawable = ContextCompat.getDrawable(getContext(), R.drawable.cloud);
@@ -112,7 +127,7 @@ public class WeatherIconView extends RelativeLayout {
     public void createIcon(WeatherIcon type) {
         clearIcon();
 
-        AnimatorSet as = new AnimatorSet();
+        as = new AnimatorSet();
 
         switch(type) {
             case SUNNY:
@@ -355,5 +370,15 @@ public class WeatherIconView extends RelativeLayout {
 
     private interface ParticleCallback {
         ParticleSystem createParticleSystem();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        Log.v(TAG, "Detached weather icon from window");
+
+        //remove any ongoing animations to prevent leaks
+        as.cancel();
     }
 }

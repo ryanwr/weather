@@ -64,7 +64,7 @@
                     android:textColor="@color/colorTextSecondaryLight"/>
             </LinearLayout>
 
-            <com.ryanwelch.weather.ui.views.WeatherIconView
+            <com.ryanwelch.weather.ui.components.WeatherIconView
                 android:id="@+id/weather_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

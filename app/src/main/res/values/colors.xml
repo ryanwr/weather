@@ -11,6 +11,13 @@
     <color name="colorTextPrimaryLight">#FFFFFF</color>
     <color name="colorTextSecondaryLight">#B3FFFFFF</color>
 
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="searchDividerColor">#F0F0F0</color>
+    <color name="searchBackgroundColor">#FFFFFF</color>
+    <color name="searchTextColor">#000000</color>
+    <color name="searchTextHintColor">#808080</color>
+
     <!--<color name="colorText">#E6000000</color>-->
     <!--<color name="colorTextSecondary">#8C000000</color>-->
     <!--<color name="colorTextHint">#66000000</color>-->

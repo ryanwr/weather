@@ -1,50 +1,37 @@
 package com.ryanwelch.weather;
 
 import android.app.Application;
-import android.location.Location;
-import android.support.annotation.Nullable;
+import android.content.Context;
+import android.util.Log;
 
-import com.ryanwelch.weather.data.location.LocationProvider;
-import com.ryanwelch.weather.data.weather.WeatherProvider;
-import com.ryanwelch.weather.data.weather.WeatherProviderDebugImpl;
-import com.ryanwelch.weather.data.weather.WeatherProviderImpl;
+import com.ryanwelch.weather.injector.components.ApplicationComponent;
+import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
+import com.ryanwelch.weather.injector.modules.ApplicationModule;
 
 public class WeatherApplication extends Application {
 
-    private static WeatherProvider mWeatherProvider;
-    private static LocationProvider mLocationProvider;
+    private static final String TAG = "WeatherApplication";
 
-    private static Location mCurrentLocation;
+    private ApplicationComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        //if (BuildConfig.DEBUG) {
-        //    mWeatherProvider = new WeatherProviderDebugImpl();
-        //} else {
-            mWeatherProvider = new WeatherProviderImpl();
-        //}
-
-        mLocationProvider = new LocationProvider(this, new LocationProvider.LocationCallback() {
-            @Override
-            public void handleNewLocation(Location location) {
-                mCurrentLocation = location;
-            }
-        });
+        initializeInjector();
+        Log.i(TAG, "Initialized app");
     }
 
-
-    public static WeatherProvider getWeatherProvider() {
-        return mWeatherProvider;
+    private void initializeInjector() {
+        mAppComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    public static LocationProvider getLocationProvider() {
-        return mLocationProvider;
+    public ApplicationComponent getAppComponent() {
+        return mAppComponent;
     }
 
-    @Nullable
-    public static Location getLocation() {
-        return mCurrentLocation;
+    public static WeatherApplication from(Context context) {
+        return (WeatherApplication) context.getApplicationContext();
     }
 }

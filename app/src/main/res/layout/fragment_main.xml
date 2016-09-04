@@ -4,13 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.ryanwelch.weather.ui.fragments.MainFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/weather_view"
-        android:paddingLeft="@dimen/scroll_horizontal_padding"
-        android:paddingRight="@dimen/scroll_horizontal_padding"
-        android:paddingTop="@dimen/scroll_horizontal_padding"
-        android:clipToPadding="false"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/weather_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/weather_view"
+            android:paddingLeft="@dimen/scroll_horizontal_padding"
+            android:paddingRight="@dimen/scroll_horizontal_padding"
+            android:paddingTop="@dimen/scroll_horizontal_padding"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

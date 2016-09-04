@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.data.helper;
+package com.ryanwelch.weather.data;
 
 
 public interface ResponseCallback<T> {

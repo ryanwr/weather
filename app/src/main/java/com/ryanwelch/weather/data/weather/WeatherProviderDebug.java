@@ -1,17 +1,18 @@
 package com.ryanwelch.weather.data.weather;
 
-import com.ryanwelch.weather.data.helper.ResponseCallback;
+import com.ryanwelch.weather.data.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.models.Place;
 import com.ryanwelch.weather.models.WeatherCondition;
 
 import java.util.Date;
 
-public class WeatherProviderDebugImpl implements WeatherProvider {
+public class WeatherProviderDebug implements WeatherProvider {
 
     private int count = 0;
 
     @Override
-    public void getCurrentWeather(ResponseCallback<CurrentWeather> callback, double lat, double lon) {
+    public void getCurrentWeather(ResponseCallback<CurrentWeather> callback, Place place) {
         CurrentWeather reply = new CurrentWeather();
         count++;
         switch(count) {
@@ -19,22 +20,19 @@ public class WeatherProviderDebugImpl implements WeatherProvider {
                 reply.updateTime = new Date();
                 reply.weatherCondition = WeatherCondition.RAIN;
                 reply.temperature = 17.0;
-                reply.countryCode = "GB";
-                reply.cityName = "London";
+                reply.place = new Place("London", "Essex", "United Kingdom");
                 break;
             case 2:
                 reply.updateTime = new Date();
                 reply.weatherCondition = WeatherCondition.SUNNY;
                 reply.temperature = 23.0;
-                reply.countryCode = "US";
-                reply.cityName = "New York";
+                reply.place = new Place("New York", "", "United States");
                 break;
             case 3:
                 reply.updateTime = new Date();
                 reply.weatherCondition = WeatherCondition.THUNDERSTORMS;
                 reply.temperature = 5.0;
-                reply.countryCode = "CA";
-                reply.cityName = "Alaska";
+                reply.place = new Place("Alaska", "", "Canada");
 
                 count = 0;
                 break;

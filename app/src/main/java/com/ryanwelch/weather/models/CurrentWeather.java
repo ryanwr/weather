@@ -8,13 +8,9 @@ public class CurrentWeather {
 
     // Data info
 
-    public Coord location; // Location of data
+    public Place place;
 
     public Date updateTime; // Update time of data
-
-    public String cityName; // e.g. London
-
-    public String countryCode; // e.g. GB
 
     // Weather info
 
@@ -36,11 +32,9 @@ public class CurrentWeather {
 
     public Date sunsetTime;
 
-    public Integer rain; // Volume per 3 hours
+    public Integer rain;
 
-    public Integer snow; // Volume per 3 hours
+    public Integer snow;
 
     public Integer cloudPercent;
-
-    public Wind wind;
 }

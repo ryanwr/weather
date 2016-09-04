@@ -15,7 +15,7 @@ import com.ryanwelch.weather.models.CurrentWeather;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
-import com.ryanwelch.weather.ui.views.WeatherIconView;
+import com.ryanwelch.weather.ui.components.WeatherIconView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,9 +43,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     @Override
     public WeatherItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_weather_card, parent, false);
-        WeatherItemViewHolder itemViewHolder = new WeatherItemViewHolder(view);
-
-        return itemViewHolder;
+        return new WeatherItemViewHolder(view);
     }
 
     private boolean isColorDark(int color){
@@ -73,21 +71,11 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
         holder.mDate.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(data.updateTime));
         //holder.mDate.setTextColor();
-        holder.mLocationName.setText(data.cityName);
+        holder.mLocationName.setText(data.place.getName());
         holder.mTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperature)));
         holder.mWeatherIcon.createIcon(data.weatherCondition.getIcon());
 
-        // Start a drag whenever the handle view it touched
-//        holder.mCardView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN ||
-//                        MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_MOVE) {
-//                    mDragStartListener.onStartDrag(holder);
-//                }
-//                return false;
-//            }
-//        });
+
     }
 
     @Override

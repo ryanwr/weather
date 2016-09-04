@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,11 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.data.helper.ResponseCallback;
+import com.ryanwelch.weather.data.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.models.Place;
+import com.ryanwelch.weather.presenters.MainContract;
 import com.ryanwelch.weather.ui.adapters.WeatherListAdapter;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
 import com.ryanwelch.weather.ui.helpers.SimpleItemTouchHelperCallback;
@@ -28,15 +30,16 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainFragment extends Fragment implements OnStartDragListener {
+public class MainFragment extends Fragment implements MainContract.View, OnStartDragListener {
+
+    private static final String TAG = "MainFragment";
 
     @BindView(R.id.weather_view) RecyclerView mRecyclerView;
+    @BindView(R.id.weather_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private WeatherListAdapter mWeatherListAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private final ArrayList<CurrentWeather> mWeatherListItems;
-
-    private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
         mWeatherListItems = new ArrayList<>();
@@ -55,10 +58,8 @@ public class MainFragment extends Fragment implements OnStartDragListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, v);
-
 
         return v;
     }
@@ -79,6 +80,15 @@ public class MainFragment extends Fragment implements OnStartDragListener {
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 //        if(BuildConfig.DEBUG) {
 //            addWeatherLocation(51.507351, -0.127758);
 //            addWeatherLocation(51.507351, -0.127758);
@@ -86,7 +96,7 @@ public class MainFragment extends Fragment implements OnStartDragListener {
 //        }
     }
 
-    public void addWeatherLocation(double lat, double lon) {
+    public void addWeatherLocation(Place place) {
         WeatherApplication.getWeatherProvider().getCurrentWeather(new ResponseCallback<CurrentWeather>() {
             @Override
             public void onSuccess(CurrentWeather data) {
@@ -99,18 +109,7 @@ public class MainFragment extends Fragment implements OnStartDragListener {
             public void onFailure(String error) {
                 Log.e("WeatherListAdapter", error);
             }
-        }, lat, lon);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        }, place);
     }
 
     @Override
@@ -122,8 +121,5 @@ public class MainFragment extends Fragment implements OnStartDragListener {
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
-    }
-
-    public interface OnFragmentInteractionListener {
     }
 }

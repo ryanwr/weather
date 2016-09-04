@@ -25,6 +25,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.ryanwelch.weather.ui.activities.SearchActivity"
+            android:theme="@style/AppTheme.Transparent">
+        </activity>
+
     </application>
 
 </manifest>

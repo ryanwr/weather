@@ -1,10 +1,11 @@
 package com.ryanwelch.weather.data.weather;
 
 import com.ryanwelch.weather.BuildConfig;
-import com.ryanwelch.weather.data.helper.ResponseCallback;
+import com.ryanwelch.weather.data.ResponseCallback;
 import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.models.Place;
 import com.ryanwelch.weather.models.WeatherCondition;
-import com.ryanwelch.weather.models.responses.CurrentWeatherResponse;
+import com.ryanwelch.weather.data.models.OpenWeatherResponse;
 
 import java.io.IOException;
 import java.util.Date;
@@ -17,15 +18,17 @@ import okhttp3.Response;
 import retrofit2.*;
 import retrofit2.Callback;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-public class WeatherProviderImpl implements WeatherProvider {
+public class WeatherProviderOpenWeatherMap implements WeatherProvider {
 
     private static final String WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/";
-    private static final String WEATHER_API_KEY = BuildConfig.WEATHER_API_TOKEN;
+    private static final String WEATHER_API_KEY = BuildConfig.OPEN_WEATHER_API_TOKEN;
 
     private WeatherService weatherService;
 
-    public WeatherProviderImpl() {
+    public WeatherProviderOpenWeatherMap() {
         Interceptor requestInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -48,20 +51,20 @@ public class WeatherProviderImpl implements WeatherProvider {
         weatherService = retrofit.create(WeatherService.class);
     }
 
-    public void getCurrentWeather(final ResponseCallback<CurrentWeather> callback, double lat, double lon) {
-        Call<CurrentWeatherResponse> response = weatherService.getCurrentWeather(lat, lon);
+    public void getCurrentWeather(final ResponseCallback<CurrentWeather> callback, Place place) {
+        Call<OpenWeatherResponse> response = weatherService.getCurrentWeather(place.getLatitude(), place.getLongitude());
 
-        response.enqueue(new Callback<CurrentWeatherResponse>() {
+        response.enqueue(new Callback<OpenWeatherResponse>() {
             @Override
-            public void onResponse(Call<CurrentWeatherResponse> call, retrofit2.Response<CurrentWeatherResponse> response) {
+            public void onResponse(Call<OpenWeatherResponse> call, retrofit2.Response<OpenWeatherResponse> response) {
                 if(response.isSuccessful()) {
-                    CurrentWeatherResponse data = response.body();
+                    OpenWeatherResponse data = response.body();
 
                     CurrentWeather reply = new CurrentWeather();
-                    reply.location = data.coord;
+                    //reply.location = data.coord;
                     reply.updateTime = new Date(data.dt * 1000);
-                    reply.cityName = data.cityName;
-                    reply.countryCode = data.sys.country;
+                    //reply.cityName = data.cityName;
+                    //reply.countryCode = data.sys.country;
                     reply.sunriseTime = new Date(data.sys.sunrise * 1000);
                     reply.sunsetTime = new Date(data.sys.sunset * 1000);
                     if(data.rain != null) {
@@ -75,7 +78,7 @@ public class WeatherProviderImpl implements WeatherProvider {
                         reply.snow = 0;
                     }
                     reply.cloudPercent = data.clouds.coverage;
-                    reply.wind = data.wind;
+                    //reply.wind = data.wind;
                     reply.temperature = data.main.temperature;
                     if(data.main.groundLevel != null) {
                         reply.pressure = data.main.groundLevel;
@@ -225,10 +228,19 @@ public class WeatherProviderImpl implements WeatherProvider {
             }
 
             @Override
-            public void onFailure(Call<CurrentWeatherResponse> call, Throwable t) {
+            public void onFailure(Call<OpenWeatherResponse> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
+
+    }
+
+    public interface WeatherService {
+
+        @GET("weather?units=metric")
+        Call<OpenWeatherResponse> getCurrentWeather(@Query("lat") double latitude,
+                                                    @Query("lon") double longitude);
+
 
     }
 
