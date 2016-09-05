@@ -17,7 +17,7 @@
             android:value="AIzaSyBVLoWVPAsvkIsBeSfdykyFWobJ59MPtLY"/>
 
         <activity
-            android:name="com.ryanwelch.weather.ui.activities.MainActivity"
+            android:name=".ui.mainscreen.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name="com.ryanwelch.weather.ui.activities.SearchActivity"
+            android:name=".ui.searchscreen.SearchActivity"
             android:theme="@style/AppTheme.Transparent">
         </activity>
 

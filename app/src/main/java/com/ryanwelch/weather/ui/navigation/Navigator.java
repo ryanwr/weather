@@ -3,21 +3,18 @@ package com.ryanwelch.weather.ui.navigation;
 import android.content.Context;
 import android.content.Intent;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.ryanwelch.weather.ui.searchscreen.SearchActivity;
 
-@Singleton
 public class Navigator {
 
-    @Inject
     public Navigator() {
 
     }
 
-    public void navigateToDetails(Context context) {
+    public void navigateToSearch(Context context) {
         if (context != null) {
-            //Intent intentToLaunch = UserListActivity.getCallingIntent(context);
-            //context.startActivity(intentToLaunch);
+            Intent intentToLaunch = SearchActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
         }
     }
 }

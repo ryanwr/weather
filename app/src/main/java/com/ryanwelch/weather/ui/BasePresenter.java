@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.presenters;
+package com.ryanwelch.weather.ui;
 
 /**
  * Interface representing a BasePresenter in MVP

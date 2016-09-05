@@ -55,7 +55,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     // RxJava
-    //compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
 
     // Google play services
     compile 'com.google.android.gms:play-services-places:9.4.0'

@@ -3,11 +3,11 @@ package com.ryanwelch.weather.injector.components;
 import android.app.Activity;
 
 import com.ryanwelch.weather.injector.modules.ActivityModule;
-import com.ryanwelch.weather.injector.scopes.PerActivity;
+import com.ryanwelch.weather.injector.scopes.ActivityScope;
 
 import dagger.Component;
 
-@PerActivity
+@ActivityScope
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
 

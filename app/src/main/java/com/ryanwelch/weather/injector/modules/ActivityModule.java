@@ -2,7 +2,7 @@ package com.ryanwelch.weather.injector.modules;
 
 import android.app.Activity;
 
-import com.ryanwelch.weather.injector.scopes.PerActivity;
+import com.ryanwelch.weather.injector.scopes.ActivityScope;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,7 +17,7 @@ public class ActivityModule {
     }
 
     @Provides
-    @PerActivity
+    @ActivityScope
     Activity activity() {
         return mActivity;
     }

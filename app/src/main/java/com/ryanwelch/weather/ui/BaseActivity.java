@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.ui.activities;
+package com.ryanwelch.weather.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +30,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(containerViewId, fragment);
         fragmentTransaction.commit();
+    }
+
+    protected Navigator getNavigator() {
+        return mNavigator;
     }
 
     protected ActivityModule getActivityModule() {

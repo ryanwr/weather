@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.models.SearchSuggestion;
-import com.ryanwelch.weather.ui.adapters.SearchSuggestionsAdapter;
+import com.ryanwelch.weather.ui.searchscreen.SearchSuggestionsAdapter;
 import com.ryanwelch.weather.ui.helpers.Util;
 
 import java.util.ArrayList;

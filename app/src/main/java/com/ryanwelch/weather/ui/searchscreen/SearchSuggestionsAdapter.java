@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.ui.adapters;
+package com.ryanwelch.weather.ui.searchscreen;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

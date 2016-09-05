@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.ryanwelch.weather.WeatherApplication;
+import com.ryanwelch.weather.injector.scopes.ApplicationScope;
+import com.ryanwelch.weather.ui.navigation.Navigator;
 
 import javax.inject.Singleton;
 
@@ -13,21 +15,28 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private WeatherApplication mApplication;
+    private Application mApplication;
 
-    public ApplicationModule(WeatherApplication application) {
+    public ApplicationModule(Application application) {
         mApplication = application;
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     Context providesApplicationContext() {
         return mApplication;
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     Application providesApplication() {
         return mApplication;
     }
+
+    @Provides
+    @ApplicationScope
+    Navigator providesNavigator() {
+        return new Navigator();
+    }
+
 }

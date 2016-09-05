@@ -7,9 +7,9 @@ import android.preference.PreferenceManager;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,14 +30,14 @@ public class NetModule {
 
     // Dagger will only look for methods annotated with @Provides
     @Provides
-    @Singleton
+    @ApplicationScope
     // Application reference must come from ApplicationModule.class
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     Cache provideOkHttpCache(Application application) {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
@@ -45,7 +45,7 @@ public class NetModule {
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -53,8 +53,7 @@ public class NetModule {
     }
 
     @Provides
-    @Singleton
-    @Named("cached")
+    @ApplicationScope
     OkHttpClient provideCachedOkHttpClient(Cache cache) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(cache);
@@ -62,16 +61,7 @@ public class NetModule {
     }
 
     @Provides
-    @Singleton
-    @Named("non-cached")
-    OkHttpClient provideOkHttpClient(Cache cache) {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.cache(cache);
-        return client.build();
-    }
-
-    @Provides
-    @Singleton
+    @ApplicationScope
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
