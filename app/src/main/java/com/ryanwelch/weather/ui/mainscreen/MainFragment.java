@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
+import com.ryanwelch.weather.injector.components.MainComponent;
 import com.ryanwelch.weather.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
@@ -42,6 +43,12 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     private MainListener mListener;
 
     public MainFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getComponent(MainComponent.class).inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

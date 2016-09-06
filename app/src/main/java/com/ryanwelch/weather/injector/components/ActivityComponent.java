@@ -9,7 +9,7 @@ import dagger.Component;
 
 @ActivityScope
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
-public interface ActivityComponent {
+public interface ActivityComponent extends ApplicationComponent {
 
     //Exposed to sub-graphs.
     Activity activity();

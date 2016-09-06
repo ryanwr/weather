@@ -6,16 +6,13 @@ import android.util.Log;
 
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
-import com.ryanwelch.weather.injector.components.NetComponent;
 import com.ryanwelch.weather.injector.modules.ApplicationModule;
-import com.ryanwelch.weather.injector.modules.NetModule;
 
 public class WeatherApplication extends Application {
 
     private static final String TAG = "WeatherApplication";
 
-    private ApplicationComponent mAppComponent;
-    private NetComponent mNetComponent;
+    private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
@@ -25,19 +22,13 @@ public class WeatherApplication extends Application {
     }
 
     private void initializeInjector() {
-        mAppComponent = DaggerApplicationComponent.builder()
+        mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-
-        mNetComponent = mAppComponent.plus(new NetModule(""));
     }
 
-    public ApplicationComponent getAppComponent() {
-        return mAppComponent;
-    }
-
-    public NetComponent getNetComponent() {
-        return mNetComponent;
+    public ApplicationComponent getApplicationComponent() {
+        return mApplicationComponent;
     }
 
     public static WeatherApplication from(Context context) {

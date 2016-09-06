@@ -6,9 +6,18 @@ import com.ryanwelch.weather.models.Place;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View mView;
+
+    @Inject SearchProvider mSearchProvider;
+
+    @Inject
+    public SearchPresenter() {
+
+    }
 
     @Override
     public void setView(SearchContract.View view) {
@@ -35,7 +44,7 @@ public class SearchPresenter implements SearchContract.Presenter {
         mView.showLoading();
 
         // On loaded
-        mView.showSuggestions(getHistory());
+        //mView.showSuggestions(getHistory());
         mView.hideLoading();
     }
 
@@ -44,13 +53,13 @@ public class SearchPresenter implements SearchContract.Presenter {
         mView.showLoading();
 
         // On loaded
-        WeatherApplication.getSearchProvider().findSuggestions(query, new SearchProvider.OnFindListener(){
-            @Override
-            public void onResults(List<Place> results) {
-                mView.showSuggestions(results);
-                mView.hideLoading();
-            }
-        });
+//        WeatherApplication.getSearchProvider().findSuggestions(query, new SearchProvider.OnFindListener(){
+//            @Override
+//            public void onResults(List<Place> results) {
+//                mView.showSuggestions(results);
+//                mView.hideLoading();
+//            }
+//        });
     }
 
     @Override

@@ -23,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected ApplicationComponent getApplicationComponent() {
-        return WeatherApplication.from(this).getAppComponent();
+        return WeatherApplication.from(this).getApplicationComponent();
     }
 
     protected void addFragment(int containerViewId, Fragment fragment) {
