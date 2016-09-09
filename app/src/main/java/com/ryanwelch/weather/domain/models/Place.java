@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.models;
+package com.ryanwelch.weather.domain.models;
 
 import android.os.Parcel;
 
@@ -18,19 +18,25 @@ public class Place implements SearchSuggestion {
     @SerializedName("country")
     private String mCountry;
 
-    @SerializedName("id")
-    private int mId;
+    //@SerializedName("id")
+    //private int mId;
 
-    private boolean mIsHistory = false;
+    //private boolean mIsHistory = false;
 
-    public Place(String name, String region, String country) {
+    public Place(String name, String region, String country, double latitude, double longitude) {
         this.mName = name;
         this.mRegion = region;
         this.mCountry = country;
+        this.mLatitude = latitude;
+        this.mLongitude = longitude;
     }
 
     public Place(Parcel source) {
-        //this.mName = source.readString();
+        this.mLatitude = source.readDouble();
+        this.mLongitude = source.readDouble();
+        this.mName = source.readString();
+        this.mRegion = source.readString();
+        this.mCountry = source.readString();
         //this.mIsHistory = source.readInt() != 0;
     }
 
@@ -46,7 +52,11 @@ public class Place implements SearchSuggestion {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        //parcel.writeString(mName);
+        parcel.writeDouble(mLatitude);
+        parcel.writeDouble(mLongitude);
+        parcel.writeString(mName);
+        parcel.writeString(mRegion);
+        parcel.writeString(mCountry);
         //parcel.writeInt(mIsHistory ? 1 : 0);
     }
 
@@ -102,11 +112,21 @@ public class Place implements SearchSuggestion {
         mCountry = country;
     }
 
-    public int getId() {
-        return mId;
-    }
+//    public int getId() {
+//        return mId;
+//    }
+//
+//    public void setId(int id) {
+//        mId = id;
+//    }
 
-    public void setId(int id) {
-        mId = id;
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Place){
+            Place other = (Place) o;
+            return this.getLongitude() == other.getLongitude()
+                    && this.getLatitude() == other.getLatitude();
+        }
+        return false;
     }
 }

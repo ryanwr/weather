@@ -1,8 +1,8 @@
 //package com.ryanwelch.weather.data.weather;
 //
-//import com.ryanwelch.weather.models.CurrentWeather;
-//import com.ryanwelch.weather.models.Place;
-//import com.ryanwelch.weather.models.WeatherCondition;
+//import com.ryanwelch.weather.domain.models.CurrentWeather;
+//import com.ryanwelch.weather.domain.models.Place;
+//import com.ryanwelch.weather.domain.models.WeatherCondition;
 //
 //import java.util.Date;
 //

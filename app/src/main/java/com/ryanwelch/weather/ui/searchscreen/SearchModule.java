@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.injector.modules;
+package com.ryanwelch.weather.ui.searchscreen;
 
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
 import com.ryanwelch.weather.ui.searchscreen.SearchPresenter;

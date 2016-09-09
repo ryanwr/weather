@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.models;
+package com.ryanwelch.weather.domain.models;
 
 public enum WeatherCondition {
     SUNNY("Sunny", "Clear", WeatherIcon.SUNNY, WeatherIcon.CLEAR),

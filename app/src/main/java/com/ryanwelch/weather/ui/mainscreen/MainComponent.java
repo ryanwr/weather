@@ -1,9 +1,9 @@
-package com.ryanwelch.weather.injector.components;
+package com.ryanwelch.weather.ui.mainscreen;
 
+import com.ryanwelch.weather.injector.components.ActivityComponent;
+import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.modules.ActivityModule;
-import com.ryanwelch.weather.injector.modules.MainModule;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
-import com.ryanwelch.weather.ui.mainscreen.MainFragment;
 
 import dagger.Component;
 

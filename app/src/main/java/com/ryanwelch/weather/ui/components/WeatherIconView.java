@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.plattysoft.leonids.ParticleSystem;
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.models.WeatherIcon;
+import com.ryanwelch.weather.domain.models.WeatherIcon;
 
 public class WeatherIconView extends RelativeLayout {
 

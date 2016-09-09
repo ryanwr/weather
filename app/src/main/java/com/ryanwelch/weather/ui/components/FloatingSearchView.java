@@ -33,7 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.models.SearchSuggestion;
+import com.ryanwelch.weather.domain.models.SearchSuggestion;
 import com.ryanwelch.weather.ui.searchscreen.SearchSuggestionsAdapter;
 import com.ryanwelch.weather.ui.helpers.Util;
 
@@ -694,7 +694,7 @@ public class FloatingSearchView extends FrameLayout {
 //
 //    static class SavedState extends BaseSavedState {
 //
-//        private ArrayList<? extends SearchSuggestion> suggestions = new ArrayList<>();
+//        private ArrayList<? extends GetSearchSuggestionInteractor> suggestions = new ArrayList<>();
 //        private boolean isFocused;
 //        private String query;
 //        private int suggestionTextSize;

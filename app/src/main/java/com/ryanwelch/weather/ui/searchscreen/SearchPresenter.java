@@ -1,18 +1,23 @@
 package com.ryanwelch.weather.ui.searchscreen;
 
-import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.data.search.SearchProvider;
-import com.ryanwelch.weather.models.Place;
+import android.util.Log;
+
+import com.ryanwelch.weather.domain.interactors.GetSearchSuggestionInteractor;
+import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscriber;
+
 public class SearchPresenter implements SearchContract.Presenter {
+
+    private static final String TAG = "SearchPresenter";
 
     private SearchContract.View mView;
 
-    @Inject SearchProvider mSearchProvider;
+    @Inject GetSearchSuggestionInteractor mGetSearchSuggestionInteractor;
 
     @Inject
     public SearchPresenter() {
@@ -26,40 +31,45 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void destroy() {
-
     }
 
     @Override
     public void loadHistory() {
-        mView.showLoading();
+       // mView.showLoading();
 
         // On loaded
         //mView.showSuggestions(getHistory());
-        mView.hideLoading();
+        //mView.hideLoading();
     }
 
     @Override
     public void loadQuery(String query) {
         mView.showLoading();
+        mGetSearchSuggestionInteractor.execute(query, new Subscriber() {
+            @Override
+            public void onCompleted() {
+                mView.hideLoading();
+            }
 
-        // On loaded
-//        WeatherApplication.getSearchProvider().findSuggestions(query, new SearchProvider.OnFindListener(){
-//            @Override
-//            public void onResults(List<Place> results) {
-//                mView.showSuggestions(results);
-//                mView.hideLoading();
-//            }
-//        });
+            @Override
+            public void onError(Throwable e) {
+                mView.hideLoading();
+                Log.v(TAG, e.getLocalizedMessage());
+            }
+
+            @Override
+            public void onNext(Object o) {
+                mView.showSuggestions((List<Place>) o);
+            }
+        });
     }
 
     @Override

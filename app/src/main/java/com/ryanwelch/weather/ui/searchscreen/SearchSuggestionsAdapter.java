@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.models.SearchSuggestion;
+import com.ryanwelch.weather.domain.models.SearchSuggestion;
 
 import java.util.ArrayList;
 import java.util.List;

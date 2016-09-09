@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.injector.HasComponent;
-import com.ryanwelch.weather.injector.components.DaggerSearchComponent;
-import com.ryanwelch.weather.injector.components.SearchComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 public class SearchActivity extends BaseActivity implements HasComponent<SearchComponent>, SearchFragment.SearchListener {

@@ -1,4 +1,4 @@
-package com.ryanwelch.weather.models;
+package com.ryanwelch.weather.domain.models;
 
 import android.os.Parcelable;
 

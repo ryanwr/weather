@@ -2,8 +2,12 @@ package com.ryanwelch.weather.injector.modules;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.ryanwelch.weather.WeatherApplication;
+import com.ryanwelch.weather.data.place.PlaceMemoryDataSource;
+import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 import com.ryanwelch.weather.ui.navigation.Navigator;
 
@@ -39,4 +43,16 @@ public class ApplicationModule {
         return new Navigator();
     }
 
+
+    @Provides
+    @ApplicationScope
+    SharedPreferences providesSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @ApplicationScope
+    PlaceRepository providePlaceRepository() {
+        return new PlaceRepository(new PlaceMemoryDataSource());
+    }
 }

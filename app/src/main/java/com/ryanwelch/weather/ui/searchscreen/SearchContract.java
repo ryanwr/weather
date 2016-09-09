@@ -1,6 +1,6 @@
 package com.ryanwelch.weather.ui.searchscreen;
 
-import com.ryanwelch.weather.models.Place;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BasePresenter;
 
 import java.util.List;

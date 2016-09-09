@@ -8,7 +8,14 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ryanwelch.weather.BuildConfig;
-import com.ryanwelch.weather.data.search.SearchProvider;
+import com.ryanwelch.weather.data.place.PlaceRepository;
+import com.ryanwelch.weather.data.search.SearchRemoteDataSource;
+import com.ryanwelch.weather.data.search.SearchRepository;
+import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
+import com.ryanwelch.weather.data.weather.WeatherRepository;
+import com.ryanwelch.weather.domain.executor.PostExecutionThread;
+import com.ryanwelch.weather.domain.executor.ThreadExecutor;
+import com.ryanwelch.weather.domain.executor.UIThread;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 
 import javax.inject.Named;
@@ -19,21 +26,27 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetModule {
 
-    private static final String SEARCH_BASE_URL = "http://api.apixu.com/v1/";
-    private static final String SEARCH_API_KEY = BuildConfig.APIXU_API_TOKEN;
+    private static final String APIXU_BASE_URL = "http://api.apixu.com/v1/";
+    private static final String APIXU_API_KEY = BuildConfig.APIXU_API_TOKEN;
 
     public NetModule() {}
 
     @Provides
     @ApplicationScope
-    // Application reference must come from ApplicationModule.class
-    SharedPreferences providesSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
+    ThreadExecutor provideThreadExecutor() {
+        return new ThreadExecutor();
+    }
+
+    @Provides
+    @ApplicationScope
+    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+        return uiThread;
     }
 
 //    @Provides
@@ -65,20 +78,27 @@ public class NetModule {
     }
 
     @Provides
-    @Named("search")
+    @Named("apixu")
     @ApplicationScope
-    Retrofit provideSearchRetrofit(Gson gson) {
+    Retrofit provideApixuRetrofit(Gson gson) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(SEARCH_BASE_URL)
-                .client(createOkHTTPClient("key", SEARCH_API_KEY))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(APIXU_BASE_URL)
+                .client(createOkHTTPClient("key", APIXU_API_KEY))
                 .build();
         return retrofit;
     }
 
     @Provides
     @ApplicationScope
-    SearchProvider provideSearchProvider(@Named("search") Retrofit retrofit) {
-        return new SearchProvider(retrofit);
+    SearchRepository provideSearchRepository(@Named("apixu") Retrofit retrofit) {
+        return new SearchRepository(new SearchRemoteDataSource(retrofit));
+    }
+
+    @Provides
+    @ApplicationScope
+    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit) {
+        return new WeatherRepository(new WeatherRemoteDataSource(retrofit));
     }
 }

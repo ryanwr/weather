@@ -1,9 +1,10 @@
-package com.ryanwelch.weather.injector.components;
+package com.ryanwelch.weather.ui.searchscreen;
 
+import com.ryanwelch.weather.injector.components.ActivityComponent;
+import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.modules.ActivityModule;
-import com.ryanwelch.weather.injector.modules.MainModule;
+import com.ryanwelch.weather.ui.mainscreen.MainModule;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
-import com.ryanwelch.weather.ui.searchscreen.SearchFragment;
 
 import dagger.Component;
 

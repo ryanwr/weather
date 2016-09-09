@@ -13,8 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.injector.components.MainComponent;
-import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
 import com.ryanwelch.weather.ui.helpers.SimpleItemTouchHelperCallback;
@@ -64,6 +63,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         setupRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mMainPresenter.setView(this);
+        mMainPresenter.loadData();
     }
 
     private void setupRecyclerView() {

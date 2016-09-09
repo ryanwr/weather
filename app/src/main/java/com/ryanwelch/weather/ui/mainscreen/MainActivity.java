@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.injector.HasComponent;
-import com.ryanwelch.weather.injector.components.DaggerMainComponent;
-import com.ryanwelch.weather.injector.components.MainComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 import butterknife.ButterKnife;

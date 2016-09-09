@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.models.Place;
-import com.ryanwelch.weather.models.SearchSuggestion;
+import com.ryanwelch.weather.domain.models.Place;
+import com.ryanwelch.weather.domain.models.SearchSuggestion;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.components.FloatingSearchView;
 
@@ -33,6 +33,12 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     private SearchListener mListener;
 
     public SearchFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getComponent(SearchComponent.class).inject(this);
     }
 
     @Override

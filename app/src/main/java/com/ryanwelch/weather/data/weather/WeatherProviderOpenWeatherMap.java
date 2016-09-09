@@ -1,9 +1,9 @@
 //package com.ryanwelch.weather.data.weather;
 //
 //import com.ryanwelch.weather.BuildConfig;
-//import com.ryanwelch.weather.models.CurrentWeather;
-//import com.ryanwelch.weather.models.Place;
-//import com.ryanwelch.weather.models.WeatherCondition;
+//import com.ryanwelch.weather.domain.models.CurrentWeather;
+//import com.ryanwelch.weather.domain.models.Place;
+//import com.ryanwelch.weather.domain.models.WeatherCondition;
 //import com.ryanwelch.weather.data.models.OpenWeatherResponse;
 //
 //import java.io.IOException;

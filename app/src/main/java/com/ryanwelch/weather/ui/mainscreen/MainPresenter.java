@@ -1,19 +1,22 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
-import android.util.Log;
-
-import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.data.search.SearchProvider;
-import com.ryanwelch.weather.injector.components.MainComponent;
+import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherInteractor;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
-import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Place;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
+
+import rx.Subscriber;
 
 @ActivityScope
 public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View mView;
+
+    @Inject GetCurrentWeatherInteractor mGetCurrentWeatherInteractor;
 
     @Inject
     public MainPresenter() {
@@ -27,17 +30,36 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void destroy() {
+    }
 
+    public void loadData() {
+        mView.showLoading();
+        mGetCurrentWeatherInteractor.execute(new Place("London", "Greater London", "United Kingdom", 51.4, -0.11), new Subscriber() {
+            @Override
+            public void onCompleted() {
+                mView.hideLoading();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                ArrayList<CurrentWeather> places = new ArrayList<>();
+                places.add((CurrentWeather) o);
+                mView.showWeather(places);
+            }
+        });
     }
 
     public void addItem() {

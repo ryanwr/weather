@@ -1,6 +1,4 @@
-package com.ryanwelch.weather.models;
-
-import com.google.gson.annotations.SerializedName;
+package com.ryanwelch.weather.domain.models;
 
 import java.util.Date;
 
@@ -16,25 +14,27 @@ public class CurrentWeather {
 
     public WeatherCondition weatherCondition;
 
-    //public WeatherIcon weatherIcon;
-
-    public String weatherDescription;
-
     public Double temperature; // In Celsius
+
+    public Double feelsLike; // In Celsius
 
     public Double pressure; // In hPa
 
     public Double humidity;
 
-    // Extra info
+    public Double windSpeed;
+
+    public Integer windDegree;
+
+    public String windDirection;
 
     public Date sunriseTime;
 
     public Date sunsetTime;
 
-    public Integer rain;
+    public Double precipitation;
 
     public Integer snow;
 
-    public Integer cloudPercent;
+    public Integer cloud;
 }

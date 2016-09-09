@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
 import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
