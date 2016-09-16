@@ -8,59 +8,64 @@ public class ApixuWeatherResponse {
     @SerializedName("location")
     public Place place;
 
-    @SerializedName("last_updated_epoch")
-    public Long lastUpdatedEpoch;
+    @SerializedName("current")
+    public Current current;
 
-    @SerializedName("last_updated")
-    public String lastUpdated;
+    public static class Current {
+        @SerializedName("last_updated_epoch")
+        public Long lastUpdatedEpoch;
 
-    @SerializedName("temp_c")
-    public Double tempC;
+        @SerializedName("last_updated")
+        public String lastUpdated;
 
-    @SerializedName("temp_f")
-    public Double tempF;
+        @SerializedName("temp_c")
+        public Double tempC;
 
-    @SerializedName("is_day")
-    public Integer isDay;
+        @SerializedName("temp_f")
+        public Double tempF;
 
-    @SerializedName("wind_mph")
-    public Double windMph;
+        @SerializedName("is_day")
+        public Integer isDay;
 
-    @SerializedName("wind_kph")
-    public Double windKph;
+        @SerializedName("wind_mph")
+        public Double windMph;
 
-    @SerializedName("wind_degree")
-    public Integer windDegree;
+        @SerializedName("wind_kph")
+        public Double windKph;
 
-    @SerializedName("wind_dir")
-    public String windDir;
+        @SerializedName("wind_degree")
+        public Integer windDegree;
 
-    @SerializedName("pressure_mb")
-    public Double pressureMb;
+        @SerializedName("wind_dir")
+        public String windDir;
 
-    @SerializedName("pressure_in")
-    public Double pressureIn;
+        @SerializedName("pressure_mb")
+        public Double pressureMb;
 
-    @SerializedName("precip_mm")
-    public Double precipMm;
+        @SerializedName("pressure_in")
+        public Double pressureIn;
 
-    @SerializedName("precip_in")
-    public Double precipIn;
+        @SerializedName("precip_mm")
+        public Double precipMm;
 
-    @SerializedName("humidity")
-    public Double humidity;
+        @SerializedName("precip_in")
+        public Double precipIn;
 
-    @SerializedName("cloud")
-    public Integer cloud;
+        @SerializedName("humidity")
+        public Double humidity;
 
-    @SerializedName("feelslike_c")
-    public Double feelsLikeC;
+        @SerializedName("cloud")
+        public Integer cloud;
 
-    @SerializedName("feelslike_f")
-    public Double feelsLikeF;
+        @SerializedName("feelslike_c")
+        public Double feelsLikeC;
 
-    @SerializedName("condition")
-    public Condition condition;
+        @SerializedName("feelslike_f")
+        public Double feelsLikeF;
+
+        @SerializedName("condition")
+        public Condition condition;
+    }
 
     public static class Condition {
         @SerializedName("text")

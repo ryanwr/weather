@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
 import com.ryanwelch.weather.WeatherApplication;
 import com.ryanwelch.weather.data.place.PlaceMemoryDataSource;
 import com.ryanwelch.weather.data.place.PlaceRepository;
+import com.ryanwelch.weather.data.place.PlaceSharedPreferencesDataSource;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 import com.ryanwelch.weather.ui.navigation.Navigator;
 
@@ -52,7 +54,7 @@ public class ApplicationModule {
 
     @Provides
     @ApplicationScope
-    PlaceRepository providePlaceRepository() {
-        return new PlaceRepository(new PlaceMemoryDataSource());
+    PlaceRepository providePlaceRepository(SharedPreferences preferences, Gson gson) {
+        return new PlaceRepository(new PlaceMemoryDataSource(), new PlaceSharedPreferencesDataSource(preferences, gson));
     }
 }

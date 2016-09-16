@@ -97,7 +97,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
 
     @Override
     public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-        mSearchPresenter.addPlace((Place) searchSuggestion);
+        mSearchPresenter.onSelected((Place) searchSuggestion);
         mListener.finishActivity();
     }
 

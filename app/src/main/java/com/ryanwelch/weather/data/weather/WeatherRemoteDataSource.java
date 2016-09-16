@@ -38,18 +38,19 @@ public class WeatherRemoteDataSource implements WeatherDataSource {
         if(weatherResponse != null) {
             currentWeather = new CurrentWeather();
             currentWeather.place = weatherResponse.place;
-            currentWeather.temperature = weatherResponse.tempC;
-            currentWeather.feelsLike = weatherResponse.feelsLikeC;
-            currentWeather.updateTime = new Date(weatherResponse.lastUpdatedEpoch * 1000);
-            currentWeather.cloud = weatherResponse.cloud;
-            currentWeather.pressure = weatherResponse.pressureMb;
-            currentWeather.humidity = weatherResponse.humidity;
-            currentWeather.precipitation = weatherResponse.precipMm;
-            currentWeather.windSpeed = weatherResponse.windKph;
-            currentWeather.windDegree = weatherResponse.windDegree;
-            currentWeather.windDirection = weatherResponse.windDir;
+            currentWeather.temperature = weatherResponse.current.tempC;
+            currentWeather.feelsLike = weatherResponse.current.feelsLikeC;
+            currentWeather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
+            currentWeather.cloud = weatherResponse.current.cloud;
+            currentWeather.pressure = weatherResponse.current.pressureMb;
+            currentWeather.humidity = weatherResponse.current.humidity;
+            currentWeather.precipitation = weatherResponse.current.precipMm;
+            currentWeather.windSpeed = weatherResponse.current.windKph;
+            currentWeather.windDegree = weatherResponse.current.windDegree;
+            currentWeather.windDirection = weatherResponse.current.windDir;
+            currentWeather.isDay = weatherResponse.current.isDay != 0;
 
-            switch (weatherResponse.condition.code) {
+            switch (weatherResponse.current.condition.code) {
                 case 1000:
                     currentWeather.weatherCondition = WeatherCondition.SUNNY;
                     break;

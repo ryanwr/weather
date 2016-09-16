@@ -2,7 +2,9 @@ package com.ryanwelch.weather.ui.searchscreen;
 
 import android.util.Log;
 
-import com.ryanwelch.weather.domain.interactors.GetSearchSuggestionInteractor;
+import com.ryanwelch.weather.domain.interactors.AddPlaceFactory;
+import com.ryanwelch.weather.domain.interactors.GetSearchSuggestionFactory;
+import com.ryanwelch.weather.domain.interactors.Interactor;
 import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.List;
@@ -17,7 +19,8 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     private SearchContract.View mView;
 
-    @Inject GetSearchSuggestionInteractor mGetSearchSuggestionInteractor;
+    @Inject GetSearchSuggestionFactory mGetSearchSuggestionFactory;
+    @Inject AddPlaceFactory mAddPlaceFactory;
 
     @Inject
     public SearchPresenter() {
@@ -53,7 +56,8 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void loadQuery(String query) {
         mView.showLoading();
-        mGetSearchSuggestionInteractor.execute(query, new Subscriber() {
+        Interactor interactor = mGetSearchSuggestionFactory.get(query);
+        interactor.execute(new Subscriber() {
             @Override
             public void onCompleted() {
                 mView.hideLoading();
@@ -73,7 +77,23 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void addPlace(Place place) {
+    public void onSelected(Place place) {
+        Interactor interactor = mAddPlaceFactory.get(place);
+        interactor.execute(new Subscriber() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+        });
     }
 }

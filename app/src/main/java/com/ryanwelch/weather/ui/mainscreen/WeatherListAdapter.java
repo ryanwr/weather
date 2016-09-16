@@ -3,6 +3,7 @@ package com.ryanwelch.weather.ui.mainscreen;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
-import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
 
 import java.text.SimpleDateFormat;
@@ -29,13 +29,15 @@ import butterknife.ButterKnife;
 public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.WeatherItemViewHolder> implements ItemTouchHelperAdapter {
 
     private String mTemperatureFormat;
-    private List<CurrentWeather> mItems;
-    private final OnStartDragListener mDragStartListener;
+    private String mFeelsLikeFormat;
+    private List<CurrentWeather> mItems = new ArrayList<>();
+    private Callback mCallback;
 
-    public WeatherListAdapter(Context context, ArrayList<CurrentWeather> items, OnStartDragListener dragStartListener) {
+    public WeatherListAdapter(Context context, ArrayList<CurrentWeather> items, Callback callback) {
         setData(items);
-        mDragStartListener = dragStartListener;
         mTemperatureFormat = context.getResources().getString(R.string.temperature_format);
+        mFeelsLikeFormat = context.getResources().getString(R.string.feels_like_format);
+        mCallback = callback;
     }
 
     @Override
@@ -62,12 +64,12 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
                         holder.mCardView.getContext(),
                         data.weatherCondition.getIcon().getColor()));
 
-        holder.mDate.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(data.updateTime));
+        //holder.mDate.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(data.updateTime));
+        holder.mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());
+        holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLike)));
         holder.mLocationName.setText(data.place.getName());
         holder.mTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperature)));
-        holder.mWeatherIcon.createIcon(data.weatherCondition.getIcon());
-
-
+        holder.mWeatherIcon.setIcon(data.isDay ? data.weatherCondition.getIcon() : data.weatherCondition.getNightIcon());
     }
 
     public void replaceData(List<CurrentWeather> items) {
@@ -75,8 +77,13 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         notifyDataSetChanged();
     }
 
-    public void setData(List<CurrentWeather> items) {
-        mItems = items;
+    private void setData(List<CurrentWeather> items) {
+        final WeatherDiffCallback diffCallback = new WeatherDiffCallback(mItems, items);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        mItems.clear();
+        mItems.addAll(items);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -93,8 +100,13 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
     @Override
     public void onItemDismiss(int position) {
-        mItems.remove(position);
+        mCallback.onItemDismiss(mItems.remove(position));
         notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemSelected(int position) {
+        mCallback.onItemSelected(mItems.get(position));
     }
 
     public static class WeatherItemViewHolder extends RecyclerView.ViewHolder implements
@@ -102,8 +114,9 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
         @BindView(R.id.card_view) CardView mCardView;
         @BindView(R.id.txt_location) TextView mLocationName;
-        @BindView(R.id.txt_date_time) TextView mDate;
+        @BindView(R.id.txt_condition) TextView mCondition;
         @BindView(R.id.txt_temperature) TextView mTemperature;
+        @BindView(R.id.txt_feels_like) TextView mFeelsLike;
         @BindView(R.id.weather_icon) WeatherIconView mWeatherIcon;
 
         public WeatherItemViewHolder(View view) {
@@ -120,6 +133,12 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         public void onItemClear() {
 
         }
+    }
+
+    public interface Callback {
+        void onItemDismiss(CurrentWeather weather);
+
+        void onItemSelected(CurrentWeather weather);
     }
 
 }

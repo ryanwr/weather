@@ -8,7 +8,7 @@ import com.ryanwelch.weather.injector.scopes.ActivityScope;
 import dagger.Component;
 
 @ActivityScope
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, MainModule.class})
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class})
 public interface MainComponent extends ActivityComponent {
     void inject(MainFragment mainFragment);
 }

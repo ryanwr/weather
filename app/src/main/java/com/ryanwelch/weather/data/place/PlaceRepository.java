@@ -22,11 +22,12 @@ public class PlaceRepository implements PlaceDataSource {
 
     @Override
     public Observable<List<Place>> getPlaces() {
-        return Observable.concat(
-                mPlaceMemoryDataSource.getPlaces(),
-                mPlaceSharedPreferencesDataSource.getPlaces()
-                        .doOnNext(mPlaceMemoryDataSource::setPlaces)
-        ).first();
+        return mPlaceMemoryDataSource.getPlaces()
+                .filter(v -> !v.isEmpty())
+                .switchIfEmpty(
+                        mPlaceSharedPreferencesDataSource.getPlaces()
+                                .doOnNext(mPlaceMemoryDataSource::setPlaces)
+                );
     }
 
     @Override
@@ -36,11 +37,18 @@ public class PlaceRepository implements PlaceDataSource {
 
     @Override
     public Observable<Void> addPlace(Place place) {
-        mPlaceMemoryDataSource.addPlace(place);
-        mPlaceMemoryDataSource.getPlaces()
-                .doOnNext(mPlaceSharedPreferencesDataSource::setPlaces)
-                .subscribe();
-        return null;
+        return mPlaceMemoryDataSource.addPlace(place).doOnCompleted(() -> {
+            mPlaceMemoryDataSource.getPlaces()
+                    .subscribe(mPlaceSharedPreferencesDataSource::setPlaces);
+        });
+    }
+
+    @Override
+    public Observable<Void> removePlace(Place place) {
+        return mPlaceMemoryDataSource.removePlace(place).doOnCompleted(() -> {
+            mPlaceMemoryDataSource.getPlaces()
+                    .subscribe(mPlaceSharedPreferencesDataSource::setPlaces);
+        });
     }
 
 }

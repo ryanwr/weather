@@ -1,11 +1,17 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
-import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherInteractor;
+import android.util.Log;
+
+import com.ryanwelch.weather.domain.interactors.DeletePlaceFactory;
+import com.ryanwelch.weather.domain.interactors.DeletePlaceInteractor;
+import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherFactory;
+import com.ryanwelch.weather.domain.interactors.Interactor;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -14,9 +20,12 @@ import rx.Subscriber;
 @ActivityScope
 public class MainPresenter implements MainContract.Presenter {
 
+    private final static String TAG = "MainPresenter";
+
     private MainContract.View mView;
 
-    @Inject GetCurrentWeatherInteractor mGetCurrentWeatherInteractor;
+    @Inject GetCurrentWeatherFactory mGetCurrentWeatherFactory;
+    @Inject DeletePlaceFactory mDeletePlaceFactory;
 
     @Inject
     public MainPresenter() {
@@ -30,6 +39,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void resume() {
+        loadData();
     }
 
     @Override
@@ -40,9 +50,11 @@ public class MainPresenter implements MainContract.Presenter {
     public void destroy() {
     }
 
+    @Override
     public void loadData() {
         mView.showLoading();
-        mGetCurrentWeatherInteractor.execute(new Place("London", "Greater London", "United Kingdom", 51.4, -0.11), new Subscriber() {
+        Interactor interactor = mGetCurrentWeatherFactory.get();
+        interactor.execute(new Subscriber() {
             @Override
             public void onCompleted() {
                 mView.hideLoading();
@@ -50,36 +62,42 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
-
+                Log.d(TAG, "Error loading current weather: " + e.getMessage());
             }
 
             @Override
             public void onNext(Object o) {
-                ArrayList<CurrentWeather> places = new ArrayList<>();
-                places.add((CurrentWeather) o);
-                mView.showWeather(places);
+                mView.showWeather((List<CurrentWeather>) o);
+                Log.d(TAG, "Loaded current weather");
             }
         });
     }
 
-    public void addItem() {
-//        WeatherApplication.getWeatherProvider().getCurrentWeather(new ResponseCallback<CurrentWeather>() {
-//            @Override
-//            public void onSuccess(CurrentWeather data) {
-//                mWeatherListItems.add(data);
-//                mWeatherListAdapter.notifyDataSetChanged();
-//                Log.v("WeatherListAdapter", "Received data");
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//                Log.e("WeatherListAdapter", error);
-//            }
-//        }, place);
+    @Override
+    public void onRefresh() {
+        loadData();
     }
 
     @Override
-    public void onRefresh() {
+    public void onItemDismiss(CurrentWeather weather) {
+        Interactor interactor = mDeletePlaceFactory.get(weather.place);
+        interactor.execute(new Subscriber() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Object o) {
+            }
+        });
+    }
+
+    @Override
+    public void onItemSelected(CurrentWeather weather) {
 
     }
 }

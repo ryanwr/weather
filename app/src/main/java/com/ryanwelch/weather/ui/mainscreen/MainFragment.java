@@ -15,9 +15,8 @@ import android.view.ViewGroup;
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
-import com.ryanwelch.weather.ui.helpers.OnStartDragListener;
-import com.ryanwelch.weather.ui.helpers.SimpleItemTouchHelperCallback;
 import com.ryanwelch.weather.ui.helpers.VerticalSpaceItemDecoration;
+import com.ryanwelch.weather.ui.helpers.ItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
-        OnStartDragListener, SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback {
 
     private static final String TAG = "MainFragment";
 
@@ -63,12 +62,11 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         setupRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mMainPresenter.setView(this);
-        mMainPresenter.loadData();
     }
 
     private void setupRecyclerView() {
         // Setup adapter
-        mWeatherListAdapter = new WeatherListAdapter(getActivity(), new ArrayList<CurrentWeather>(), this);
+        mWeatherListAdapter = new WeatherListAdapter(getActivity(), new ArrayList<>(), this);
 
         // Setup recycler view
         mRecyclerView.setHasFixedSize(true);
@@ -78,23 +76,23 @@ public class MainFragment extends BaseFragment implements MainContract.View,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics())));
 
         // Used for dragging and swipe to dismiss
-        mItemTouchHelper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(mWeatherListAdapter));
+        mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(mWeatherListAdapter));
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
     public void showLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showWeather(List<CurrentWeather> weatherList) {
-        mWeatherListAdapter.setData(weatherList);
+        mWeatherListAdapter.replaceData(weatherList);
     }
 
     @Override
@@ -111,8 +109,8 @@ public class MainFragment extends BaseFragment implements MainContract.View,
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         this.mMainPresenter.destroy();
+        super.onDestroy();
     }
 
     @Override
@@ -130,13 +128,18 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        mItemTouchHelper.startDrag(viewHolder);
+    public void onRefresh() {
+        mMainPresenter.onRefresh();
     }
 
     @Override
-    public void onRefresh() {
-        mMainPresenter.onRefresh();
+    public void onItemDismiss(CurrentWeather weather) {
+        mMainPresenter.onItemDismiss(weather);
+    }
+
+    @Override
+    public void onItemSelected(CurrentWeather weather) {
+        mMainPresenter.onItemSelected(weather);
     }
 
     /**

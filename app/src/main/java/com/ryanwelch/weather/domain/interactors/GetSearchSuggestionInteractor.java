@@ -6,20 +6,27 @@ import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscriber;
 
 public class GetSearchSuggestionInteractor extends Interactor {
 
     private final SearchRepository mSearchRepository;
+    private final String mQuery;
 
     @Inject
-    public GetSearchSuggestionInteractor(SearchRepository searchRepository, ThreadExecutor threadExecutor,
-                                         PostExecutionThread postExecutionThread) {
+    public GetSearchSuggestionInteractor(SearchRepository searchRepository,
+                                         ThreadExecutor threadExecutor,
+                                         PostExecutionThread postExecutionThread,
+                                         String query) {
         super(threadExecutor, postExecutionThread);
         mSearchRepository = searchRepository;
+        mQuery = query;
     }
 
-    public void execute(String query, Subscriber subscriber) {
-        super.execute(mSearchRepository.suggestionsList(query), subscriber);
+    @Override
+    protected Observable run() {
+        return mSearchRepository.suggestionsList(mQuery);
     }
+
 }

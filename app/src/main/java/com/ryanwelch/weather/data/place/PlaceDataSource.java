@@ -13,4 +13,6 @@ public interface PlaceDataSource {
     Observable<Void> setPlaces(List<Place> places);
 
     Observable<Void> addPlace(Place place);
+
+    Observable<Void> removePlace(Place place);
 }

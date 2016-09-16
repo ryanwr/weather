@@ -14,9 +14,9 @@ public class CurrentWeather {
 
     public WeatherCondition weatherCondition;
 
-    public Double temperature; // In Celsius
+    public Double temperature;
 
-    public Double feelsLike; // In Celsius
+    public Double feelsLike;
 
     public Double pressure; // In hPa
 
@@ -31,6 +31,8 @@ public class CurrentWeather {
     public Date sunriseTime;
 
     public Date sunsetTime;
+
+    public boolean isDay;
 
     public Double precipitation;
 

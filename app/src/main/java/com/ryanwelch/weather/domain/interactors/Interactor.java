@@ -21,10 +21,12 @@ public abstract class Interactor {
         mPostExecutionThread = postExecutionThread;
     }
 
+    protected abstract Observable run();
+
     @SuppressWarnings("unchecked")
-    protected void execute(Observable observable, Subscriber subscriber) {
+    public void execute(Subscriber subscriber) {
         unsubscribe();
-        this.subscription = observable
+        this.subscription = this.run()
                 .subscribeOn(Schedulers.from(mThreadExecutor))
                 .observeOn(mPostExecutionThread.getScheduler())
                 .subscribe(subscriber);

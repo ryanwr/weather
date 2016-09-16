@@ -19,6 +19,10 @@ public class MainContract {
         void loadData();
 
         void onRefresh();
+
+        void onItemDismiss(CurrentWeather weather);
+
+        void onItemSelected(CurrentWeather weather);
     }
 
 }

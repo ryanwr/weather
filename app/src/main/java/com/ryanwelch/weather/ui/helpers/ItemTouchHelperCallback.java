@@ -5,13 +5,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
+import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
+
+public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public static final float ALPHA_FULL = 1.0f;
 
     private final ItemTouchHelperAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public ItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
     }
 
@@ -77,6 +80,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
                 itemViewHolder.onItemSelected();
             }
+        } else {
+            //mAdapter.onItemSelected(viewHolder.getAdapterPosition());
         }
 
         super.onSelectedChanged(viewHolder, actionState);

@@ -20,7 +20,7 @@ public class SearchContract {
 
         void loadQuery(String query);
 
-        void addPlace(Place place);
+        void onSelected(Place place);
     }
 
 }

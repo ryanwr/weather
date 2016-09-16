@@ -27,6 +27,7 @@ public class WeatherIconView extends RelativeLayout {
     private static final String TAG = "WeatherIconView";
 
     private WeatherIconView ctx;
+    private WeatherIcon mType;
 
     private ImageView mShadowImage;
     private ImageView mSunImage;
@@ -67,6 +68,8 @@ public class WeatherIconView extends RelativeLayout {
         mDropletDrawable = ContextCompat.getDrawable(getContext(), R.drawable.droplet);
         mSnowflakeDrawable = ContextCompat.getDrawable(getContext(), R.drawable.snowflake);
         mBoltDrawable = ContextCompat.getDrawable(getContext(), R.drawable.lightning_bolt);
+
+        Log.v(TAG, "Initialized new icon");
     }
 
     private ObjectAnimator createPulseAnim(View view) {
@@ -90,7 +93,7 @@ public class WeatherIconView extends RelativeLayout {
 
     private ObjectAnimator createHoverShadowAnim(View view) {
         ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(view,
-                PropertyValuesHolder.ofFloat("scaleX", 1.4f),
+                PropertyValuesHolder.ofFloat("scaleX", 1.1f),
                 PropertyValuesHolder.ofFloat("scaleY", 1.2f),
                 PropertyValuesHolder.ofFloat("alpha", 0.8f, 0.3f));
         anim.setDuration(3000);
@@ -100,32 +103,52 @@ public class WeatherIconView extends RelativeLayout {
     }
 
     private void createParticleSystem(ObjectAnimator animation, final ImageView imageView, final int numParticles, final ParticleCallback callback) {
-        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                if(mParticleSystem != null) {
-                    mParticleSystem.updateEmitPoint(imageView, Gravity.BOTTOM);
-                }
+        animation.addUpdateListener((valueAnimator) -> {
+            if(mParticleSystem != null) {
+                mParticleSystem.updateEmitPoint(imageView, Gravity.BOTTOM);
             }
         });
 
         ViewTreeObserver vto = imageView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                if(isEmitting) return;
-                // Emit once we know the layout sizes have been computed
-                mParticleSystem = callback.createParticleSystem();
-                mParticleSystem.emitWithGravity(imageView, Gravity.BOTTOM, numParticles);
-                isEmitting = true;
-            }
-
+        vto.addOnGlobalLayoutListener(() -> {
+            if(isEmitting) return;
+            // Emit once we know the layout sizes have been computed
+            mParticleSystem = callback.createParticleSystem();
+            mParticleSystem.emitWithGravity(imageView, Gravity.BOTTOM, numParticles);
+            isEmitting = true;
         });
     }
 
-    public void createIcon(WeatherIcon type) {
-        clearIcon();
+    public void setIcon(WeatherIcon type) {
+        if(type != mType) {
+            mType = type;
+        }
+    }
+
+    public void clearIcon() {
+        clearIcon(false);
+    }
+
+    private void clearIcon(boolean full) {
+        removeAllViews();
+        if(mIconLayout != null) {
+            mIconLayout.removeAllViews();
+        }
+        isEmitting = false;
+        if(as != null) {
+            as.removeAllListeners();
+            as.end();
+            as.cancel();
+        }
+        if(full) {
+            mCloudImage = null;
+        }
+    }
+
+    private void createIcon(WeatherIcon type) {
+        clearIcon(true);
+
+        Log.v(TAG, "Create icon: " + type.toString());
 
         as = new AnimatorSet();
 
@@ -175,20 +198,17 @@ public class WeatherIconView extends RelativeLayout {
                         createHoverShadowAnim(mShadowImage));
                 as.start();
 
-                createParticleSystem(hoverRainAnim, mCloudImage, 14, new ParticleCallback() {
-                    @Override
-                    public ParticleSystem createParticleSystem() {
-                        return new ParticleSystem(ctx, mDropletDrawable, 50, 600)
-                                .setSpeedByComponentsRange(0f, 0f, 0.05f, 0.1f)
-                                .setAcceleration(0.0001f, 90)
-                                .setScaleRange(0.2f, 0.2f)
-                                .setFadeOut(300, new AccelerateInterpolator())
-                                .setPadding(20, 20, 0, 0)
-                                .setLayoutParams(new RelativeLayout.LayoutParams(
-                                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()),
-                                        LayoutParams.WRAP_CONTENT
-                                ));
-                    }
+                createParticleSystem(hoverRainAnim, mCloudImage, 14, () -> {
+                    return new ParticleSystem(ctx, mDropletDrawable, 50, 600)
+                            .setSpeedByComponentsRange(0f, 0f, 0.05f, 0.1f)
+                            .setAcceleration(0.0001f, 90)
+                            .setScaleRange(0.2f, 0.2f)
+                            .setFadeOut(300, new AccelerateInterpolator())
+                            .setPadding(20, 20, 0, 0)
+                            .setLayoutParams(new RelativeLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()),
+                                    LayoutParams.WRAP_CONTENT
+                            ));
                 });
 
                 break;
@@ -206,20 +226,16 @@ public class WeatherIconView extends RelativeLayout {
                         createHoverShadowAnim(mShadowImage));
                 as.start();
 
-                createParticleSystem(hoverSnowAnim, mCloudImage, 10, new ParticleCallback() {
-                    @Override
-                    public ParticleSystem createParticleSystem() {
-                        return new ParticleSystem(ctx, mSnowflakeDrawable, 50, 1500)
-                                .setSpeedByComponentsRange(0f, 0f, 0.03f, 0.05f)
-                                //.setAcceleration(0.00005f, 90)
-                                .setScaleRange(0.2f, 0.2f)
-                                .setFadeOut(300, new AccelerateInterpolator())
-                                .setPadding(20, 20, 0, 0)
-                                .setLayoutParams(new RelativeLayout.LayoutParams(
-                                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()),
-                                        LayoutParams.WRAP_CONTENT
-                                ));
-                    }
+                createParticleSystem(hoverSnowAnim, mCloudImage, 10, () -> {
+                    return new ParticleSystem(ctx, mSnowflakeDrawable, 50, 1500)
+                            .setSpeedByComponentsRange(0f, 0f, 0.03f, 0.05f)
+                            .setScaleRange(0.2f, 0.2f)
+                            .setFadeOut(300, new AccelerateInterpolator())
+                            .setPadding(20, 20, 0, 0)
+                            .setLayoutParams(new RelativeLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()),
+                                    LayoutParams.WRAP_CONTENT
+                            ));
                 });
 
                 break;
@@ -240,36 +256,29 @@ public class WeatherIconView extends RelativeLayout {
                 as.start();
 
                 mBoltImage.setAlpha(0f);
-                hoverThunderAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        long time = valueAnimator.getCurrentPlayTime() % valueAnimator.getDuration();
-                        if(time > 0 && time < 150) {
-                            mBoltImage.setAlpha(1f);
-                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
-                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
-                            mBoltImage.setRotation(15);
-                        } else if(time > 150 && time < 300) {
-                            mBoltImage.setAlpha(1f);
-                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
-                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
-                            mBoltImage.setRotation(-10);
-                        } else if(time > 300 && time < 450) {
-                            mBoltImage.setAlpha(1f);
-                            mBoltImage.setPivotX(mBoltImage.getWidth()/2);
-                            mBoltImage.setPivotY(mBoltImage.getHeight()/2);
-                            mBoltImage.setRotation(5);
-                        } else {
-                            mBoltImage.setAlpha(0f);
-                        }
+                hoverThunderAnim.addUpdateListener((valueAnimator) -> {
+                    long time = valueAnimator.getCurrentPlayTime() % valueAnimator.getDuration();
+                    if(time > 0 && time < 150) {
+                        mBoltImage.setAlpha(1f);
+                        mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                        mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                        mBoltImage.setRotation(15);
+                    } else if(time > 150 && time < 300) {
+                        mBoltImage.setAlpha(1f);
+                        mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                        mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                        mBoltImage.setRotation(-10);
+                    } else if(time > 300 && time < 450) {
+                        mBoltImage.setAlpha(1f);
+                        mBoltImage.setPivotX(mBoltImage.getWidth()/2);
+                        mBoltImage.setPivotY(mBoltImage.getHeight()/2);
+                        mBoltImage.setRotation(5);
+                    } else {
+                        mBoltImage.setAlpha(0f);
                     }
                 });
 
         }
-    }
-
-    public void clearIcon() {
-        removeAllViews();
     }
 
     private void createShadow() {
@@ -373,12 +382,20 @@ public class WeatherIconView extends RelativeLayout {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        Log.v(TAG, "Attached weather icon to window");
+
+        if(!isInEditMode()) createIcon(mType);
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
         Log.v(TAG, "Detached weather icon from window");
 
-        //remove any ongoing animations to prevent leaks
-        as.cancel();
+        if(!isInEditMode()) clearIcon();
     }
 }
