@@ -30,6 +30,11 @@
             android:theme="@style/AppTheme.Transparent">
         </activity>
 
+        <activity
+            android:name=".ui.detailscreen.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

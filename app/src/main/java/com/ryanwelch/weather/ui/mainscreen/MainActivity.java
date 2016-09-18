@@ -1,15 +1,18 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.ryanwelch.weather.R;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.HasComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements HasComponent<MainComponent> {
+public class MainActivity extends BaseActivity implements HasComponent<MainComponent>,
+        MainFragment.MainListener {
 
     private static final String TAG = "MainActivity";
 
@@ -41,9 +44,15 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
         getNavigator().navigateToSearch(this);
     }
 
+    @Override
+    public void showDetail(Place place) {
+        Log.v(TAG, "Show detail");
+        getNavigator().navigateToDetail(this, place);
+    }
 
     @Override
     public MainComponent getComponent() {
         return mMainComponent;
     }
+
 }

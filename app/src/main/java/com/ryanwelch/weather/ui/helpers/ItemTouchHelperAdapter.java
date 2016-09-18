@@ -6,6 +6,4 @@ public interface ItemTouchHelperAdapter {
 
     void onItemDismiss(int position);
 
-    void onItemSelected(int position);
-
 }

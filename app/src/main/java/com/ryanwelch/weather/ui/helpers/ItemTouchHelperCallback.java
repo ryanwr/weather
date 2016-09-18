@@ -80,8 +80,6 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
                 itemViewHolder.onItemSelected();
             }
-        } else {
-            //mAdapter.onItemSelected(viewHolder.getAdapterPosition());
         }
 
         super.onSelectedChanged(viewHolder, actionState);

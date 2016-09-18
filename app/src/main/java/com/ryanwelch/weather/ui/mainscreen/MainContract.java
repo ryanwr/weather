@@ -1,6 +1,7 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
 import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BasePresenter;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class MainContract {
         void hideLoading();
 
         void showWeather(List<CurrentWeather> weatherList);
+
+        void showDetail(Place place);
     }
 
     public interface Presenter extends BasePresenter<View> {

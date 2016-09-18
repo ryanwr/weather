@@ -7,14 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BaseFragment;
+import com.ryanwelch.weather.ui.helpers.RecyclerItemClickListener;
 import com.ryanwelch.weather.ui.helpers.VerticalSpaceItemDecoration;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperCallback;
 
@@ -27,7 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
-        SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback {
+        SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
+        RecyclerItemClickListener.OnItemClickListener {
 
     private static final String TAG = "MainFragment";
 
@@ -74,6 +79,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics())));
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));
 
         // Used for dragging and swipe to dismiss
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(mWeatherListAdapter));
@@ -93,6 +99,11 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     @Override
     public void showWeather(List<CurrentWeather> weatherList) {
         mWeatherListAdapter.replaceData(weatherList);
+    }
+
+    @Override
+    public void showDetail(Place place) {
+        mListener.showDetail(place);
     }
 
     @Override
@@ -138,14 +149,15 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void onItemSelected(CurrentWeather weather) {
-        mMainPresenter.onItemSelected(weather);
+    public void onItemClick(View view, int position) {
+        Log.v(TAG, "Item selected");
+        mMainPresenter.onItemSelected(mWeatherListAdapter.getItemAt(position));
     }
 
     /**
      * Interface for listening to MainFragment events
      */
     public interface MainListener {
-
+        void showDetail(Place place);
     }
 }

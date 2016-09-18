@@ -98,6 +98,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onItemSelected(CurrentWeather weather) {
-
+        mView.showDetail(weather.place);
     }
 }

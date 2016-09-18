@@ -77,6 +77,10 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         notifyDataSetChanged();
     }
 
+    public CurrentWeather getItemAt(int position) {
+        return mItems.get(position);
+    }
+
     private void setData(List<CurrentWeather> items) {
         final WeatherDiffCallback diffCallback = new WeatherDiffCallback(mItems, items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
@@ -102,11 +106,6 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     public void onItemDismiss(int position) {
         mCallback.onItemDismiss(mItems.remove(position));
         notifyItemRemoved(position);
-    }
-
-    @Override
-    public void onItemSelected(int position) {
-        mCallback.onItemSelected(mItems.get(position));
     }
 
     public static class WeatherItemViewHolder extends RecyclerView.ViewHolder implements
@@ -137,8 +136,6 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
     public interface Callback {
         void onItemDismiss(CurrentWeather weather);
-
-        void onItemSelected(CurrentWeather weather);
     }
 
 }
