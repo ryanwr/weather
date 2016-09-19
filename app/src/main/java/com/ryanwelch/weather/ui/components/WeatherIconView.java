@@ -387,7 +387,7 @@ public class WeatherIconView extends RelativeLayout {
 
         Log.v(TAG, "Attached weather icon to window");
 
-        if(!isInEditMode()) createIcon(mType);
+        if(!isInEditMode() && mType != null) createIcon(mType);
     }
 
     @Override

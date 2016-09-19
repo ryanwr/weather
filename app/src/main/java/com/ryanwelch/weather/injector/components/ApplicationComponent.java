@@ -14,6 +14,7 @@ import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 import dagger.Component;
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 
 @ApplicationScope
 @Component(modules = {ApplicationModule.class, NetModule.class})
@@ -26,6 +27,7 @@ public interface ApplicationComponent {
     ThreadExecutor getThreadExecutor();
     PostExecutionThread getPostExecutionThread();
     Gson getGson();
+    ReactiveLocationProvider getLocationProvider();
     SearchRepository getSearchRepository();
     WeatherRepository getWeatherRepository();
     PlaceRepository getPlaceRepository();

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
 import com.ryanwelch.weather.injector.modules.ApplicationModule;
+import com.squareup.leakcanary.LeakCanary;
 
 public class WeatherApplication extends Application {
 
@@ -17,6 +18,12 @@ public class WeatherApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         initializeInjector();
         Log.i(TAG, "Initialized app");
     }

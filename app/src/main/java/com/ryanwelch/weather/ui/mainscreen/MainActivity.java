@@ -2,6 +2,7 @@ package com.ryanwelch.weather.ui.mainscreen;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.Place;
@@ -45,9 +46,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
-    public void showDetail(Place place) {
-        Log.v(TAG, "Show detail");
-        getNavigator().navigateToDetail(this, place);
+    public void showDetail(Place place, View view) {
+        getNavigator().navigateToDetail(this, place, view);
     }
 
     @Override

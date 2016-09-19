@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
@@ -29,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
         SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
@@ -80,6 +82,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics())));
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateInterpolator()));
 
         // Used for dragging and swipe to dismiss
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(mWeatherListAdapter));
@@ -102,8 +105,8 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void showDetail(Place place) {
-        mListener.showDetail(place);
+    public void showDetail(Place place, View view) {
+        mListener.showDetail(place, view);
     }
 
     @Override
@@ -150,14 +153,13 @@ public class MainFragment extends BaseFragment implements MainContract.View,
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.v(TAG, "Item selected");
-        mMainPresenter.onItemSelected(mWeatherListAdapter.getItemAt(position));
+        mMainPresenter.onItemSelected(mWeatherListAdapter.getItemAt(position), view);
     }
 
     /**
      * Interface for listening to MainFragment events
      */
     public interface MainListener {
-        void showDetail(Place place);
+        void showDetail(Place place, View view);
     }
 }

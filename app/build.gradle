@@ -35,11 +35,20 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Junit
     testCompile 'junit:junit:4.12'
+    // Mockito
+    testCompile "org.mockito:mockito-core:1.+"
 
     // Butterknife
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
+
+    // LeakCanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
 
     // Dagger 2
     apt 'com.google.dagger:dagger-compiler:2.5'
@@ -55,11 +64,17 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
 
+    // Recyclerview animations
+    compile 'jp.wasabeef:recyclerview-animators:2.2.4'
+
     // OkHTTP & Retrofit
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+    // Reactive location
+    compile 'pl.charmas.android:android-reactive-location:0.9@aar'
 
     // RxJava
     compile 'io.reactivex:rxandroid:1.2.1'

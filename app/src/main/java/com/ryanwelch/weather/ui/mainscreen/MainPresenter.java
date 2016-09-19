@@ -1,6 +1,7 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
 import android.util.Log;
+import android.view.View;
 
 import com.ryanwelch.weather.domain.interactors.DeletePlaceFactory;
 import com.ryanwelch.weather.domain.interactors.DeletePlaceInteractor;
@@ -68,7 +69,6 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onNext(Object o) {
                 mView.showWeather((List<CurrentWeather>) o);
-                Log.d(TAG, "Loaded current weather");
             }
         });
     }
@@ -97,7 +97,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onItemSelected(CurrentWeather weather) {
-        mView.showDetail(weather.place);
+    public void onItemSelected(CurrentWeather weather, View view) {
+        mView.showDetail(weather.place, view);
     }
 }

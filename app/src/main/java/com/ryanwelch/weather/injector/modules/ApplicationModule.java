@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 
 @Module
 public class ApplicationModule {
@@ -45,6 +46,11 @@ public class ApplicationModule {
         return new Navigator();
     }
 
+    @Provides
+    @ApplicationScope
+    ReactiveLocationProvider providesLocationProvider(Context context) {
+        return new ReactiveLocationProvider(context);
+    }
 
     @Provides
     @ApplicationScope

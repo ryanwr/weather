@@ -15,7 +15,7 @@ public class MainContract {
 
         void showWeather(List<CurrentWeather> weatherList);
 
-        void showDetail(Place place);
+        void showDetail(Place place, android.view.View view);
     }
 
     public interface Presenter extends BasePresenter<View> {
@@ -25,7 +25,7 @@ public class MainContract {
 
         void onItemDismiss(CurrentWeather weather);
 
-        void onItemSelected(CurrentWeather weather);
+        void onItemSelected(CurrentWeather weather, android.view.View view);
     }
 
 }

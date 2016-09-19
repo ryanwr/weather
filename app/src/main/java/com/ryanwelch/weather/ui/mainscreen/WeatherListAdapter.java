@@ -2,6 +2,7 @@ package com.ryanwelch.weather.ui.mainscreen;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
@@ -34,7 +35,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     private Callback mCallback;
 
     public WeatherListAdapter(Context context, ArrayList<CurrentWeather> items, Callback callback) {
-        setData(items);
+        replaceData(items);
         mTemperatureFormat = context.getResources().getString(R.string.temperature_format);
         mFeelsLikeFormat = context.getResources().getString(R.string.feels_like_format);
         mCallback = callback;
@@ -65,6 +66,9 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
                         data.weatherCondition.getIcon().getColor()));
 
         //holder.mDate.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(data.updateTime));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.itemView.setTransitionName("weather_item_" + position);
+        }
         holder.mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());
         holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLike)));
         holder.mLocationName.setText(data.place.getName());
@@ -73,21 +77,16 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     }
 
     public void replaceData(List<CurrentWeather> items) {
-        setData(items);
-        notifyDataSetChanged();
-    }
-
-    public CurrentWeather getItemAt(int position) {
-        return mItems.get(position);
-    }
-
-    private void setData(List<CurrentWeather> items) {
         final WeatherDiffCallback diffCallback = new WeatherDiffCallback(mItems, items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
         mItems.clear();
         mItems.addAll(items);
         diffResult.dispatchUpdatesTo(this);
+    }
+
+    public CurrentWeather getItemAt(int position) {
+        return mItems.get(position);
     }
 
     @Override
