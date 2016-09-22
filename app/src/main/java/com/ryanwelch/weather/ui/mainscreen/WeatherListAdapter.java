@@ -67,12 +67,14 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
         //holder.mDate.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(data.updateTime));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setTransitionName("weather_item_" + position);
+            holder.setTransitionId(Integer.toString(position));
+            holder.itemView.setTransitionName("weather_item_" + holder.getTransitionId());
+            holder.mWeatherIcon.setTransitionName("weather_icon_" + holder.getTransitionId());
         }
         holder.mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());
-        holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLike)));
+        holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLikeC)));
         holder.mLocationName.setText(data.place.getName());
-        holder.mTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperature)));
+        holder.mTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperatureC)));
         holder.mWeatherIcon.setIcon(data.isDay ? data.weatherCondition.getIcon() : data.weatherCondition.getNightIcon());
     }
 
@@ -110,16 +112,26 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     public static class WeatherItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
 
-        @BindView(R.id.card_view) CardView mCardView;
-        @BindView(R.id.txt_location) TextView mLocationName;
-        @BindView(R.id.txt_condition) TextView mCondition;
-        @BindView(R.id.txt_temperature) TextView mTemperature;
-        @BindView(R.id.txt_feels_like) TextView mFeelsLike;
-        @BindView(R.id.weather_icon) WeatherIconView mWeatherIcon;
+        @BindView(R.id.card_view) public CardView mCardView;
+        @BindView(R.id.txt_location) public TextView mLocationName;
+        @BindView(R.id.txt_condition) public TextView mCondition;
+        @BindView(R.id.txt_temperature) public TextView mTemperature;
+        @BindView(R.id.txt_feels_like) public TextView mFeelsLike;
+        @BindView(R.id.weather_icon) public WeatherIconView mWeatherIcon;
+
+        private String mTransitionId;
 
         public WeatherItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        public void setTransitionId(String transitionId) {
+            mTransitionId = transitionId;
+        }
+
+        public String getTransitionId() {
+            return mTransitionId;
         }
 
         @Override

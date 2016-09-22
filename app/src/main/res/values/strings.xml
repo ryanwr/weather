@@ -3,4 +3,6 @@
 
     <string name="temperature_format">%d°</string>
     <string name="feels_like_format">Feels like %d°</string>
+    <string name="no_places">No weather data</string>
+    <string name="no_places_description">You have no places yet. Tap below to add a place</string>
 </resources>

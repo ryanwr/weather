@@ -23,9 +23,7 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Inject AddPlaceFactory mAddPlaceFactory;
 
     @Inject
-    public SearchPresenter() {
-
-    }
+    public SearchPresenter() {}
 
     @Override
     public void setView(SearchContract.View view) {

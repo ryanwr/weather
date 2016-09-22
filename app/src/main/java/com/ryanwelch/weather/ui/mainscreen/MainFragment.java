@@ -7,17 +7,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.helpers.RecyclerItemClickListener;
 import com.ryanwelch.weather.ui.helpers.VerticalSpaceItemDecoration;
@@ -30,7 +26,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
         SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
@@ -42,6 +37,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
 
     @BindView(R.id.weather_view) RecyclerView mRecyclerView;
     @BindView(R.id.weather_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.empty_view) View mEmptyView;
 
     private WeatherListAdapter mWeatherListAdapter;
     private ItemTouchHelper mItemTouchHelper;
@@ -82,11 +78,36 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics())));
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));
-        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateInterpolator()));
+        // FIXME: Custom animator below causes flicker on item dismissed
+        //mRecyclerView.setItemAnimator(new SlideInUpAnimator(new AccelerateInterpolator()));
 
         // Used for dragging and swipe to dismiss
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(mWeatherListAdapter));
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    public void showEmpty() {
+        mSwipeRefreshLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty() {
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -105,8 +126,8 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void showDetail(Place place, View view) {
-        mListener.showDetail(place, view);
+    public void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+        mListener.showDetail(weather, viewHolder);
     }
 
     @Override
@@ -147,19 +168,24 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
+    public int getAdapterItemCount() {
+        return mWeatherListAdapter.getItemCount();
+    }
+
+    @Override
     public void onItemDismiss(CurrentWeather weather) {
         mMainPresenter.onItemDismiss(weather);
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        mMainPresenter.onItemSelected(mWeatherListAdapter.getItemAt(position), view);
+    public void onItemClick(RecyclerView.ViewHolder viewHolder, int position) {
+        mMainPresenter.onItemSelected(mWeatherListAdapter.getItemAt(position), (WeatherListAdapter.WeatherItemViewHolder) viewHolder);
     }
 
     /**
      * Interface for listening to MainFragment events
      */
     public interface MainListener {
-        void showDetail(Place place, View view);
+        void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
     }
 }

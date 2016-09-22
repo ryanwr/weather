@@ -37,8 +37,7 @@ public class WeatherDiffCallback extends DiffUtil.Callback {
         final CurrentWeather oldItem = mOldList.get(oldItemPosition);
         final CurrentWeather newItem = mNewList.get(newItemPosition);
 
-        return oldItem.updateTime == newItem.updateTime
-                && oldItem.weatherCondition == newItem.weatherCondition;
+        return oldItem.weatherCondition == newItem.weatherCondition;
     }
 
     @Nullable

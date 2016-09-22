@@ -22,10 +22,6 @@ public class SearchRemoteDataSource implements SearchDataSource {
         mSearchService = retrofit.create(SearchService.class);
     }
 
-    public Observable<List<Place>> historyList() {
-        return null;
-    }
-
     public Observable<List<Place>> suggestionsList(String query) {
         return mSearchService.getSearch(query);
     }

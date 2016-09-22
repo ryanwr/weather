@@ -4,6 +4,7 @@
 
 package com.ryanwelch.weather.ui.detailscreen;
 
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BasePresenter;
 
@@ -13,12 +14,12 @@ public class DetailContract {
         void showLoading();
 
         void hideLoading();
+
+        void showData(CurrentWeather weather);
     }
 
     public interface Presenter extends BasePresenter<View> {
-        void loadData();
-
-        void setPlace(Place place);
+        void setData(CurrentWeather weather);
     }
 
 }

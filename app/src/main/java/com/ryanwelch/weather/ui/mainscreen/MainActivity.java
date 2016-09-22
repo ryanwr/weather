@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ryanwelch.weather.R;
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.HasComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
@@ -46,8 +47,8 @@ public class MainActivity extends BaseActivity implements HasComponent<MainCompo
     }
 
     @Override
-    public void showDetail(Place place, View view) {
-        getNavigator().navigateToDetail(this, place, view);
+    public void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+        getNavigator().navigateToDetail(this, weather, viewHolder);
     }
 
     @Override

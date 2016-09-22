@@ -17,10 +17,6 @@ public class SearchRepository implements SearchDataSource {
         mSearchRemoteDataSource = searchRemoteDataSource;
     }
 
-    public Observable<List<Place>> historyList() {
-        return null;
-    }
-
     public Observable<List<Place>> suggestionsList(String query) {
         return mSearchRemoteDataSource.suggestionsList(query);
     }

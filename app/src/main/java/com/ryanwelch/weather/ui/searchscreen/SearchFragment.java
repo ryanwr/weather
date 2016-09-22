@@ -32,8 +32,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
 
     private SearchListener mListener;
 
-    public SearchFragment() {
-    }
+    public SearchFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

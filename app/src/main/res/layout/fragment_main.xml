@@ -20,4 +20,26 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/txt_empty_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/no_places" />
+
+        <TextView
+            android:id="@+id/txt_empty_view_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/no_places_description" />
+    </LinearLayout>
+
 </RelativeLayout>

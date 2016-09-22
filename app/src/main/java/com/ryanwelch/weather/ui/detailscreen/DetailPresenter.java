@@ -6,6 +6,7 @@ package com.ryanwelch.weather.ui.detailscreen;
 
 import android.util.Log;
 
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     private static final String TAG = "DetailPresenter";
 
     private DetailContract.View mView;
-    private Place mPlace;
+    private CurrentWeather mWeather;
 
     @Inject
     public DetailPresenter() {}
@@ -26,18 +27,13 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void setPlace(Place place) {
-        mPlace = place;
-    }
-
-    @Override
-    public void loadData() {
-        Log.v(TAG, "Load data " + mPlace.getName());
+    public void setData(CurrentWeather weather) {
+        mWeather = weather;
     }
 
     @Override
     public void resume() {
-        loadData();
+        mView.showData(mWeather);
     }
 
     @Override
