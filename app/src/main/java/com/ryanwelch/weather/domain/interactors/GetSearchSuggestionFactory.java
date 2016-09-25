@@ -6,14 +6,16 @@ import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
+
 public class GetSearchSuggestionFactory {
 
-    private final SearchRepository mSearchRepository;
+    private final Lazy<SearchRepository> mSearchRepository;
     private final ThreadExecutor mThreadExecutor;
     private final PostExecutionThread mPostExecutionThread;
 
     @Inject
-    public GetSearchSuggestionFactory(SearchRepository searchRepository,
+    public GetSearchSuggestionFactory(Lazy<SearchRepository> searchRepository,
                                     ThreadExecutor threadExecutor,
                                     PostExecutionThread postExecutionThread) {
         mSearchRepository = searchRepository;
@@ -22,7 +24,7 @@ public class GetSearchSuggestionFactory {
     }
 
     public GetSearchSuggestionInteractor get(String query) {
-        return new GetSearchSuggestionInteractor(mSearchRepository, mThreadExecutor, mPostExecutionThread, query);
+        return new GetSearchSuggestionInteractor(mSearchRepository.get(), mThreadExecutor, mPostExecutionThread, query);
     }
 
 }

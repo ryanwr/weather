@@ -1,7 +1,5 @@
 package com.ryanwelch.weather.ui.searchscreen;
 
-import android.util.Log;
-
 import com.ryanwelch.weather.domain.interactors.AddPlaceFactory;
 import com.ryanwelch.weather.domain.interactors.GetSearchSuggestionFactory;
 import com.ryanwelch.weather.domain.interactors.Interactor;
@@ -12,10 +10,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscriber;
+import timber.log.Timber;
 
 public class SearchPresenter implements SearchContract.Presenter {
-
-    private static final String TAG = "SearchPresenter";
 
     private SearchContract.View mView;
 
@@ -64,7 +61,7 @@ public class SearchPresenter implements SearchContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 mView.hideLoading();
-                Log.v(TAG, e.getLocalizedMessage());
+                Timber.v(e.getLocalizedMessage());
             }
 
             @Override

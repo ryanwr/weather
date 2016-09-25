@@ -3,7 +3,6 @@ package com.ryanwelch.weather.data.place;
 import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;

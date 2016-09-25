@@ -3,25 +3,37 @@ package com.ryanwelch.weather.domain.models;
 import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
+import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteColumn;
+import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
+import com.ryanwelch.weather.data.db.PlaceTable;
 
+@StorIOSQLiteType(table = PlaceTable.TABLE_PLACES)
 public class Place implements SearchSuggestion {
 
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_ID, key = true)
+    double mId;
+
     @SerializedName("lat")
-    private double mLatitude;
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_LATITUDE)
+    double mLatitude;
+
     @SerializedName("lon")
-    private double mLongitude;
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_LONGITUDE)
+    double mLongitude;
 
     @SerializedName("name")
-    private String mName;
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_NAME)
+    String mName;
+
     @SerializedName("region")
-    private String mRegion;
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_REGION)
+    String mRegion;
+
     @SerializedName("country")
-    private String mCountry;
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_COUNTRY)
+    String mCountry;
 
-    //@SerializedName("id")
-    //private int mId;
-
-    //private boolean mIsHistory = false;
+    Place() {}
 
     public Place(String name, String region, String country, double latitude, double longitude) {
         this.mName = name;
@@ -37,7 +49,6 @@ public class Place implements SearchSuggestion {
         this.mName = source.readString();
         this.mRegion = source.readString();
         this.mCountry = source.readString();
-        //this.mIsHistory = source.readInt() != 0;
     }
 
     @Override
@@ -57,7 +68,6 @@ public class Place implements SearchSuggestion {
         parcel.writeString(mName);
         parcel.writeString(mRegion);
         parcel.writeString(mCountry);
-        //parcel.writeInt(mIsHistory ? 1 : 0);
     }
 
     public static final Creator<Place> CREATOR = new Creator<Place>() {
@@ -111,14 +121,6 @@ public class Place implements SearchSuggestion {
     public void setCountry(String country) {
         mCountry = country;
     }
-
-//    public int getId() {
-//        return mId;
-//    }
-//
-//    public void setId(int id) {
-//        mId = id;
-//    }
 
     @Override
     public boolean equals(Object o) {

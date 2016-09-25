@@ -9,7 +9,6 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.detailscreen.DetailActivity;
 import com.ryanwelch.weather.ui.mainscreen.WeatherListAdapter;
 import com.ryanwelch.weather.ui.searchscreen.SearchActivity;

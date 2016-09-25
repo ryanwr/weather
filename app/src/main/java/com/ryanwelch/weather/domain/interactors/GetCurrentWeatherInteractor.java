@@ -4,19 +4,14 @@ import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
-import com.ryanwelch.weather.domain.models.Place;
-
-import javax.inject.Inject;
 
 import rx.Observable;
-import rx.Subscriber;
 
 public class GetCurrentWeatherInteractor extends Interactor {
 
     private final PlaceRepository mPlaceRepository;
     private final WeatherRepository mWeatherRepository;
 
-    @Inject
     public GetCurrentWeatherInteractor(WeatherRepository weatherRepository,
                                        PlaceRepository placeRepository,
                                        ThreadExecutor threadExecutor,

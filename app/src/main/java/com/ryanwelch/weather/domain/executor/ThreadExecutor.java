@@ -1,13 +1,13 @@
 package com.ryanwelch.weather.domain.executor;
 
+import android.support.annotation.Nullable;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 public class ThreadExecutor implements Executor {
 
@@ -33,6 +33,7 @@ public class ThreadExecutor implements Executor {
                 KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, this.workQueue, this.threadFactory);
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public void execute(Runnable runnable) {
         if (runnable == null) {
@@ -45,6 +46,7 @@ public class ThreadExecutor implements Executor {
         private static final String THREAD_NAME = "android_";
         private int counter = 0;
 
+        @SuppressWarnings("NullableProblems")
         @Override
         public Thread newThread(Runnable runnable) {
             return new Thread(runnable, THREAD_NAME + counter++);

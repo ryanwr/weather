@@ -4,8 +4,6 @@ import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 
 public class PlaceRepository implements PlaceDataSource {
@@ -13,7 +11,6 @@ public class PlaceRepository implements PlaceDataSource {
     private PlaceMemoryDataSource mPlaceMemoryDataSource;
     private PlaceSharedPreferencesDataSource mPlaceSharedPreferencesDataSource;
 
-    @Inject
     public PlaceRepository(PlaceMemoryDataSource placeMemoryDataSource,
                            PlaceSharedPreferencesDataSource placeSharedPreferencesDataSource) {
         mPlaceMemoryDataSource = placeMemoryDataSource;

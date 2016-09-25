@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.HasComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
@@ -19,7 +18,6 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseActivity implements HasComponent<DetailComponent> {
 
-    private static final String TAG = "DetailActivity";
     private static final String EXTRA_DATA = "DetailData";
     private static final String EXTRA_TRANSITION_NAME = "DetailTransitionName";
 
@@ -34,6 +32,7 @@ public class DetailActivity extends BaseActivity implements HasComponent<DetailC
         return intent;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

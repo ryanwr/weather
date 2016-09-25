@@ -2,6 +2,7 @@ package com.ryanwelch.weather.ui.mainscreen;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
@@ -62,6 +64,9 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     @Override
     public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
+        if(BuildConfig.DEBUG) {
+            Debug.stopMethodTracing();
+        }
         setupRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mMainPresenter.setView(this);

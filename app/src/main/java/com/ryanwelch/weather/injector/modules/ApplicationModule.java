@@ -6,14 +6,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-import com.ryanwelch.weather.WeatherApplication;
 import com.ryanwelch.weather.data.place.PlaceMemoryDataSource;
 import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.data.place.PlaceSharedPreferencesDataSource;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 import com.ryanwelch.weather.ui.navigation.Navigator;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

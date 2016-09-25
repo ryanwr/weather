@@ -3,6 +3,7 @@ package com.ryanwelch.weather.injector.components;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.data.search.SearchRepository;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
@@ -30,10 +31,14 @@ public interface ApplicationComponent {
     Context getContext();
     ThreadExecutor getThreadExecutor();
     PostExecutionThread getPostExecutionThread();
+
     Gson getGson();
     ReactiveLocationProvider getLocationProvider();
+    RefWatcher getRefWatcher();
+    StorIOSQLite getStorIO();
+
     SearchRepository getSearchRepository();
     WeatherRepository getWeatherRepository();
     PlaceRepository getPlaceRepository();
-    RefWatcher getRefWatcher();
+
 }

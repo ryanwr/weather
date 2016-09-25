@@ -3,13 +3,11 @@ package com.ryanwelch.weather.ui.components;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -22,9 +20,9 @@ import com.plattysoft.leonids.ParticleSystem;
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.WeatherIcon;
 
-public class WeatherIconView extends RelativeLayout {
+import timber.log.Timber;
 
-    private static final String TAG = "WeatherIconView";
+public class WeatherIconView extends RelativeLayout {
 
     private WeatherIconView ctx;
     private WeatherIcon mType;
@@ -69,7 +67,7 @@ public class WeatherIconView extends RelativeLayout {
         mSnowflakeDrawable = ContextCompat.getDrawable(getContext(), R.drawable.snowflake);
         mBoltDrawable = ContextCompat.getDrawable(getContext(), R.drawable.lightning_bolt);
 
-        Log.v(TAG, "Initialized new icon");
+        Timber.v("Initialized new icon");
     }
 
     private ObjectAnimator createPulseAnim(View view) {
@@ -148,7 +146,7 @@ public class WeatherIconView extends RelativeLayout {
     private void createIcon(WeatherIcon type) {
         clearIcon(true);
 
-        Log.v(TAG, "Create icon: " + type.toString());
+        Timber.v("Create icon: " + type.toString());
 
         as = new AnimatorSet();
 
@@ -385,7 +383,7 @@ public class WeatherIconView extends RelativeLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        Log.v(TAG, "Attached weather icon to window");
+        Timber.v("Attached weather icon to window");
 
         if(!isInEditMode() && mType != null) createIcon(mType);
     }
@@ -394,7 +392,7 @@ public class WeatherIconView extends RelativeLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        Log.v(TAG, "Detached weather icon from window");
+        Timber.v("Detached weather icon from window");
 
         if(!isInEditMode()) clearIcon();
     }

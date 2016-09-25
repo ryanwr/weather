@@ -1,12 +1,9 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.HasComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
@@ -15,8 +12,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements HasComponent<MainComponent>,
         MainFragment.MainListener {
-
-    private static final String TAG = "MainActivity";
 
     private MainComponent mMainComponent;
 

@@ -7,5 +7,5 @@ import rx.Observable;
 
 public interface WeatherDataSource {
 
-    Observable<CurrentWeather> currentWeather(Place place);
+    Observable<CurrentWeather> getCurrentWeather(Place place);
 }

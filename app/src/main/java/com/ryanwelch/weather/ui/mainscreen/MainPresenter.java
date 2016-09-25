@@ -1,7 +1,5 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
-import android.util.Log;
-
 import com.ryanwelch.weather.domain.interactors.DeletePlaceFactory;
 import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherFactory;
 import com.ryanwelch.weather.domain.interactors.Interactor;
@@ -13,11 +11,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscriber;
+import timber.log.Timber;
 
 @ActivityScope
 public class MainPresenter implements MainContract.Presenter {
-
-    private final static String TAG = "MainPresenter";
 
     private MainContract.View mView;
     private boolean isEmpty = true;
@@ -66,7 +63,7 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "Error loading current weather: " + e.getMessage());
+                Timber.d("Error loading current weather: " + e.getMessage());
             }
 
             @Override

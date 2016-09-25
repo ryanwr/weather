@@ -1,21 +1,25 @@
 package com.ryanwelch.weather.injector.modules;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.ryanwelch.weather.BuildConfig;
-import com.ryanwelch.weather.data.place.PlaceRepository;
+import com.ryanwelch.weather.data.db.DbOpenHelper;
 import com.ryanwelch.weather.data.search.SearchRemoteDataSource;
 import com.ryanwelch.weather.data.search.SearchRepository;
-import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
+import com.ryanwelch.weather.data.weather.WeatherLocalDataSource;
+import com.ryanwelch.weather.data.weather.apixu.WeatherApixuDataSource;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 import com.ryanwelch.weather.domain.executor.UIThread;
+import com.ryanwelch.weather.domain.models.Place;
+import com.ryanwelch.weather.domain.models.PlaceSQLiteTypeMapping;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 
 import javax.inject.Named;
@@ -49,14 +53,6 @@ public class NetModule {
         return uiThread;
     }
 
-//    @Provides
-//    @ApplicationScope
-//    Cache provideOkHttpCache(Application application) {
-//        int cacheSize = 10 * 1024 * 1024; // 10 MiB
-//        Cache cache = new Cache(application.getCacheDir(), cacheSize);
-//        return cache;
-//    }
-
     @Provides
     @ApplicationScope
     Gson provideGson() {
@@ -66,7 +62,7 @@ public class NetModule {
     }
 
     private OkHttpClient createOkHTTPClient(String keyParam, String key) {
-        OkHttpClient client = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .addInterceptor((chain) -> {
                     Request request = chain.request();
                     HttpUrl url = request.url().newBuilder().addQueryParameter(keyParam, key).build();
@@ -74,20 +70,18 @@ public class NetModule {
                     return chain.proceed(request);
                 })
                 .build();
-        return client;
     }
 
     @Provides
     @Named("apixu")
     @ApplicationScope
     Retrofit provideApixuRetrofit(Gson gson) {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(APIXU_BASE_URL)
                 .client(createOkHTTPClient("key", APIXU_API_KEY))
                 .build();
-        return retrofit;
     }
 
     @Provides
@@ -98,7 +92,23 @@ public class NetModule {
 
     @Provides
     @ApplicationScope
-    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit) {
-        return new WeatherRepository(new WeatherRemoteDataSource(retrofit));
+    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit, StorIOSQLite storIOSQLite) {
+        return new WeatherRepository(new WeatherApixuDataSource(retrofit),
+                new WeatherLocalDataSource(storIOSQLite));
+    }
+
+    @Provides
+    @ApplicationScope
+    SQLiteOpenHelper provideSQLiteOpenHelper(Context context) {
+        return new DbOpenHelper(context);
+    }
+
+    @Provides
+    @ApplicationScope
+    StorIOSQLite provideStorIO(SQLiteOpenHelper openHelper) {
+        return DefaultStorIOSQLite.builder()
+                .sqliteOpenHelper(openHelper)
+                .addTypeMapping(Place.class, new PlaceSQLiteTypeMapping())
+                .build();
     }
 }

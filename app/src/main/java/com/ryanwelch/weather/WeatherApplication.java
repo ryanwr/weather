@@ -2,7 +2,7 @@ package com.ryanwelch.weather;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
+import android.os.Debug;
 
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
@@ -11,9 +11,9 @@ import com.ryanwelch.weather.injector.modules.DebugModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-public class WeatherApplication extends Application {
+import timber.log.Timber;
 
-    private static final String TAG = "WeatherApplication";
+public class WeatherApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
     private RefWatcher mRefWatcher;
@@ -27,8 +27,17 @@ public class WeatherApplication extends Application {
             return;
         }
         mRefWatcher = LeakCanary.install(this);
+
+        if(BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+            Debug.startMethodTracing("startup");
+        } else {
+            //TODO: Timber.plant(); Crash reporting logger?
+        }
+
         initializeInjector();
-        Log.i(TAG, "Initialized app");
+
+        Timber.i("Initialized app");
     }
 
     private void initializeInjector() {
@@ -45,4 +54,5 @@ public class WeatherApplication extends Application {
     public static WeatherApplication from(Context context) {
         return (WeatherApplication) context.getApplicationContext();
     }
+
 }

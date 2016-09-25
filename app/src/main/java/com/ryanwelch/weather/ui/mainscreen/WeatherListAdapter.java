@@ -18,11 +18,9 @@ import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,12 +46,8 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     }
 
     private boolean isColorDark(int color){
-        double darkness = 1-(0.299* Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
-        if(darkness<0.5){
-            return false; // It's a light color
-        }else{
-            return true; // It's a dark color
-        }
+        double darkness = 1 - (0.299* Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
+        return darkness >= 0.5;
     }
 
     @Override

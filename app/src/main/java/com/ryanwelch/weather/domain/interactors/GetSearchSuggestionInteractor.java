@@ -4,17 +4,13 @@ import com.ryanwelch.weather.data.search.SearchRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 
-import javax.inject.Inject;
-
 import rx.Observable;
-import rx.Subscriber;
 
 public class GetSearchSuggestionInteractor extends Interactor {
 
     private final SearchRepository mSearchRepository;
     private final String mQuery;
 
-    @Inject
     public GetSearchSuggestionInteractor(SearchRepository searchRepository,
                                          ThreadExecutor threadExecutor,
                                          PostExecutionThread postExecutionThread,

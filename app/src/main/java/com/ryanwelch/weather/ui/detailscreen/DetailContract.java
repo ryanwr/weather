@@ -5,7 +5,6 @@
 package com.ryanwelch.weather.ui.detailscreen;
 
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BasePresenter;
 
 public class DetailContract {
