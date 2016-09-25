@@ -1,11 +1,16 @@
 package com.ryanwelch.weather.domain.models;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.ryanwelch.weather.data.db.CurrentWeatherTable;
 
 import java.util.Date;
 
 public class CurrentWeather implements Parcelable {
+
+    public int id;
 
     // Data info
 
@@ -61,7 +66,7 @@ public class CurrentWeather implements Parcelable {
         this.sunriseTime.setTime(source.readLong());
         this.sunsetTime = new Date();
         this.sunsetTime.setTime(source.readLong());
-        this.isDay = source.readInt() == 1;
+        this.isDay = source.readInt() != 0;
         this.precipitation = source.readDouble();
         this.snow = source.readInt();
         this.cloud = source.readInt();
@@ -103,4 +108,31 @@ public class CurrentWeather implements Parcelable {
             return new CurrentWeather[size];
         }
     };
+
+    public ContentValues asContentValues() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CurrentWeatherTable.COLUMN_ID, this.id);
+        contentValues.put(CurrentWeatherTable.COLUMN_LATITUDE, this.place.getLatitude());
+        contentValues.put(CurrentWeatherTable.COLUMN_LONGITUDE, this.place.getLongitude());
+        contentValues.put(CurrentWeatherTable.COLUMN_NAME, this.place.getName());
+        contentValues.put(CurrentWeatherTable.COLUMN_REGION, this.place.getRegion());
+        contentValues.put(CurrentWeatherTable.COLUMN_COUNTRY, this.place.getCountry());
+        contentValues.put(CurrentWeatherTable.COLUMN_UPDATE_TIME, this.updateTime.getTime());
+        contentValues.put(CurrentWeatherTable.COLUMN_WEATHER_CONDITION, this.weatherCondition.ordinal());
+        contentValues.put(CurrentWeatherTable.COLUMN_TEMPERATURE, this.temperatureC);
+        contentValues.put(CurrentWeatherTable.COLUMN_FEELS_LIKE, this.feelsLikeC);
+        contentValues.put(CurrentWeatherTable.COLUMN_PRESSURE, this.pressure);
+        contentValues.put(CurrentWeatherTable.COLUMN_HUMIDITY, this.humidity);
+        contentValues.put(CurrentWeatherTable.COLUMN_WIND_SPEED, this.windSpeed);
+        contentValues.put(CurrentWeatherTable.COLUMN_WIND_DEGREE, this.windDegree);
+        contentValues.put(CurrentWeatherTable.COLUMN_WIND_DIRECTION, this.windDirection);
+        contentValues.put(CurrentWeatherTable.COLUMN_SUNRISE_TIME, this.sunriseTime.getTime());
+        contentValues.put(CurrentWeatherTable.COLUMN_SUNSET_TIME, this.sunsetTime.getTime());
+        contentValues.put(CurrentWeatherTable.COLUMN_IS_DAY, this.isDay ? 1 : 0);
+        contentValues.put(CurrentWeatherTable.COLUMN_PRECIPITATION, this.precipitation);
+        contentValues.put(CurrentWeatherTable.COLUMN_SNOW, this.snow);
+        contentValues.put(CurrentWeatherTable.COLUMN_CLOUD, this.cloud);
+
+        return contentValues;
+    }
 }

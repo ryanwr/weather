@@ -1,4 +1,8 @@
-package com.ryanwelch.weather.data.models;
+/*
+ * Copyright (c) 2016 Ryan Welch. All rights reserved.
+ */
+
+package com.ryanwelch.weather.data.weather.openweather;
 
 import com.google.gson.annotations.SerializedName;
 

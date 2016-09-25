@@ -1,4 +1,8 @@
-package com.ryanwelch.weather.data.models;
+/*
+ * Copyright (c) 2016 Ryan Welch. All rights reserved.
+ */
+
+package com.ryanwelch.weather.data.weather.apixu;
 
 import com.google.gson.annotations.SerializedName;
 import com.ryanwelch.weather.domain.models.Place;

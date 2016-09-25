@@ -7,7 +7,7 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteColumn;
 import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
 import com.ryanwelch.weather.data.db.PlaceTable;
 
-@StorIOSQLiteType(table = PlaceTable.TABLE_PLACES)
+@StorIOSQLiteType(table = PlaceTable.TABLE)
 public class Place implements SearchSuggestion {
 
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_ID, key = true)

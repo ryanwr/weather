@@ -4,7 +4,7 @@
 //import com.ryanwelch.weather.domain.models.CurrentWeather;
 //import com.ryanwelch.weather.domain.models.Place;
 //import com.ryanwelch.weather.domain.models.WeatherCondition;
-//import com.ryanwelch.weather.data.models.OpenWeatherResponse;
+//import com.ryanwelch.weather.data.weather.openweather.OpenWeatherResponse;
 //
 //import java.io.IOException;
 //import java.util.Date;

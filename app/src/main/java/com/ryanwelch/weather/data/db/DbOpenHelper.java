@@ -8,6 +8,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.ryanwelch.weather.domain.models.CurrentWeather;
+
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     public static final int DB_VERSION = 1;
@@ -19,7 +21,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(PlaceTable.createPlacesQuery());
+        sqLiteDatabase.execSQL(PlaceTable.getCreateTableQuery());
+        sqLiteDatabase.execSQL(CurrentWeatherTable.getCreateTableQuery());
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.pushtorefresh.storio.sqlite.queries.Query;
 public class PlaceTable {
 
     @NonNull
-    public static final String TABLE_PLACES = "Places";
+    public static final String TABLE = "places";
 
     @NonNull
     public static final String COLUMN_ID = "_id";
@@ -33,12 +33,12 @@ public class PlaceTable {
 
     @NonNull
     public static final Query QUERY_ALL = Query.builder()
-            .table(TABLE_PLACES)
+            .table(TABLE)
             .build();
 
     @NonNull
-    public static String createPlacesQuery() {
-        return "CREATE TABLE " + TABLE_PLACES + "("
+    public static String getCreateTableQuery() {
+        return "CREATE TABLE " + TABLE + "("
                 + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY, "
                 + COLUMN_LATITUDE + " TEXT NULL, "
                 + COLUMN_LONGITUDE + " TEXT NULL, "
@@ -47,10 +47,4 @@ public class PlaceTable {
                 + COLUMN_COUNTRY + " TEXT NULL "
                 + ");";
     }
-
-    @NonNull
-    public static String clearPlacesQuery() {
-        return "DELETE * FROM ?";
-    }
-
 }

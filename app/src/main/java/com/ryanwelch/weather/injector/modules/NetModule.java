@@ -6,9 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.ryanwelch.weather.BuildConfig;
+import com.ryanwelch.weather.data.db.CurrentWeatherTable;
 import com.ryanwelch.weather.data.db.DbOpenHelper;
 import com.ryanwelch.weather.data.search.SearchRemoteDataSource;
 import com.ryanwelch.weather.data.search.SearchRepository;
@@ -18,6 +20,7 @@ import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 import com.ryanwelch.weather.domain.executor.UIThread;
+import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.domain.models.PlaceSQLiteTypeMapping;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
@@ -109,6 +112,11 @@ public class NetModule {
         return DefaultStorIOSQLite.builder()
                 .sqliteOpenHelper(openHelper)
                 .addTypeMapping(Place.class, new PlaceSQLiteTypeMapping())
+                .addTypeMapping(CurrentWeather.class, SQLiteTypeMapping.<CurrentWeather>builder()
+                        .putResolver(CurrentWeatherTable.PUT_RESOLVER)
+                        .getResolver(CurrentWeatherTable.GET_RESOLVER)
+                        .deleteResolver(CurrentWeatherTable.DELETE_RESOLVER)
+                        .build())
                 .build();
     }
 }

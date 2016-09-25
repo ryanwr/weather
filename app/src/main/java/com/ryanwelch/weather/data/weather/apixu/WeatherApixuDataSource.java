@@ -4,7 +4,6 @@
 
 package com.ryanwelch.weather.data.weather.apixu;
 
-import com.ryanwelch.weather.data.models.ApixuWeatherResponse;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
