@@ -11,6 +11,7 @@ import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 
 import rx.Observable;
+import timber.log.Timber;
 
 public class WeatherLocalDataSource implements WeatherDataSource {
 
@@ -22,6 +23,7 @@ public class WeatherLocalDataSource implements WeatherDataSource {
 
     @Override
     public Observable<CurrentWeather> getCurrentWeather(Place place) {
+        Timber.d("LOCAL: getCurrentWeather(): %s", place.getName());
         return mStorIOSQLite
                 .get()
                 .object(CurrentWeather.class)
@@ -38,12 +40,14 @@ public class WeatherLocalDataSource implements WeatherDataSource {
     }
 
     public Observable<Void> setCurrentWeather(CurrentWeather currentWeather) {
-//        return mStorIOSQLite
-//                .put()
-//                .object(currentWeather)
-//                .prepare()
-//                .asRxSingle();
-        return null;
+        Timber.d("LOCAL: setCurrentWeather(): %s", currentWeather.place.getName());
+        return mStorIOSQLite
+                .put()
+                .object(currentWeather)
+                .prepare()
+                .asRxSingle()
+                .toObservable()
+                .switchMap((res) -> Observable.empty());
     }
 
 }

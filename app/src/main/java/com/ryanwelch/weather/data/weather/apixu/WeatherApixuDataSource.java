@@ -17,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
+import timber.log.Timber;
 
 public class WeatherApixuDataSource implements WeatherRemoteDataSource {
 
@@ -31,6 +32,8 @@ public class WeatherApixuDataSource implements WeatherRemoteDataSource {
 
     @Override
     public Observable<CurrentWeather> getCurrentWeather(Place place) {
+        Timber.d("REMOTE: getCurrentWeather(): %s", place.getName());
+
         return mWeatherService.getCurrentWeather(place.getLatitude() + ", " + place.getLongitude())
                 .map(this::transform);
     }
