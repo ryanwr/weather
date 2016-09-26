@@ -141,7 +141,7 @@ public class CurrentWeatherTable {
             return UpdateQuery.builder()
                     .table(TABLE)
                     .where(COLUMN_LATITUDE + " = ? AND " + COLUMN_LONGITUDE + " = ? ")
-                    .whereArgs(object.place.getLatitude(), object.place.getLatitude())
+                    .whereArgs(object.place.getLatitude(), object.place.getLongitude())
                     .build();
         }
 
@@ -195,7 +195,7 @@ public class CurrentWeatherTable {
             return DeleteQuery.builder()
                     .table(TABLE)
                     .where(COLUMN_LATITUDE + " = ? AND " + COLUMN_LONGITUDE + " = ? ")
-                    .whereArgs(object.place.getLatitude(), object.place.getLatitude())
+                    .whereArgs(object.place.getLatitude(), object.place.getLongitude())
                     .build();
         }
     };

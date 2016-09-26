@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class CurrentWeather implements Parcelable {
 
-    public int id;
+    public Integer id;
 
     // Data info
 

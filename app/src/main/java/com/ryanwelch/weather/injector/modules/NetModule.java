@@ -103,6 +103,7 @@ public class NetModule {
     @Provides
     @ApplicationScope
     SQLiteOpenHelper provideSQLiteOpenHelper(Context context) {
+        //context.deleteDatabase("weather_db");
         return new DbOpenHelper(context);
     }
 

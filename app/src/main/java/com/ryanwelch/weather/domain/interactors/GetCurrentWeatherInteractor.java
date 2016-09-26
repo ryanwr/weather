@@ -24,8 +24,8 @@ public class GetCurrentWeatherInteractor extends Interactor {
     @Override
     protected Observable run() {
         return mPlaceRepository.getPlaces()
-                .flatMapIterable(ids -> ids)
-                .flatMap(mWeatherRepository::getCurrentWeather)
+                .concatMapIterable(ids -> ids)
+                .concatMap(mWeatherRepository::getCurrentWeather)
                 .toList();
     }
 }

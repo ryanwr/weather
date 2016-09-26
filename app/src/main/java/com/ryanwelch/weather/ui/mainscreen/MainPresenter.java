@@ -63,7 +63,15 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
-                Timber.d("Error loading current weather: " + e.getMessage());
+                Timber.d("Error loading current weather: %s", e.getMessage());
+                e.printStackTrace();
+
+                if(isRefreshing) mView.hideRefreshing();
+                else mView.hideLoading();
+
+                if(isEmpty) mView.showEmpty();
+
+                mView.showFailedToLoad();
             }
 
             @Override

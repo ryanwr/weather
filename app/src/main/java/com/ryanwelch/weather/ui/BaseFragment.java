@@ -1,7 +1,9 @@
 package com.ryanwelch.weather.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.Toast;
 
 import com.ryanwelch.weather.WeatherApplication;
@@ -10,6 +12,8 @@ import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class BaseFragment extends Fragment {
 

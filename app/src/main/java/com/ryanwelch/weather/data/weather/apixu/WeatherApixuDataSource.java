@@ -32,8 +32,6 @@ public class WeatherApixuDataSource implements WeatherRemoteDataSource {
 
     @Override
     public Observable<CurrentWeather> getCurrentWeather(Place place) {
-        Timber.d("REMOTE: getCurrentWeather(): %s", place.getName());
-
         return mWeatherService.getCurrentWeather(place.getLatitude() + ", " + place.getLongitude())
                 .map(this::transform);
     }
@@ -44,7 +42,8 @@ public class WeatherApixuDataSource implements WeatherRemoteDataSource {
         if(weatherResponse != null) {
             currentWeather = new CurrentWeather();
             currentWeather.place = weatherResponse.place;
-            currentWeather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
+            //currentWeather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
+            currentWeather.updateTime = new Date();
             currentWeather.temperatureC = weatherResponse.current.tempC;
             currentWeather.feelsLikeC = weatherResponse.current.feelsLikeC;
             currentWeather.pressure = weatherResponse.current.pressureMb;
@@ -56,6 +55,8 @@ public class WeatherApixuDataSource implements WeatherRemoteDataSource {
             currentWeather.precipitation = weatherResponse.current.precipMm;
             currentWeather.snow = 0;
             currentWeather.cloud = weatherResponse.current.cloud;
+            currentWeather.sunriseTime = new Date();
+            currentWeather.sunsetTime = new Date();
 
             switch (weatherResponse.current.condition.code) {
                 case 1000:

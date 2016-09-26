@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
         SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
@@ -133,6 +135,15 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     @Override
     public void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
         mListener.showDetail(weather, viewHolder);
+    }
+
+    @Override
+    public void showFailedToLoad() {
+        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinator_layout),
+                    "Failed to fetch data", Snackbar.LENGTH_LONG)
+                .setAction("RETRY", (view) -> mMainPresenter.onRefresh());
+
+        snackbar.show();
     }
 
     @Override

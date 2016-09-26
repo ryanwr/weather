@@ -20,6 +20,8 @@ public class MainContract {
 
         void hideLoading();
 
+        void showFailedToLoad();
+
         void showWeather(List<CurrentWeather> weatherList);
 
         void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);

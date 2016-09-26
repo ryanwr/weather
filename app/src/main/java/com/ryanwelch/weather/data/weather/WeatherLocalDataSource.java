@@ -10,6 +10,8 @@ import com.ryanwelch.weather.data.db.CurrentWeatherTable;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
 
+import java.util.List;
+
 import rx.Observable;
 import timber.log.Timber;
 
@@ -31,12 +33,12 @@ public class WeatherLocalDataSource implements WeatherDataSource {
                         Query.builder()
                                 .table(CurrentWeatherTable.TABLE)
                                 .where(CurrentWeatherTable.COLUMN_LATITUDE + " = ? AND " + CurrentWeatherTable.COLUMN_LONGITUDE + " = ? ")
-                                .whereArgs(place.getLatitude(), place.getLatitude())
+                                .whereArgs(place.getLatitude(), place.getLongitude())
                                 .build()
                 )
                 .prepare()
-                .asRxSingle()
-                .toObservable();
+                .asRxObservable()
+                .take(1);
     }
 
     public Observable<Void> setCurrentWeather(CurrentWeather currentWeather) {
@@ -45,8 +47,8 @@ public class WeatherLocalDataSource implements WeatherDataSource {
                 .put()
                 .object(currentWeather)
                 .prepare()
-                .asRxSingle()
-                .toObservable()
+                .asRxObservable()
+                .take(1)
                 .switchMap((res) -> Observable.empty());
     }
 
