@@ -15,7 +15,7 @@ import com.ryanwelch.weather.data.db.DbOpenHelper;
 import com.ryanwelch.weather.data.search.SearchRemoteDataSource;
 import com.ryanwelch.weather.data.search.SearchRepository;
 import com.ryanwelch.weather.data.weather.WeatherLocalDataSource;
-import com.ryanwelch.weather.data.weather.apixu.WeatherApixuDataSource;
+import com.ryanwelch.weather.data.weather.apixu.ApixuDataSource;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
@@ -41,6 +41,8 @@ public class NetModule {
 
     private static final String APIXU_BASE_URL = "http://api.apixu.com/v1/";
     private static final String APIXU_API_KEY = BuildConfig.APIXU_API_TOKEN;
+    private static final String OPEN_WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    private static final String OPEN_WEATHER_API_KEY = BuildConfig.OPEN_WEATHER_API_TOKEN;
 
     public NetModule() {}
 
@@ -88,6 +90,18 @@ public class NetModule {
     }
 
     @Provides
+    @Named("openWeather")
+    @ApplicationScope
+    Retrofit provideOpenWeatherRetrofit(Gson gson) {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(OPEN_WEATHER_BASE_URL)
+                .client(createOkHTTPClient("apikey", OPEN_WEATHER_API_KEY))
+                .build();
+    }
+
+    @Provides
     @ApplicationScope
     SearchRepository provideSearchRepository(@Named("apixu") Retrofit retrofit) {
         return new SearchRepository(new SearchRemoteDataSource(retrofit));
@@ -96,7 +110,7 @@ public class NetModule {
     @Provides
     @ApplicationScope
     WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit, StorIOSQLite storIOSQLite) {
-        return new WeatherRepository(new WeatherApixuDataSource(retrofit),
+        return new WeatherRepository(new ApixuDataSource(retrofit),
                 new WeatherLocalDataSource(storIOSQLite));
     }
 

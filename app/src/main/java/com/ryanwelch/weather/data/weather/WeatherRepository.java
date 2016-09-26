@@ -24,15 +24,16 @@ public class WeatherRepository implements WeatherDataSource {
 
     @Override
     public Observable<CurrentWeather> getCurrentWeather(Place place) {
+        // TODO: Fallback to whatever local data we have (i.e. no filtering) if network not available
         return mWeatherLocalDataSource.getCurrentWeather(place)
-                .filter((v) -> {
-                    return v != null && new Date().before(new Date(v.updateTime.getTime() + EXPIRE_TIME));
-                })
+                .filter(
+                        (v) -> v != null && new Date().before(new Date(v.updateTime.getTime() + EXPIRE_TIME))
+                )
                 .switchIfEmpty(
                         mWeatherRemoteDataSource.getCurrentWeather(place)
-                                .doOnNext((p) -> {
+                                .doOnNext((weather) -> {
                                     Timber.d("REMOTE: Loaded from remote, saving into db..");
-                                    mWeatherLocalDataSource.setCurrentWeather(p).subscribe(
+                                    mWeatherLocalDataSource.setCurrentWeather(weather).subscribe(
                                             (v) -> Timber.d("Saved into db"),
                                             (e) -> {
                                                 Timber.e(e.getMessage());
