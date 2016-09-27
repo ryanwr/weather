@@ -2,8 +2,8 @@ package com.ryanwelch.weather;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Debug;
 
+import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
 import com.ryanwelch.weather.injector.modules.ApplicationModule;
@@ -30,7 +30,7 @@ public class WeatherApplication extends Application {
 
         if(BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-            Debug.startMethodTracing("startup");
+            AndroidDevMetrics.initWith(this);
         } else {
             //TODO: Timber.plant(); Crash reporting logger?
         }
