@@ -16,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.ryan.weather"
+        applicationId "com.ryanwelch.weather"
         minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
@@ -30,6 +30,7 @@ android {
         buildTypes.each {
             it.buildConfigField 'String', 'OPEN_WEATHER_API_TOKEN', properties.getProperty('OpenWeatherApiToken')
             it.buildConfigField 'String', 'APIXU_API_TOKEN', properties.getProperty('ApixuApiToken')
+            it.buildConfigField 'String', 'DARK_SKY_API_TOKEN', properties.getProperty('DarkSkyApiToken')
         }
     }
 }

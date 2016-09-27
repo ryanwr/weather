@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.helpers.RecyclerItemClickListener;
 import com.ryanwelch.weather.ui.helpers.VerticalSpaceItemDecoration;
@@ -133,10 +134,19 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void showFailedToLoad() {
+    public void showFailedLoadNotification() {
         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinator_layout),
                     "Failed to fetch data", Snackbar.LENGTH_LONG)
                 .setAction("RETRY", (view) -> mMainPresenter.onRefresh());
+
+        snackbar.show();
+    }
+
+    @Override
+    public void showDismissNotification(Place place) {
+        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.coordinator_layout),
+                "Removed " + place.getName(), Snackbar.LENGTH_LONG)
+                .setAction("UNDO", (view) -> mMainPresenter.onUndoDismiss(place));
 
         snackbar.show();
     }

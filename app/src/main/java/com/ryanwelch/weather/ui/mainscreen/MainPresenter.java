@@ -1,8 +1,10 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
+import com.ryanwelch.weather.domain.interactors.AddPlaceFactory;
 import com.ryanwelch.weather.domain.interactors.DeletePlaceFactory;
 import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherFactory;
 import com.ryanwelch.weather.domain.interactors.Interactor;
+import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 
@@ -22,6 +24,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Inject GetCurrentWeatherFactory mGetCurrentWeatherFactory;
     @Inject DeletePlaceFactory mDeletePlaceFactory;
+    @Inject AddPlaceFactory mAddPlaceFactory;
 
     @Inject
     public MainPresenter() {}
@@ -71,7 +74,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                 if(isEmpty) mView.showEmpty();
 
-                mView.showFailedToLoad();
+                mView.showFailedLoadNotification();
             }
 
             @Override
@@ -95,6 +98,27 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void onUndoDismiss(Place place) {
+        Interactor interactor = mAddPlaceFactory.get(place);
+        interactor.execute(new Subscriber() {
+            @Override
+            public void onCompleted() {
+                onRefresh();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+        });
+    }
+
+    @Override
     public void onItemDismiss(CurrentWeather weather) {
         Interactor interactor = mDeletePlaceFactory.get(weather.place);
         interactor.execute(new Subscriber() {
@@ -104,6 +128,8 @@ public class MainPresenter implements MainContract.Presenter {
                     isEmpty = true;
                     mView.showEmpty();
                 }
+
+                mView.showDismissNotification(weather.place);
             }
 
             @Override
