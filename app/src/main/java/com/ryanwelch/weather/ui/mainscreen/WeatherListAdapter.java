@@ -64,6 +64,9 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
             holder.setTransitionId(Integer.toString(position));
             holder.itemView.setTransitionName("weather_item_" + holder.getTransitionId());
             holder.mWeatherIcon.setTransitionName("weather_icon_" + holder.getTransitionId());
+            holder.mLocationName.setTransitionName("weather_name_" + holder.getTransitionId());
+            holder.mTemperature.setTransitionName("weather_temperature_" + holder.getTransitionId());
+            holder.mCondition.setTransitionName("weather_condition_" + holder.getTransitionId());
         }
         holder.mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());
         holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLikeC)));

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -28,10 +29,10 @@ import javax.inject.Inject;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 public class DetailFragment extends BaseFragment implements DetailContract.View {
 
-    private static final String TAG = "MainFragment";
     private static final String EXTRA_DATA = "DetailData";
     private static final String EXTRA_TRANSITION_NAME = "DetailTransitionName";
 
@@ -44,6 +45,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     @BindView(R.id.txt_condition) TextView mCondition;
     @BindView(R.id.txt_temperature) TextView mTemperature;
     @BindView(R.id.txt_feels_like) TextView mFeelsLike;
+    @BindView(R.id.indicator) CircleIndicator mIndicator;
 
     @BindView(R.id.txt_wind_dir) TextView mWindDir;
 
@@ -91,6 +93,9 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mMainLayout.setTransitionName("weather_item_" + mTransitionId);
             mWeatherIcon.setTransitionName("weather_icon_" + mTransitionId);
+            mLocation.setTransitionName("weather_name_" + mTransitionId);
+            mTemperature.setTransitionName("weather_temperature_" + mTransitionId);
+            mCondition.setTransitionName("weather_condition_" + mTransitionId);
             mMainLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
@@ -108,6 +113,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     private void setupViewPager() {
         mViewPager.setAdapter(new DetailPagerAdapter(getChildFragmentManager()));
+        mIndicator.setViewPager(mViewPager);
     }
 
     @Override
@@ -158,5 +164,35 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
      */
     public interface DetailListener {
 
+    }
+
+    public static class DetailPagerAdapter extends FragmentPagerAdapter {
+
+        private static int NUM_ITEMS = 3;
+
+        public DetailPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return DetailForecastFragment.newInstance();
+                case 1: // Fragment # 0 - This will show FirstFragment different title
+                    //return FirstFragment.newInstance(1, "Page # 2");
+                    return DetailForecastFragment.newInstance();
+                case 2: // Fragment # 1 - This will show SecondFragment
+                    //return SecondFragment.newInstance(2, "Page # 3");
+                    return DetailForecastFragment.newInstance();
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
     }
 }

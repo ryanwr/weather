@@ -29,4 +29,6 @@
     <color name="snowBg">#ccd1d9</color>
     <color name="clearBg">#000000</color>
     <color name="stormBg">#656d78</color>
+
+    <color name="white">#ffffff</color>
 </resources>

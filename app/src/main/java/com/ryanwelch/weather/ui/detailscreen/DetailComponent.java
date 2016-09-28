@@ -15,4 +15,5 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class})
 public interface DetailComponent extends ActivityComponent {
     void inject(DetailFragment detailFragment);
+    void inject(DetailForecastFragment detailForecastFragment);
 }

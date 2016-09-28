@@ -36,8 +36,11 @@ public class Navigator {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Pair<View, String> p1 = new Pair<>(viewHolder.itemView, viewHolder.itemView.getTransitionName());
                 Pair<View, String> p2 = new Pair<>(viewHolder.mWeatherIcon, viewHolder.mWeatherIcon.getTransitionName());
+                Pair<View, String> p3 = new Pair<>(viewHolder.mLocationName, viewHolder.mLocationName.getTransitionName());
+                Pair<View, String> p4 = new Pair<>(viewHolder.mTemperature, viewHolder.mTemperature.getTransitionName());
+                Pair<View, String> p5 = new Pair<>(viewHolder.mCondition, viewHolder.mCondition.getTransitionName());
                 ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(activity, p1, p2);
+                        .makeSceneTransitionAnimation(activity, p1, p2, p3, p4, p5);
                 activity.startActivity(intentToLaunch, options.toBundle());
             } else {
                 activity.startActivity(intentToLaunch);

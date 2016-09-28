@@ -23,7 +23,7 @@ public class PlaceRepository implements PlaceDataSource {
                 .filter(v -> !v.isEmpty())
                 .switchIfEmpty(
                         mPlaceSharedPreferencesDataSource.getPlaces()
-                                .doOnNext(mPlaceMemoryDataSource::setPlaces)
+                                .doOnNext((places) -> mPlaceMemoryDataSource.setPlaces(places).subscribe())
                 );
     }
 
@@ -36,7 +36,7 @@ public class PlaceRepository implements PlaceDataSource {
     public Observable<Void> addPlace(Place place) {
         return mPlaceMemoryDataSource.addPlace(place).doOnCompleted(() -> {
             mPlaceMemoryDataSource.getPlaces()
-                    .subscribe(mPlaceSharedPreferencesDataSource::setPlaces);
+                    .subscribe((places) -> mPlaceSharedPreferencesDataSource.setPlaces(places).subscribe());
         });
     }
 

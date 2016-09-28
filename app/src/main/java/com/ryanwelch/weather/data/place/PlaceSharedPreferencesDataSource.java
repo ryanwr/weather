@@ -39,7 +39,7 @@ public class PlaceSharedPreferencesDataSource implements PlaceDataSource {
     public Observable<Void> setPlaces(List<Place> places) {
         Timber.v("setPlaces");
         mSharedPreferences.edit().putString(SP_PLACE_ENTITIES, mGson.toJson(places)).apply();
-        return null;
+        return Observable.empty();
     }
 
     @Override
