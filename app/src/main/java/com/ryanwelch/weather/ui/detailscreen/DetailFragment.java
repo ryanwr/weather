@@ -7,6 +7,8 @@ package com.ryanwelch.weather.ui.detailscreen;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -100,6 +102,12 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
                 }
             });
         }
+
+        setupViewPager();
+    }
+
+    private void setupViewPager() {
+        mViewPager.setAdapter(new DetailPagerAdapter(getChildFragmentManager()));
     }
 
     @Override
