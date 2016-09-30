@@ -43,12 +43,10 @@ public class MainPresenterTest {
     private MainPresenter mMainPresenter;
 
     @Captor
-    private ArgumentCaptor<Subscriber> mGetCurrentWeatherSubscriber;
+    private ArgumentCaptor<Subscriber> mSubscriber;
 
     @Before
     public void setup() {
-        // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
-        // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
     }
 
@@ -61,13 +59,13 @@ public class MainPresenterTest {
 
         // Then shows a loading indicator, and subscribes to fetch weather
         verify(mMainView).showLoading();
-        verify(mGetCurrentWeatherInteractor).execute(mGetCurrentWeatherSubscriber.capture());
+        verify(mGetCurrentWeatherInteractor).execute(mSubscriber.capture());
 
         // When the weather is loaded
-        ArrayList data = new ArrayList();
+        ArrayList<CurrentWeather> data = new ArrayList();
         data.add(DEFAULT_WEATHER);
-        mGetCurrentWeatherSubscriber.getValue().onNext(data);
-        mGetCurrentWeatherSubscriber.getValue().onCompleted();
+        mSubscriber.getValue().onNext(data);
+        mSubscriber.getValue().onCompleted();
 
         verify(mMainView).showWeather(data);
         verify(mMainView).hideLoading();
