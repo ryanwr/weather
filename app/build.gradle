@@ -8,7 +8,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.3"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -91,14 +91,13 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.6'
 
     // Google play services
-    compile 'com.google.android.gms:play-services-places:9.6.0'
-    compile 'com.google.android.gms:play-services-auth:9.6.0'
-    compile 'com.google.android.gms:play-services-location:9.6.0'
+    compile 'com.google.android.gms:play-services-places:9.6.1'
+    compile 'com.google.android.gms:play-services-auth:9.6.1'
+    compile 'com.google.android.gms:play-services-location:9.6.1'
 
     // Misc. (fonts, particles..)
     compile 'com.vstechlab.easyfonts:easyfonts:1.0.0'
     compile 'me.relex:circleindicator:1.2.1@aar'
-    //compile 'com.github.arimorty:floatingsearchview:2.0.3'
     //compile 'com.plattysoft.leonids:LeonidsLib:1.3.1'
     compile fileTree(dir: '../libs', include: '*.jar')
 }
