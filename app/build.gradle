@@ -22,15 +22,28 @@ android {
         versionCode 1
         versionName "1.0.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
         buildTypes.each {
             it.buildConfigField 'String', 'OPEN_WEATHER_API_TOKEN', properties.getProperty('OpenWeatherApiToken')
             it.buildConfigField 'String', 'APIXU_API_TOKEN', properties.getProperty('ApixuApiToken')
             it.buildConfigField 'String', 'DARK_SKY_API_TOKEN', properties.getProperty('DarkSkyApiToken')
+        }
+    }
+
+    productFlavors {
+        mock {
+            applicationId "com.ryanwelch.weather.mock"
+            versionName "1.0.0-mock"
+        }
+        full {
         }
     }
 }
