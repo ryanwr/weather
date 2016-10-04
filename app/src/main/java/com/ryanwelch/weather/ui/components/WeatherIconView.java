@@ -146,7 +146,7 @@ public class WeatherIconView extends RelativeLayout {
     private void createIcon(WeatherIcon type) {
         clearIcon(true);
 
-        Timber.v("Create icon: " + type.toString());
+        Timber.v("Create icon: %s", type.toString());
 
         as = new AnimatorSet();
 

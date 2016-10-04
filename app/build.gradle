@@ -43,8 +43,7 @@ android {
             applicationId "com.ryanwelch.weather.mock"
             versionName "1.0.0-mock"
         }
-        full {
-        }
+        full {}
     }
 }
 
@@ -111,6 +110,6 @@ dependencies {
     // Misc. (fonts, particles..)
     compile 'com.vstechlab.easyfonts:easyfonts:1.0.0'
     compile 'me.relex:circleindicator:1.2.1@aar'
-    //compile 'com.plattysoft.leonids:LeonidsLib:1.3.1'
-    compile fileTree(dir: '../libs', include: '*.jar')
+    compile 'com.github.ryanwr:Leonids:master-SNAPSHOT'
+    //compile 'com.github.ryanwr:circleindicator:master-SNAPSHOT@aar'
 }
