@@ -36,16 +36,14 @@ public class WeatherApplication extends Application {
             //TODO: Timber.plant(); Crash reporting logger?
         }
 
-        initializeInjector();
+        mApplicationComponent = prepareApplicationComponent().build();
 
         Timber.i("Initialized app");
     }
 
-    private void initializeInjector() {
-        mApplicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .debugModule(new DebugModule(mRefWatcher))
-                .build();
+    protected DaggerApplicationComponent.Builder prepareApplicationComponent() {
+        return ApplicationComponentBuilder.build(this)
+                .debugModule(new DebugModule(mRefWatcher));
     }
 
     public ApplicationComponent getApplicationComponent() {

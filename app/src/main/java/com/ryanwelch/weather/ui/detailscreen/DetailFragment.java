@@ -4,6 +4,7 @@
 
 package com.ryanwelch.weather.ui.detailscreen;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,12 +25,15 @@ import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
 
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator;
+
 import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.relex.circleindicator.CircleIndicator;
 
 public class DetailFragment extends BaseFragment implements DetailContract.View {
 
@@ -45,7 +49,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     @BindView(R.id.txt_condition) TextView mCondition;
     @BindView(R.id.txt_temperature) TextView mTemperature;
     @BindView(R.id.txt_feels_like) TextView mFeelsLike;
-    @BindView(R.id.indicator) CircleIndicator mIndicator;
+    @BindView(R.id.indicator) MagicIndicator mIndicator;
 
     @BindView(R.id.txt_wind_dir) TextView mWindDir;
 
@@ -113,7 +117,14 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     private void setupViewPager() {
         mViewPager.setAdapter(new DetailPagerAdapter(getChildFragmentManager()));
-        mIndicator.setViewPager(mViewPager);
+        CircleNavigator circleNavigator = new CircleNavigator(getContext());
+        circleNavigator.setCircleCount(mViewPager.getChildCount());
+        circleNavigator.setCircleColor(Color.RED);
+        circleNavigator.setCircleClickListener((index) -> {
+                mViewPager.setCurrentItem(index);
+        });
+        mIndicator.setNavigator(circleNavigator);
+        ViewPagerHelper.bind(mIndicator, mViewPager);
     }
 
     @Override

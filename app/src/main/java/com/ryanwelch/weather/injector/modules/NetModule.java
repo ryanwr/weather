@@ -17,6 +17,7 @@ import com.ryanwelch.weather.data.search.SearchRepository;
 import com.ryanwelch.weather.data.weather.WeatherLocalDataSource;
 import com.ryanwelch.weather.data.weather.apixu.ApixuDataSource;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
+import com.ryanwelch.weather.data.weather.darksky.DarkSkyDataSource;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 import com.ryanwelch.weather.domain.executor.UIThread;
@@ -43,6 +44,8 @@ public class NetModule {
     private static final String APIXU_API_KEY = BuildConfig.APIXU_API_TOKEN;
     private static final String OPEN_WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/";
     private static final String OPEN_WEATHER_API_KEY = BuildConfig.OPEN_WEATHER_API_TOKEN;
+    private static final String DARK_SKY_BASE_URL = "https://api.darksky.net/";
+    private static final String DARK_SKY_API_KEY = BuildConfig.DARK_SKY_API_TOKEN;
 
     public NetModule() {}
 
@@ -90,7 +93,7 @@ public class NetModule {
     }
 
     @Provides
-    @Named("openWeather")
+    @Named("openweather")
     @ApplicationScope
     Retrofit provideOpenWeatherRetrofit(Gson gson) {
         return new Retrofit.Builder()
@@ -102,6 +105,18 @@ public class NetModule {
     }
 
     @Provides
+    @Named("darksky")
+    @ApplicationScope
+    Retrofit provideDarkSkyRetrofit(Gson gson) {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(DARK_SKY_BASE_URL)
+                .client(new OkHttpClient.Builder().build())
+                .build();
+    }
+
+    @Provides
     @ApplicationScope
     SearchRepository provideSearchRepository(@Named("apixu") Retrofit retrofit) {
         return new SearchRepository(new SearchRemoteDataSource(retrofit));
@@ -109,8 +124,8 @@ public class NetModule {
 
     @Provides
     @ApplicationScope
-    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit, StorIOSQLite storIOSQLite) {
-        return new WeatherRepository(new ApixuDataSource(retrofit),
+    WeatherRepository provideWeatherRepository(@Named("openweather") Retrofit retrofit, StorIOSQLite storIOSQLite) {
+        return new WeatherRepository(new DarkSkyDataSource(retrofit),
                 new WeatherLocalDataSource(storIOSQLite));
     }
 

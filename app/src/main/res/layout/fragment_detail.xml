@@ -157,11 +157,11 @@
 
         </android.support.v4.view.ViewPager>
 
-        <me.relex.circleindicator.CircleIndicator
+        <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp" />
     </FrameLayout>
 
 </LinearLayout>

@@ -11,19 +11,15 @@ import com.ryanwelch.weather.domain.models.WeatherCondition;
 
 import java.util.Date;
 
-import javax.inject.Inject;
-
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
-import timber.log.Timber;
 
 public class ApixuDataSource implements WeatherRemoteDataSource {
 
     private WeatherService mWeatherService;
 
-    @Inject
     public ApixuDataSource(Retrofit retrofit) {
         mWeatherService = retrofit.create(WeatherService.class);
     }
