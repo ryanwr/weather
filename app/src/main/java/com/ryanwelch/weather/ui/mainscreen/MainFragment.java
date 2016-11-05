@@ -51,7 +51,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getComponent(MainComponent.class).inject(this);
+        getComponent().inject(this);
     }
 
     @Override

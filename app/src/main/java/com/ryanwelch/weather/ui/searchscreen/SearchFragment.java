@@ -24,8 +24,6 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
         FloatingSearchView.OnFocusChangeListener, FloatingSearchView.OnHomeActionClickListener,
         FloatingSearchView.OnSearchListener, FloatingSearchView.OnQueryChangeListener {
 
-    private static final String TAG = "SearchFragment";
-
     @Inject SearchPresenter mSearchPresenter;
 
     @BindView(R.id.floating_search_view) FloatingSearchView mFloatingSearchView;
@@ -37,7 +35,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getComponent(SearchComponent.class).inject(this);
+        getComponent().inject(this);
     }
 
     @Override
@@ -124,7 +122,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View,
     }
 
     /**
-     * Interface for listening to MainFragment events
+     * Interface for listening to SearchFragment events
      */
     public interface SearchListener {
         void finishActivity();

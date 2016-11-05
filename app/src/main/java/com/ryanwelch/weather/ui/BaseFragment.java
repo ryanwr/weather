@@ -1,19 +1,15 @@
 package com.ryanwelch.weather.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.Toast;
 
 import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.injector.HasComponent;
+import com.ryanwelch.weather.injector.components.ActivityComponent;
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
-
-import timber.log.Timber;
 
 public class BaseFragment extends Fragment {
 
@@ -44,11 +40,10 @@ public class BaseFragment extends Fragment {
     }
 
     /**
-     * Gets a component for dependency injection by its type.
+     * Gets a component for dependency injection.
      */
-    @SuppressWarnings("unchecked")
-    protected <C> C getComponent(Class<C> componentType) {
-        return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+    protected ActivityComponent getComponent() {
+        return ((BaseActivity) getActivity()).getComponent();
     }
 
 }

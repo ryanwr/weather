@@ -73,7 +73,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getComponent(DetailComponent.class).inject(this);
+        getComponent().inject(this);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mDetailPresenter.setData(bundle.getParcelable(EXTRA_DATA));

@@ -10,20 +10,17 @@ import android.view.MenuItem;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.injector.HasComponent;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends BaseActivity implements HasComponent<DetailComponent> {
+public class DetailActivity extends BaseActivity {
 
     private static final String EXTRA_DATA = "DetailData";
     private static final String EXTRA_TRANSITION_NAME = "DetailTransitionName";
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
-
-    private DetailComponent mDetailComponent;
 
     public static Intent getCallingIntent(Context context, CurrentWeather weather, String transitionName) {
         Intent intent = new Intent(context, DetailActivity.class);
@@ -54,22 +51,9 @@ public class DetailActivity extends BaseActivity implements HasComponent<DetailC
         CurrentWeather weather = intent.getParcelableExtra(EXTRA_DATA);
         String transitionName = intent.getStringExtra(EXTRA_TRANSITION_NAME);
 
-        initializeInjector();
         if (savedInstanceState == null) {
             addFragment(R.id.content_frame, DetailFragment.newInstance(weather, transitionName));
         }
-    }
-
-    private void initializeInjector() {
-        mDetailComponent = DaggerDetailComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .activityModule(getActivityModule())
-                .build();
-    }
-
-    @Override
-    public DetailComponent getComponent() {
-        return mDetailComponent;
     }
 
     @Override

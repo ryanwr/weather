@@ -124,8 +124,8 @@ public class NetModule {
 
     @Provides
     @ApplicationScope
-    WeatherRepository provideWeatherRepository(@Named("openweather") Retrofit retrofit, StorIOSQLite storIOSQLite) {
-        return new WeatherRepository(new DarkSkyDataSource(retrofit),
+    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit, StorIOSQLite storIOSQLite) {
+        return new WeatherRepository(new ApixuDataSource(retrofit),
                 new WeatherLocalDataSource(storIOSQLite));
     }
 

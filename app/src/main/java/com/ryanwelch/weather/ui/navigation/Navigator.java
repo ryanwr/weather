@@ -12,6 +12,7 @@ import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.detailscreen.DetailActivity;
 import com.ryanwelch.weather.ui.mainscreen.WeatherListAdapter;
 import com.ryanwelch.weather.ui.searchscreen.SearchActivity;
+import com.ryanwelch.weather.ui.settingsscreen.SettingsActivity;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,13 @@ public class Navigator {
     public void navigateToSearch(Context context) {
         if (context != null) {
             Intent intentToLaunch = SearchActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    public void navigateToSettings(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SettingsActivity.getCallingIntent(context);
             context.startActivity(intentToLaunch);
         }
     }
