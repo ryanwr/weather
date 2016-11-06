@@ -27,7 +27,7 @@ public class DetailForecastFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getComponent(DetailComponent.class).inject(this);
+        getComponent().inject(this);
     }
 
     @Override

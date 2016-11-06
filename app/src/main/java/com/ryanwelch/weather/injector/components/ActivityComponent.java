@@ -8,6 +8,7 @@ import com.ryanwelch.weather.ui.detailscreen.DetailForecastFragment;
 import com.ryanwelch.weather.ui.detailscreen.DetailFragment;
 import com.ryanwelch.weather.ui.mainscreen.MainFragment;
 import com.ryanwelch.weather.ui.searchscreen.SearchFragment;
+import com.ryanwelch.weather.ui.settingsscreen.SettingsFragment;
 
 import dagger.Component;
 
@@ -19,6 +20,7 @@ public interface ActivityComponent extends ApplicationComponent {
     void inject(MainFragment mainFragment);
     void inject(DetailFragment detailFragment);
     void inject(DetailForecastFragment detailForecastFragment);
+    void inject(SettingsFragment settingsFragment);
 
     //Exposed to sub-graphs.
     Activity activity();

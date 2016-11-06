@@ -11,7 +11,6 @@ import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerActivityComponent;
 import com.ryanwelch.weather.injector.modules.ActivityModule;
 import com.ryanwelch.weather.ui.navigation.Navigator;
-import com.ryanwelch.weather.ui.searchscreen.DaggerSearchComponent;
 
 import javax.inject.Inject;
 

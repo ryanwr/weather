@@ -21,7 +21,7 @@
 
         <activity
             android:name=".ui.mainscreen.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,7 +35,12 @@
 
         <activity
             android:name=".ui.detailscreen.DetailActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".ui.settingsscreen.SettingsActivity"
+            android:theme="@style/AppTheme">
         </activity>
 
     </application>

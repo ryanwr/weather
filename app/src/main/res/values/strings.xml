@@ -5,4 +5,10 @@
     <string name="feels_like_format">Feels like %d°</string>
     <string name="no_places">No weather data</string>
     <string name="no_places_description">You have no places yet. Tap below to add a place</string>
+
+    <string name="title_data_section">Data</string>
+    <string name="title_weather_provider">Weather provider</string>
+    <string name="dialog_title_weather_provider">Choose weather provider</string>
+    <string name="title_about_section">About</string>
+    <string name="title_version_preference">Version</string>
 </resources>

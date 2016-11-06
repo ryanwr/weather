@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="weather_providers">
+        <item>Apixu</item>
+        <item>Dark Sky</item>
+        <item>Open Weather Map</item>
+    </string-array>
+    <string-array name="weather_providers_values">
+        <item>apixu</item>
+        <item>dark_sky</item>
+        <item>open_weather_map</item>
+    </string-array>
+</resources>
