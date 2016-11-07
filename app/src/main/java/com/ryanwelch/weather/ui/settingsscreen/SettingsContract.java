@@ -9,6 +9,9 @@ import com.ryanwelch.weather.ui.BasePresenter;
 public class SettingsContract {
 
     public interface View {
+        void setVersion(String version);
+
+        void setFlavor(String flavor);
     }
 
     public interface Presenter extends BasePresenter<View> {

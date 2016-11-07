@@ -2,6 +2,7 @@ package com.ryanwelch.weather;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.preference.PreferenceManager;
 
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
@@ -37,6 +38,8 @@ public class WeatherApplication extends Application {
         }
 
         mApplicationComponent = prepareApplicationComponent().build();
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Timber.i("Initialized app");
     }

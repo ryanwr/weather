@@ -22,25 +22,32 @@
         android:title="@string/title_data_section">
 
         <ListPreference
-            android:key="list_preference"
+            android:key="@string/weather_provider_key"
             android:title="@string/title_weather_provider"
             android:dialogTitle="@string/dialog_title_weather_provider"
             android:entries="@array/weather_providers"
-            android:entryValues="@array/weather_providers_values" />
-
-        <!--<Preference-->
-            <!--android:title="@string/title_intent_preference">-->
-            <!--<intent android:action="android.intent.action.VIEW"-->
-                <!--android:data="http://codepath.com/" />-->
-        <!--</Preference>-->
+            android:entryValues="@array/weather_providers_values"
+            android:defaultValue="apixu"/>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/title_about_section">
 
         <Preference
-            android:title="@string/title_version_preference"
-            android:summary="1.0.0">
+            android:key="@string/version_preference_key"
+            android:title="@string/title_version_preference">
+        </Preference>
+
+        <Preference
+            android:key="@string/flavor_preference_key"
+            android:title="@string/title_flavor_preference">
+        </Preference>
+
+        <Preference
+            android:title="@string/title_github_preference"
+            android:summary="@string/github_url">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="@string/github_url" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

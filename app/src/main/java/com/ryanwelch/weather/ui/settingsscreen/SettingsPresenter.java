@@ -4,9 +4,16 @@
 
 package com.ryanwelch.weather.ui.settingsscreen;
 
+import android.content.SharedPreferences;
+
+import com.ryanwelch.weather.BuildConfig;
+
 import javax.inject.Inject;
 
-public class SettingsPresenter implements SettingsContract.Presenter {
+import timber.log.Timber;
+
+public class SettingsPresenter implements SettingsContract.Presenter,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SettingsContract.View mView;
 
@@ -20,7 +27,12 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void resume() {
+        initialize();
+    }
 
+    private void initialize() {
+        mView.setVersion(BuildConfig.VERSION_NAME);
+        mView.setFlavor(BuildConfig.FLAVOR);
     }
 
     @Override
@@ -33,4 +45,8 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Timber.i("Preference %s changed.", key);
+    }
 }
