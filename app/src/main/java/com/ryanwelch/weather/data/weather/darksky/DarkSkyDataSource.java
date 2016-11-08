@@ -20,7 +20,8 @@ import rx.Observable;
 
 public class DarkSkyDataSource implements WeatherRemoteDataSource {
 
-    private static final String DARK_SKY_API_KEY = BuildConfig.DARK_SKY_API_TOKEN;
+    public static final String DARK_SKY_BASE_URL = "https://api.darksky.net/";
+    public static final String DARK_SKY_API_KEY = BuildConfig.DARK_SKY_API_TOKEN;
 
     private WeatherService mWeatherService;
 
@@ -66,7 +67,7 @@ public class DarkSkyDataSource implements WeatherRemoteDataSource {
     }
 
     interface WeatherService {
-        @GET("forecast/" + DARK_SKY_API_KEY +"/{latitude},{longitude}")
+        @GET("forecast/" + DARK_SKY_API_KEY + "/{latitude},{longitude}")
         Observable<DarkSkyWeatherResponse> getCurrentWeather(@Path("latitude") String latitude,
                                                              @Path("longitude") String longitude);
     }

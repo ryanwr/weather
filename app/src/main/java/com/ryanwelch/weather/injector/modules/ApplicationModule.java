@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.ryanwelch.weather.data.place.PlaceMemoryDataSource;
 import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.data.place.PlaceSharedPreferencesDataSource;
+import com.ryanwelch.weather.domain.executor.PostExecutionThread;
+import com.ryanwelch.weather.domain.executor.ThreadExecutor;
+import com.ryanwelch.weather.domain.executor.UIThread;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
 import com.ryanwelch.weather.ui.navigation.Navigator;
 
@@ -53,6 +56,18 @@ public class ApplicationModule {
     @ApplicationScope
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @ApplicationScope
+    ThreadExecutor provideThreadExecutor() {
+        return new ThreadExecutor();
+    }
+
+    @Provides
+    @ApplicationScope
+    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+        return uiThread;
     }
 
     @Provides

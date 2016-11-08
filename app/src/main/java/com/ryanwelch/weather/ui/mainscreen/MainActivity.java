@@ -1,11 +1,13 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ryanwelch.weather.R;
+import com.ryanwelch.weather.WeatherApplication;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.injector.components.ActivityComponent;
 import com.ryanwelch.weather.injector.components.DaggerActivityComponent;
@@ -16,6 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MainFragment.MainListener {
+
+    private final static int CODE_SETTINGS = 400;
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -53,6 +57,13 @@ public class MainActivity extends BaseActivity implements MainFragment.MainListe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO: If data source setting changed, recreate app component and recreate Activity.
+        //((WeatherApplication) mApplication).buildApplicationComponent();
+
     }
 
     @Override

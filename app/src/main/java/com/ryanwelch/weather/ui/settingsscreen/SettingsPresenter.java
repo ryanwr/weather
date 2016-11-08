@@ -4,16 +4,24 @@
 
 package com.ryanwelch.weather.ui.settingsscreen;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.ryanwelch.weather.BuildConfig;
+import com.ryanwelch.weather.R;
+
+import com.ryanwelch.weather.injector.scopes.ActivityScope;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
 
+@ActivityScope
 public class SettingsPresenter implements SettingsContract.Presenter,
         SharedPreferences.OnSharedPreferenceChangeListener {
+
+    @Inject Application mApplication;
+    @Inject SharedPreferences mSharedPreferences;
 
     private SettingsContract.View mView;
 
@@ -31,8 +39,8 @@ public class SettingsPresenter implements SettingsContract.Presenter,
     }
 
     private void initialize() {
-        mView.setVersion(BuildConfig.VERSION_NAME);
-        mView.setFlavor(BuildConfig.FLAVOR);
+        mView.setVersionSummary(BuildConfig.VERSION_NAME);
+        mView.setFlavorSummary(BuildConfig.FLAVOR);
     }
 
     @Override
@@ -47,6 +55,6 @@ public class SettingsPresenter implements SettingsContract.Presenter,
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Timber.i("Preference %s changed.", key);
+        Timber.i("Preference %s changed to %s.", key, sharedPreferences.getString(key, mApplication.getString(R.string.weather_preference_default)));
     }
 }

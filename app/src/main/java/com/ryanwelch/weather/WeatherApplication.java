@@ -2,6 +2,7 @@ package com.ryanwelch.weather;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
@@ -9,6 +10,7 @@ import com.ryanwelch.weather.injector.components.ApplicationComponent;
 import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
 import com.ryanwelch.weather.injector.modules.ApplicationModule;
 import com.ryanwelch.weather.injector.modules.DebugModule;
+import com.ryanwelch.weather.injector.modules.NetModule;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -37,16 +39,25 @@ public class WeatherApplication extends Application {
             //TODO: Timber.plant(); Crash reporting logger?
         }
 
-        mApplicationComponent = prepareApplicationComponent().build();
-
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        buildApplicationComponent();
 
         Timber.i("Initialized app");
     }
 
-    protected DaggerApplicationComponent.Builder prepareApplicationComponent() {
-        return ApplicationComponentBuilder.build(this)
-                .debugModule(new DebugModule(mRefWatcher));
+    public void buildApplicationComponent() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        NetModule netModule = new NetModule(NetModule.DataSource.fromString(
+                preferences.getString(getString(R.string.weather_provider_key),
+                        getString(R.string.weather_preference_default))
+        ));
+
+        mApplicationComponent = ApplicationComponentBuilder.build(this)
+                .netModule(netModule)
+                .debugModule(new DebugModule(mRefWatcher))
+                .build();
     }
 
     public ApplicationComponent getApplicationComponent() {

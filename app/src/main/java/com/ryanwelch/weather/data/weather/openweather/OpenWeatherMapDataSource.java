@@ -1,5 +1,6 @@
 package com.ryanwelch.weather.data.weather.openweather;
 
+import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
@@ -13,6 +14,9 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public class OpenWeatherMapDataSource implements WeatherRemoteDataSource {
+
+    public static final String OPEN_WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    public static final String OPEN_WEATHER_API_KEY = BuildConfig.OPEN_WEATHER_API_TOKEN;
 
     private WeatherService mWeatherService;
 

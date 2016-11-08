@@ -1,6 +1,7 @@
 package com.ryanwelch.weather.injector.components;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
@@ -10,6 +11,7 @@ import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 import com.ryanwelch.weather.injector.modules.ApplicationModule;
+import com.ryanwelch.weather.injector.modules.DatabaseModule;
 import com.ryanwelch.weather.injector.modules.DebugModule;
 import com.ryanwelch.weather.injector.modules.NetModule;
 import com.ryanwelch.weather.injector.scopes.ApplicationScope;
@@ -21,7 +23,7 @@ import dagger.Component;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 
 @ApplicationScope
-@Component(modules = {ApplicationModule.class, NetModule.class, DebugModule.class})
+@Component(modules = {ApplicationModule.class, NetModule.class, DatabaseModule.class, DebugModule.class})
 public interface ApplicationComponent {
 
     void inject(BaseActivity activity);
@@ -29,6 +31,7 @@ public interface ApplicationComponent {
 
     //Exposes Application Context to any component which depends on this
     Context getContext();
+    SharedPreferences getSharedPreferences();
     ThreadExecutor getThreadExecutor();
     PostExecutionThread getPostExecutionThread();
 

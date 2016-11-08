@@ -8,15 +8,17 @@
 
 
     <string name="title_data_section">Data</string>
-    <string name="weather_provider_key">weather_provider</string>
     <string name="title_weather_provider">Weather provider</string>
     <string name="dialog_title_weather_provider">Choose weather provider</string>
 
     <string name="title_about_section">About</string>
-    <string name="version_preference_key">version</string>
     <string name="title_version_preference">Version</string>
-    <string name="flavor_preference_key">flavor</string>
     <string name="title_flavor_preference">Build Flavor</string>
     <string name="title_github_preference">GitHub</string>
     <string name="github_url">https://github.com/ryanwr/weather</string>
+
+    <string name="weather_provider_key">weather_provider</string>
+    <string name="weather_preference_default">apixu</string>
+    <string name="version_preference_key">version</string>
+    <string name="flavor_preference_key">flavor</string>
 </resources>

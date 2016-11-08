@@ -7,8 +7,11 @@ package com.ryanwelch.weather.ui.settingsscreen;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.view.View;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.injector.components.ActivityComponent;
@@ -16,12 +19,15 @@ import com.ryanwelch.weather.ui.BaseActivity;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class SettingsFragment extends PreferenceFragmentCompat implements SettingsContract.View {
 
     @Inject SettingsPresenter mSettingsPresenter;
 
     private Preference mVersionPreference;
     private Preference mFlavorPreference;
+    private ListPreference mListPreference;
     private SettingsListener mListener;
 
     public SettingsFragment() {}
@@ -41,6 +47,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Settin
     private void bindPreferences() {
         mVersionPreference = findPreference(getString(R.string.version_preference_key));
         mFlavorPreference = findPreference(getString(R.string.flavor_preference_key));
+        mListPreference = (ListPreference) findPreference(getString(R.string.weather_provider_key));
+    }
+
+    @Override
+    public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
+        mSettingsPresenter.setView(this);
     }
 
     @Override
@@ -62,12 +75,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Settin
     }
 
     @Override
-    public void setVersion(String version) {
+    public void setVersionSummary(String version) {
         mVersionPreference.setSummary(version);
     }
 
     @Override
-    public void setFlavor(String flavor) {
+    public void setFlavorSummary(String flavor) {
         mFlavorPreference.setSummary(flavor);
     }
 

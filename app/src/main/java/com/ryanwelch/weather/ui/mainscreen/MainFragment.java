@@ -34,8 +34,6 @@ public class MainFragment extends BaseFragment implements MainContract.View,
         SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
         RecyclerItemClickListener.OnItemClickListener {
 
-    private static final String TAG = "MainFragment";
-
     @Inject MainPresenter mMainPresenter;
 
     @BindView(R.id.weather_view) RecyclerView mRecyclerView;

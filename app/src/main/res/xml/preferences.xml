@@ -27,7 +27,8 @@
             android:dialogTitle="@string/dialog_title_weather_provider"
             android:entries="@array/weather_providers"
             android:entryValues="@array/weather_providers_values"
-            android:defaultValue="apixu"/>
+            android:defaultValue="@string/weather_preference_default"
+            android:summary="%s" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -15,9 +15,11 @@ import com.ryanwelch.weather.data.db.DbOpenHelper;
 import com.ryanwelch.weather.data.search.SearchRemoteDataSource;
 import com.ryanwelch.weather.data.search.SearchRepository;
 import com.ryanwelch.weather.data.weather.WeatherLocalDataSource;
+import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
 import com.ryanwelch.weather.data.weather.apixu.ApixuDataSource;
 import com.ryanwelch.weather.data.weather.WeatherRepository;
 import com.ryanwelch.weather.data.weather.darksky.DarkSkyDataSource;
+import com.ryanwelch.weather.data.weather.openweather.OpenWeatherMapDataSource;
 import com.ryanwelch.weather.domain.executor.PostExecutionThread;
 import com.ryanwelch.weather.domain.executor.ThreadExecutor;
 import com.ryanwelch.weather.domain.executor.UIThread;
@@ -40,25 +42,37 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetModule {
 
-    private static final String APIXU_BASE_URL = "http://api.apixu.com/v1/";
-    private static final String APIXU_API_KEY = BuildConfig.APIXU_API_TOKEN;
-    private static final String OPEN_WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/";
-    private static final String OPEN_WEATHER_API_KEY = BuildConfig.OPEN_WEATHER_API_TOKEN;
-    private static final String DARK_SKY_BASE_URL = "https://api.darksky.net/";
-    private static final String DARK_SKY_API_KEY = BuildConfig.DARK_SKY_API_TOKEN;
+    public enum DataSource {
+        APIXU("apixu"),
+        DARK_SKY("dark_sky"),
+        OPEN_WEATHER_MAP("open_weather_map");
 
-    public NetModule() {}
+        private String text;
 
-    @Provides
-    @ApplicationScope
-    ThreadExecutor provideThreadExecutor() {
-        return new ThreadExecutor();
+        DataSource(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return this.text;
+        }
+
+        public static DataSource fromString(String text) {
+            if (text != null) {
+                for (DataSource d : DataSource.values()) {
+                    if (text.equalsIgnoreCase(d.text)) {
+                        return d;
+                    }
+                }
+            }
+            throw new IllegalArgumentException("No constant with text " + text + " found");
+        }
     }
 
-    @Provides
-    @ApplicationScope
-    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
-        return uiThread;
+    private final DataSource mDataSource;
+
+    public NetModule(DataSource dataSource) {
+        mDataSource = dataSource;
     }
 
     @Provides
@@ -87,8 +101,8 @@ public class NetModule {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(APIXU_BASE_URL)
-                .client(createOkHTTPClient("key", APIXU_API_KEY))
+                .baseUrl(ApixuDataSource.APIXU_BASE_URL)
+                .client(createOkHTTPClient("key", ApixuDataSource.APIXU_API_KEY))
                 .build();
     }
 
@@ -99,8 +113,8 @@ public class NetModule {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(OPEN_WEATHER_BASE_URL)
-                .client(createOkHTTPClient("apikey", OPEN_WEATHER_API_KEY))
+                .baseUrl(OpenWeatherMapDataSource.OPEN_WEATHER_BASE_URL)
+                .client(createOkHTTPClient("apikey", OpenWeatherMapDataSource.OPEN_WEATHER_API_KEY))
                 .build();
     }
 
@@ -111,42 +125,39 @@ public class NetModule {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(DARK_SKY_BASE_URL)
+                .baseUrl(DarkSkyDataSource.DARK_SKY_BASE_URL)
                 .client(new OkHttpClient.Builder().build())
                 .build();
     }
 
     @Provides
     @ApplicationScope
-    SearchRepository provideSearchRepository(@Named("apixu") Retrofit retrofit) {
-        return new SearchRepository(new SearchRemoteDataSource(retrofit));
+    WeatherRemoteDataSource provideWeatherRemoteDataSource(@Named("apixu") Retrofit apixuRetrofit,
+                                                           @Named("openweather") Retrofit openweatherRetrofit,
+                                                           @Named("darksky") Retrofit darkskyRetrofit) {
+        switch(mDataSource) {
+            case APIXU:
+                return new ApixuDataSource(apixuRetrofit);
+            case OPEN_WEATHER_MAP:
+                return new OpenWeatherMapDataSource(openweatherRetrofit);
+            case DARK_SKY:
+                return new DarkSkyDataSource(darkskyRetrofit);
+            default:
+                return null;
+        }
     }
 
     @Provides
     @ApplicationScope
-    WeatherRepository provideWeatherRepository(@Named("apixu") Retrofit retrofit, StorIOSQLite storIOSQLite) {
-        return new WeatherRepository(new ApixuDataSource(retrofit),
+    WeatherRepository provideWeatherRepository(WeatherRemoteDataSource remoteDataSource,
+                                               StorIOSQLite storIOSQLite) {
+        return new WeatherRepository(remoteDataSource,
                 new WeatherLocalDataSource(storIOSQLite));
     }
 
     @Provides
     @ApplicationScope
-    SQLiteOpenHelper provideSQLiteOpenHelper(Context context) {
-        //context.deleteDatabase("weather_db");
-        return new DbOpenHelper(context);
-    }
-
-    @Provides
-    @ApplicationScope
-    StorIOSQLite provideStorIO(SQLiteOpenHelper openHelper) {
-        return DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(openHelper)
-                .addTypeMapping(Place.class, new PlaceSQLiteTypeMapping())
-                .addTypeMapping(CurrentWeather.class, SQLiteTypeMapping.<CurrentWeather>builder()
-                        .putResolver(CurrentWeatherTable.PUT_RESOLVER)
-                        .getResolver(CurrentWeatherTable.GET_RESOLVER)
-                        .deleteResolver(CurrentWeatherTable.DELETE_RESOLVER)
-                        .build())
-                .build();
+    SearchRepository provideSearchRepository(@Named("apixu") Retrofit retrofit) {
+        return new SearchRepository(new SearchRemoteDataSource(retrofit));
     }
 }

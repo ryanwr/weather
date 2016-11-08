@@ -4,6 +4,7 @@
 
 package com.ryanwelch.weather.data.weather.apixu;
 
+import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.domain.models.Place;
@@ -17,6 +18,9 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public class ApixuDataSource implements WeatherRemoteDataSource {
+
+    public static final String APIXU_BASE_URL = "http://api.apixu.com/v1/";
+    public static final String APIXU_API_KEY = BuildConfig.APIXU_API_TOKEN;
 
     private WeatherService mWeatherService;
 
