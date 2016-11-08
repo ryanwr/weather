@@ -7,8 +7,8 @@ package com.ryanwelch.weather.ui.settingsscreen;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v14.preference.PreferenceFragment;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.injector.components.ActivityComponent;
@@ -16,7 +16,7 @@ import com.ryanwelch.weather.ui.BaseActivity;
 
 import javax.inject.Inject;
 
-public class SettingsFragment extends PreferenceFragment implements SettingsContract.View {
+public class SettingsFragment extends PreferenceFragmentCompat implements SettingsContract.View {
 
     @Inject SettingsPresenter mSettingsPresenter;
 
