@@ -8,7 +8,7 @@
 
 
     <string name="title_data_section">Data</string>
-    <string name="wetaher_provider_key">weather_provider</string>
+    <string name="weather_provider_key">weather_provider</string>
     <string name="title_weather_provider">Weather provider</string>
     <string name="dialog_title_weather_provider">Choose weather provider</string>
 
