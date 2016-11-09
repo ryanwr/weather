@@ -38,6 +38,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 @Module
 public class NetModule {
@@ -135,6 +136,7 @@ public class NetModule {
     WeatherRemoteDataSource provideWeatherRemoteDataSource(@Named("apixu") Retrofit apixuRetrofit,
                                                            @Named("openweather") Retrofit openweatherRetrofit,
                                                            @Named("darksky") Retrofit darkskyRetrofit) {
+        Timber.i("Using %s data source.", mDataSource.toString());
         switch(mDataSource) {
             case APIXU:
                 return new ApixuDataSource(apixuRetrofit);

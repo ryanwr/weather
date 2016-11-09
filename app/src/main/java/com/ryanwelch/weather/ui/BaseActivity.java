@@ -25,10 +25,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
 
-        initializeInjector();
+        buildActivityComponent();
     }
 
-    private void initializeInjector() {
+    protected void buildActivityComponent() {
         mActivityComponent = DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
@@ -48,6 +48,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragmentTransaction.add(containerViewId, fragment);
         fragmentTransaction.commit();
     }
+
+    protected void replaceFragment(int containerViewId, Fragment fragment) {
+        FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerViewId, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     protected Navigator getNavigator() {
         return mNavigator;

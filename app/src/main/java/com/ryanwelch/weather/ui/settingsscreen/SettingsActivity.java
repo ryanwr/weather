@@ -17,7 +17,7 @@ import com.ryanwelch.weather.ui.mainscreen.MainFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity implements SettingsFragment.SettingsListener {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -41,5 +41,16 @@ public class SettingsActivity extends BaseActivity {
         if (savedInstanceState == null) {
             addFragment(R.id.content_frame, new SettingsFragment());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Bundle bundle = new Bundle();
+        //bundle.putString(FIELD_A, mA.getText().toString());
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+
+        super.onBackPressed();
     }
 }

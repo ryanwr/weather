@@ -1,5 +1,6 @@
 package com.ryanwelch.weather.injector.components;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -31,6 +32,7 @@ public interface ApplicationComponent {
 
     //Exposes Application Context to any component which depends on this
     Context getContext();
+    Application getApplication();
     SharedPreferences getSharedPreferences();
     ThreadExecutor getThreadExecutor();
     PostExecutionThread getPostExecutionThread();

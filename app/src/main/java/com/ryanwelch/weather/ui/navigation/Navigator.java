@@ -18,6 +18,8 @@ import javax.inject.Inject;
 
 public class Navigator {
 
+    public final static int REQUEST_SETTNGS = 100;
+
     @Inject
     public Navigator() {
 
@@ -30,10 +32,10 @@ public class Navigator {
         }
     }
 
-    public void navigateToSettings(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = SettingsActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
+    public void navigateToSettings(Activity activity) {
+        if (activity != null) {
+            Intent intentToLaunch = SettingsActivity.getCallingIntent(activity);
+            activity.startActivityForResult(intentToLaunch, REQUEST_SETTNGS);
         }
     }
 
