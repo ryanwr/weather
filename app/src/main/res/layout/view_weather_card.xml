@@ -47,14 +47,14 @@
                 android:layout_above="@+id/txt_feels_like"
                 android:textColor="@color/colorTextPrimaryLight"/>
 
-            <TextView
-                android:id="@+id/txt_feels_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Feels like 0°"
-                android:textSize="16sp"
-                android:layout_alignParentBottom="true"
-                android:textColor="@color/colorTextSecondaryLight"/>
+            <!--<TextView-->
+                <!--android:id="@+id/txt_feels_like"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Feels like 0°"-->
+                <!--android:textSize="16sp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:textColor="@color/colorTextSecondaryLight"/>-->
 
             <com.ryanwelch.weather.ui.components.WeatherIconView
                 android:id="@+id/weather_icon"

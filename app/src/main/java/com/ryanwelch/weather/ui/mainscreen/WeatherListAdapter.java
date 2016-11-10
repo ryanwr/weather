@@ -69,7 +69,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
             holder.mCondition.setTransitionName("weather_condition_" + holder.getTransitionId());
         }
         holder.mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());
-        holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLikeC)));
+//        holder.mFeelsLike.setText(String.format(mFeelsLikeFormat, (long) Math.round(data.feelsLikeC)));
         holder.mLocationName.setText(data.place.getName());
         holder.mTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperatureC)));
         holder.mWeatherIcon.setIcon(data.isDay ? data.weatherCondition.getIcon() : data.weatherCondition.getNightIcon());
@@ -113,7 +113,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         @BindView(R.id.txt_location) public TextView mLocationName;
         @BindView(R.id.txt_condition) public TextView mCondition;
         @BindView(R.id.txt_temperature) public TextView mTemperature;
-        @BindView(R.id.txt_feels_like) public TextView mFeelsLike;
+//        @BindView(R.id.txt_feels_like) public TextView mFeelsLike;
         @BindView(R.id.weather_icon) public WeatherIconView mWeatherIcon;
 
         private String mTransitionId;
