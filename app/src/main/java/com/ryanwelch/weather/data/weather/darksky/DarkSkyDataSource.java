@@ -7,11 +7,8 @@ package com.ryanwelch.weather.data.weather.darksky;
 
 import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
-import com.ryanwelch.weather.domain.models.WeatherCondition;
-
-import java.util.Date;
 
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
@@ -30,40 +27,40 @@ public class DarkSkyDataSource implements WeatherRemoteDataSource {
     }
 
     @Override
-    public Observable<CurrentWeather> getCurrentWeather(Place place) {
+    public Observable<Weather> getCurrentWeather(Place place) {
         return mWeatherService.getCurrentWeather(String.valueOf(place.getLatitude()),
                 String.valueOf(place.getLongitude()))
                 .map(this::transform);
     }
 
-    private CurrentWeather transform(DarkSkyWeatherResponse weatherResponse) {
+    private Weather transform(DarkSkyWeatherResponse weatherResponse) {
         if(weatherResponse == null) return null;
 
-        CurrentWeather currentWeather = new CurrentWeather();
-//        currentWeather.place = weatherResponse.place;
-//        //currentWeather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
-//        currentWeather.updateTime = new Date();
-//        currentWeather.temperatureC = weatherResponse.current.tempC;
-//        currentWeather.feelsLikeC = weatherResponse.current.feelsLikeC;
-//        currentWeather.pressure = weatherResponse.current.pressureMb;
-//        currentWeather.humidity = weatherResponse.current.humidity;
-//        currentWeather.windSpeed = weatherResponse.current.windKph;
-//        currentWeather.windDegree = weatherResponse.current.windDegree;
-//        currentWeather.windDirection = weatherResponse.current.windDir;
-//        currentWeather.isDay = weatherResponse.current.isDay != 0;
-//        currentWeather.precipitation = weatherResponse.current.precipMm;
-//        currentWeather.snow = 0;
-//        currentWeather.cloud = weatherResponse.current.cloud;
-//        currentWeather.sunriseTime = new Date();
-//        currentWeather.sunsetTime = new Date();
+        Weather weather = new Weather();
+//        weather.place = weatherResponse.place;
+//        //weather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
+//        weather.updateTime = new Date();
+//        weather.temperatureC = weatherResponse.current.tempC;
+//        weather.feelsLikeC = weatherResponse.current.feelsLikeC;
+//        weather.pressure = weatherResponse.current.pressureMb;
+//        weather.humidity = weatherResponse.current.humidity;
+//        weather.windSpeed = weatherResponse.current.windKph;
+//        weather.windDegree = weatherResponse.current.windDegree;
+//        weather.windDirection = weatherResponse.current.windDir;
+//        weather.isDay = weatherResponse.current.isDay != 0;
+//        weather.precipitation = weatherResponse.current.precipMm;
+//        weather.snow = 0;
+//        weather.cloud = weatherResponse.current.cloud;
+//        weather.sunriseTime = new Date();
+//        weather.sunsetTime = new Date();
 //
 //        switch (weatherResponse.current.condition.code) {
 //
 //            default:
-//                currentWeather.weatherCondition = WeatherCondition.SUNNY;
+//                weather.weatherCondition = WeatherCondition.SUNNY;
 //        }
 
-        return currentWeather;
+        return weather;
     }
 
     interface WeatherService {

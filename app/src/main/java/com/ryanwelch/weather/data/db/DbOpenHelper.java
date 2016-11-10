@@ -8,8 +8,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
-
 public class DbOpenHelper extends SQLiteOpenHelper {
 
     public static final int DB_VERSION = 1;

@@ -1,6 +1,6 @@
 package com.ryanwelch.weather.ui.mainscreen;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BasePresenter;
 
@@ -25,9 +25,9 @@ public class MainContract {
 
         void showDismissNotification(Place place);
 
-        void showWeather(List<CurrentWeather> weatherList);
+        void showWeather(List<Weather> weatherList);
 
-        void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
+        void showDetail(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
 
         int getAdapterItemCount();
     }
@@ -37,9 +37,9 @@ public class MainContract {
 
         void onUndoDismiss(Place place);
 
-        void onItemDismiss(CurrentWeather weather);
+        void onItemDismiss(Weather weather);
 
-        void onItemSelected(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
+        void onItemSelected(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
     }
 
 }

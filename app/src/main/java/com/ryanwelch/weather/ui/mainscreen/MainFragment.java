@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.helpers.RecyclerItemClickListener;
@@ -28,7 +28,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MainFragment extends BaseFragment implements MainContract.View,
         SwipeRefreshLayout.OnRefreshListener, WeatherListAdapter.Callback,
@@ -122,12 +121,12 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void showWeather(List<CurrentWeather> weatherList) {
+    public void showWeather(List<Weather> weatherList) {
         mWeatherListAdapter.replaceData(weatherList);
     }
 
     @Override
-    public void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+    public void showDetail(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
         mListener.showDetail(weather, viewHolder);
     }
 
@@ -192,7 +191,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,
     }
 
     @Override
-    public void onItemDismiss(CurrentWeather weather) {
+    public void onItemDismiss(Weather weather) {
         mMainPresenter.onItemDismiss(weather);
     }
 
@@ -205,6 +204,6 @@ public class MainFragment extends BaseFragment implements MainContract.View,
      * Interface for listening to MainFragment events
      */
     public interface MainListener {
-        void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
+        void showDetail(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder);
     }
 }

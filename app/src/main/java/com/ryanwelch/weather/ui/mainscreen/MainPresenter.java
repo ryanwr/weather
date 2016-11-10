@@ -6,7 +6,7 @@ import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherFactory;
 import com.ryanwelch.weather.domain.interactors.Interactor;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.injector.scopes.ActivityScope;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onNext(Object o) {
-                List<CurrentWeather> data = (List<CurrentWeather>) o;
+                List<Weather> data = (List<Weather>) o;
                 if(data.isEmpty()) {
                     isEmpty = true;
                 } else {
@@ -119,7 +119,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onItemDismiss(CurrentWeather weather) {
+    public void onItemDismiss(Weather weather) {
         Interactor interactor = mDeletePlaceFactory.get(weather.place);
         interactor.execute(new Subscriber() {
             @Override
@@ -143,7 +143,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onItemSelected(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+    public void onItemSelected(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
         mView.showDetail(weather, viewHolder);
     }
 }

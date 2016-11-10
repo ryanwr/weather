@@ -4,7 +4,7 @@ import com.ryanwelch.weather.domain.interactors.DeletePlaceFactory;
 import com.ryanwelch.weather.domain.interactors.DeletePlaceInteractor;
 import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherFactory;
 import com.ryanwelch.weather.domain.interactors.GetCurrentWeatherInteractor;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.domain.models.WeatherCondition;
 
@@ -25,10 +25,10 @@ import static org.mockito.Mockito.verify;
 
 public class MainPresenterTest {
 
-    private static final CurrentWeather DEFAULT_WEATHER;
+    private static final Weather DEFAULT_WEATHER;
 
     static {
-        DEFAULT_WEATHER = new CurrentWeather();
+        DEFAULT_WEATHER = new Weather();
         DEFAULT_WEATHER.place = new Place("London", "London", "United Kingdom", 0, 0);
         DEFAULT_WEATHER.isDay = true;
         DEFAULT_WEATHER.weatherCondition = WeatherCondition.SUNNY;
@@ -62,7 +62,7 @@ public class MainPresenterTest {
         verify(mGetCurrentWeatherInteractor).execute(mSubscriber.capture());
 
         // When the weather is loaded
-        ArrayList<CurrentWeather> data = new ArrayList();
+        ArrayList<Weather> data = new ArrayList();
         data.add(DEFAULT_WEATHER);
         mSubscriber.getValue().onNext(data);
         mSubscriber.getValue().onCompleted();

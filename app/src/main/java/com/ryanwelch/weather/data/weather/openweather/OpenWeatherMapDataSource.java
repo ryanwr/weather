@@ -2,7 +2,7 @@ package com.ryanwelch.weather.data.weather.openweather;
 
 import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.domain.models.WeatherCondition;
 
@@ -25,33 +25,33 @@ public class OpenWeatherMapDataSource implements WeatherRemoteDataSource {
     }
 
     @Override
-    public Observable<CurrentWeather> getCurrentWeather(Place place) {
+    public Observable<Weather> getCurrentWeather(Place place) {
         return mWeatherService.getCurrentWeather(place.getLatitude(), place.getLongitude())
                 .map((weather) -> this.transform(weather, place));
     }
 
-    private CurrentWeather transform(OpenWeatherResponse weatherResponse, Place place) {
+    private Weather transform(OpenWeatherResponse weatherResponse, Place place) {
         if(weatherResponse == null) return null;
 
-        CurrentWeather currentWeather = new CurrentWeather();
-        currentWeather.place = place;
-        //currentWeather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
-        currentWeather.updateTime = new Date();
-        currentWeather.temperatureC = weatherResponse.main.temperature;
+        Weather weather = new Weather();
+        weather.place = place;
+        //weather.updateTime = new Date(weatherResponse.current.lastUpdatedEpoch * 1000);
+        weather.updateTime = new Date();
+        weather.temperatureC = weatherResponse.main.temperature;
         // TODO: No feels like? :(
-        currentWeather.feelsLikeC = weatherResponse.main.temperature;
-        currentWeather.pressure = weatherResponse.main.pressure;
-        currentWeather.humidity = weatherResponse.main.humidity;
-        currentWeather.windSpeed = weatherResponse.wind.speed;
-        currentWeather.windDegree = weatherResponse.wind.deg;
-        currentWeather.windDirection = "N/A";
-        currentWeather.isDay = true;
-        currentWeather.precipitation = weatherResponse.rain.volume.doubleValue();
-        currentWeather.snow = weatherResponse.snow.volume;
-        currentWeather.cloud = weatherResponse.clouds.coverage;
-        currentWeather.sunriseTime = new Date(weatherResponse.sys.sunrise * 1000);
-        currentWeather.sunsetTime = new Date(weatherResponse.sys.sunset * 1000);
-        currentWeather.weatherCondition = WeatherCondition.SUNNY;
+        weather.feelsLikeC = weatherResponse.main.temperature;
+        weather.pressure = weatherResponse.main.pressure;
+        weather.humidity = weatherResponse.main.humidity;
+        weather.windSpeed = weatherResponse.wind.speed;
+        weather.windDegree = weatherResponse.wind.deg;
+        weather.windDirection = "N/A";
+        weather.isDay = true;
+        weather.precipitation = weatherResponse.rain.volume.doubleValue();
+        weather.snow = weatherResponse.snow.volume;
+        weather.cloud = weatherResponse.clouds.coverage;
+        weather.sunriseTime = new Date(weatherResponse.sys.sunrise * 1000);
+        weather.sunsetTime = new Date(weatherResponse.sys.sunset * 1000);
+        weather.weatherCondition = WeatherCondition.SUNNY;
 
         if(weatherResponse.weather.size() > 0) {
             Integer weatherId = weatherResponse.weather.get(0).id;
@@ -59,128 +59,128 @@ public class OpenWeatherMapDataSource implements WeatherRemoteDataSource {
             switch (weatherId) {
                 case 200:
                 case 230:
-                    currentWeather.weatherCondition = WeatherCondition.CHANCE_OF_STORM;
+                    weather.weatherCondition = WeatherCondition.CHANCE_OF_STORM;
                     break;
                 case 201:
                 case 202:
                 case 231:
                 case 232:
-                    currentWeather.weatherCondition = WeatherCondition.STORM;
+                    weather.weatherCondition = WeatherCondition.STORM;
                     break;
                 case 210:
-                    currentWeather.weatherCondition = WeatherCondition.CHANCE_OF_THUNDERSTORM;
+                    weather.weatherCondition = WeatherCondition.CHANCE_OF_THUNDERSTORM;
                     break;
                 case 211:
                 case 212:
                 case 221:
-                    currentWeather.weatherCondition = WeatherCondition.THUNDERSTORMS;
+                    weather.weatherCondition = WeatherCondition.THUNDERSTORMS;
                     break;
 
                 case 300:
                 case 310:
-                    currentWeather.weatherCondition = WeatherCondition.LIGHT_DRIZZLE;
+                    weather.weatherCondition = WeatherCondition.LIGHT_DRIZZLE;
                     break;
                 case 301:
                 case 302:
                 case 311:
                 case 312:
-                    currentWeather.weatherCondition = WeatherCondition.DRIZZLE;
+                    weather.weatherCondition = WeatherCondition.DRIZZLE;
                     break;
                 case 313:
                 case 314:
                 case 321:
-                    currentWeather.weatherCondition = WeatherCondition.DRIZZLE_SHOWERS;
+                    weather.weatherCondition = WeatherCondition.DRIZZLE_SHOWERS;
                     break;
 
                 case 500:
-                    currentWeather.weatherCondition = WeatherCondition.CHANCE_OF_RAIN;
+                    weather.weatherCondition = WeatherCondition.CHANCE_OF_RAIN;
                     break;
                 case 501:
-                    currentWeather.weatherCondition = WeatherCondition.LIGHT_RAIN;
+                    weather.weatherCondition = WeatherCondition.LIGHT_RAIN;
                     break;
                 case 502:
                 case 503:
                 case 504:
-                    currentWeather.weatherCondition = WeatherCondition.RAIN;
+                    weather.weatherCondition = WeatherCondition.RAIN;
                     break;
                 case 511:
-                    currentWeather.weatherCondition = WeatherCondition.FREEZING_RAIN;
+                    weather.weatherCondition = WeatherCondition.FREEZING_RAIN;
                     break;
                 case 520:
-                    currentWeather.weatherCondition = WeatherCondition.SCATTERED_SHOWERS;
+                    weather.weatherCondition = WeatherCondition.SCATTERED_SHOWERS;
                     break;
                 case 521:
                 case 522:
                 case 531:
-                    currentWeather.weatherCondition = WeatherCondition.SHOWERS;
+                    weather.weatherCondition = WeatherCondition.SHOWERS;
                     break;
 
                 case 600:
-                    currentWeather.weatherCondition = WeatherCondition.LIGHT_SNOW;
+                    weather.weatherCondition = WeatherCondition.LIGHT_SNOW;
                     break;
                 case 601:
                 case 602:
                 case 615:
                 case 616:
-                    currentWeather.weatherCondition = WeatherCondition.SNOW;
+                    weather.weatherCondition = WeatherCondition.SNOW;
                     break;
                 case 620:
                 case 621:
                 case 622:
-                    currentWeather.weatherCondition = WeatherCondition.SNOW_SHOWERS;
+                    weather.weatherCondition = WeatherCondition.SNOW_SHOWERS;
                     break;
                 case 611:
-                    currentWeather.weatherCondition = WeatherCondition.SLEET;
+                    weather.weatherCondition = WeatherCondition.SLEET;
                     break;
                 case 612:
-                    currentWeather.weatherCondition = WeatherCondition.SLEET_SHOWERS;
+                    weather.weatherCondition = WeatherCondition.SLEET_SHOWERS;
                     break;
 
                 case 701:
-                    currentWeather.weatherCondition = WeatherCondition.MIST;
+                    weather.weatherCondition = WeatherCondition.MIST;
                     break;
                 case 711:
                 case 762:
-                    currentWeather.weatherCondition = WeatherCondition.SMOKE;
+                    weather.weatherCondition = WeatherCondition.SMOKE;
                     break;
                 case 721:
-                    currentWeather.weatherCondition = WeatherCondition.HAZE;
+                    weather.weatherCondition = WeatherCondition.HAZE;
                     break;
                 case 741:
-                    currentWeather.weatherCondition = WeatherCondition.FOG;
+                    weather.weatherCondition = WeatherCondition.FOG;
                     break;
                 case 731:
                 case 751:
                 case 761:
-                    currentWeather.weatherCondition = WeatherCondition.DUST;
+                    weather.weatherCondition = WeatherCondition.DUST;
                     break;
 
                 // 771, 781
 
                 case 800:
-                    currentWeather.weatherCondition = WeatherCondition.SUNNY;
+                    weather.weatherCondition = WeatherCondition.SUNNY;
                     break;
                 case 801:
-                    currentWeather.weatherCondition = WeatherCondition.MOSTLY_SUNNY;
+                    weather.weatherCondition = WeatherCondition.MOSTLY_SUNNY;
                     break;
                 case 802:
-                    currentWeather.weatherCondition = WeatherCondition.PARTLY_CLOUDY;
+                    weather.weatherCondition = WeatherCondition.PARTLY_CLOUDY;
                     break;
                 case 803:
-                    currentWeather.weatherCondition = WeatherCondition.MOSTLY_CLOUDY;
+                    weather.weatherCondition = WeatherCondition.MOSTLY_CLOUDY;
                     break;
                 case 804:
-                    currentWeather.weatherCondition = WeatherCondition.CLOUDY;
+                    weather.weatherCondition = WeatherCondition.CLOUDY;
                     break;
 
                 // 9xx
 
                 default:
-                    currentWeather.weatherCondition = WeatherCondition.SUNNY;
+                    weather.weatherCondition = WeatherCondition.SUNNY;
             }
         }
 
-        return currentWeather;
+        return weather;
 
     }
 

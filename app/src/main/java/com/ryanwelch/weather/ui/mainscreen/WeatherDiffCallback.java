@@ -3,16 +3,16 @@ package com.ryanwelch.weather.ui.mainscreen;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 
 import java.util.List;
 
 public class WeatherDiffCallback extends DiffUtil.Callback {
 
-    private final List<CurrentWeather> mOldList;
-    private final List<CurrentWeather> mNewList;
+    private final List<Weather> mOldList;
+    private final List<Weather> mNewList;
 
-    public WeatherDiffCallback(List<CurrentWeather> oldList, List<CurrentWeather> newList) {
+    public WeatherDiffCallback(List<Weather> oldList, List<Weather> newList) {
         mOldList = oldList;
         mNewList = newList;
     }
@@ -34,8 +34,8 @@ public class WeatherDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        final CurrentWeather oldItem = mOldList.get(oldItemPosition);
-        final CurrentWeather newItem = mNewList.get(newItemPosition);
+        final Weather oldItem = mOldList.get(oldItemPosition);
+        final Weather newItem = mNewList.get(newItemPosition);
 
         return oldItem.weatherCondition == newItem.weatherCondition;
     }

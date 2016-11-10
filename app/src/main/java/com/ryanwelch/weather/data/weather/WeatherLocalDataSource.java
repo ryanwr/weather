@@ -7,10 +7,8 @@ package com.ryanwelch.weather.data.weather;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.Query;
 import com.ryanwelch.weather.data.db.CurrentWeatherTable;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
-
-import java.util.List;
 
 import rx.Observable;
 import timber.log.Timber;
@@ -24,11 +22,11 @@ public class WeatherLocalDataSource implements WeatherDataSource {
     }
 
     @Override
-    public Observable<CurrentWeather> getCurrentWeather(Place place) {
+    public Observable<Weather> getCurrentWeather(Place place) {
         Timber.d("LOCAL: getCurrentWeather(): %s", place.getName());
         return mStorIOSQLite
                 .get()
-                .object(CurrentWeather.class)
+                .object(Weather.class)
                 .withQuery(
                         Query.builder()
                                 .table(CurrentWeatherTable.TABLE)
@@ -41,11 +39,11 @@ public class WeatherLocalDataSource implements WeatherDataSource {
                 .take(1);
     }
 
-    public Observable<Void> setCurrentWeather(CurrentWeather currentWeather) {
-        Timber.d("LOCAL: setCurrentWeather(): %s", currentWeather.place.getName());
+    public Observable<Void> setCurrentWeather(Weather weather) {
+        Timber.d("LOCAL: setCurrentWeather(): %s", weather.place.getName());
         return mStorIOSQLite
                 .put()
-                .object(currentWeather)
+                .object(weather)
                 .prepare()
                 .asRxObservable()
                 .take(1)

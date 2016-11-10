@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperAdapter;
 import com.ryanwelch.weather.ui.helpers.ItemTouchHelperViewHolder;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
@@ -29,10 +29,10 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
     private String mTemperatureFormat;
     private String mFeelsLikeFormat;
-    private List<CurrentWeather> mItems = new ArrayList<>();
+    private List<Weather> mItems = new ArrayList<>();
     private Callback mCallback;
 
-    public WeatherListAdapter(Context context, ArrayList<CurrentWeather> items, Callback callback) {
+    public WeatherListAdapter(Context context, ArrayList<Weather> items, Callback callback) {
         replaceData(items);
         mTemperatureFormat = context.getResources().getString(R.string.temperature_format);
         mFeelsLikeFormat = context.getResources().getString(R.string.feels_like_format);
@@ -52,7 +52,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
 
     @Override
     public void onBindViewHolder(final WeatherItemViewHolder holder, int position) {
-        CurrentWeather data = mItems.get(position);
+        Weather data = mItems.get(position);
 
         holder.mCardView.setCardBackgroundColor(
                 ContextCompat.getColor(
@@ -75,7 +75,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         holder.mWeatherIcon.setIcon(data.isDay ? data.weatherCondition.getIcon() : data.weatherCondition.getNightIcon());
     }
 
-    public void replaceData(List<CurrentWeather> items) {
+    public void replaceData(List<Weather> items) {
         final WeatherDiffCallback diffCallback = new WeatherDiffCallback(mItems, items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
@@ -84,7 +84,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
         diffResult.dispatchUpdatesTo(this);
     }
 
-    public CurrentWeather getItemAt(int position) {
+    public Weather getItemAt(int position) {
         return mItems.get(position);
     }
 
@@ -143,7 +143,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherListAdapter.
     }
 
     public interface Callback {
-        void onItemDismiss(CurrentWeather weather);
+        void onItemDismiss(Weather weather);
     }
 
 }

@@ -4,14 +4,14 @@
 
 package com.ryanwelch.weather.ui.detailscreen;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 
 import javax.inject.Inject;
 
 public class DetailPresenter implements DetailContract.Presenter {
 
     private DetailContract.View mView;
-    private CurrentWeather mWeather;
+    private Weather mWeather;
 
     @Inject
     public DetailPresenter() {}
@@ -22,8 +22,13 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void setData(CurrentWeather weather) {
+    public void setData(Weather weather) {
         mWeather = weather;
+    }
+
+    @Override
+    public Weather getData() {
+        return mWeather;
     }
 
     @Override

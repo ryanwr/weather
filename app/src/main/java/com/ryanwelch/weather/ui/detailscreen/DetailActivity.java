@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.ui.BaseActivity;
 
 import butterknife.BindView;
@@ -22,7 +22,7 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    public static Intent getCallingIntent(Context context, CurrentWeather weather, String transitionName) {
+    public static Intent getCallingIntent(Context context, Weather weather, String transitionName) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_DATA, weather);
         intent.putExtra(EXTRA_TRANSITION_NAME, transitionName);
@@ -48,7 +48,7 @@ public class DetailActivity extends BaseActivity {
         }
 
         Intent intent = this.getIntent();
-        CurrentWeather weather = intent.getParcelableExtra(EXTRA_DATA);
+        Weather weather = intent.getParcelableExtra(EXTRA_DATA);
         String transitionName = intent.getStringExtra(EXTRA_TRANSITION_NAME);
 
         if (savedInstanceState == null) {

@@ -1,6 +1,6 @@
 package com.ryanwelch.weather.data.weather;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.Date;
@@ -23,7 +23,7 @@ public class WeatherRepository implements WeatherDataSource {
     }
 
     @Override
-    public Observable<CurrentWeather> getCurrentWeather(Place place) {
+    public Observable<Weather> getCurrentWeather(Place place) {
         // TODO: Fallback to whatever local data we have (i.e. no filtering) if network not available
         return mWeatherLocalDataSource.getCurrentWeather(place)
                 .filter(

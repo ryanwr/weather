@@ -8,7 +8,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.ui.detailscreen.DetailActivity;
 import com.ryanwelch.weather.ui.mainscreen.WeatherListAdapter;
 import com.ryanwelch.weather.ui.searchscreen.SearchActivity;
@@ -39,7 +39,7 @@ public class Navigator {
         }
     }
 
-    public void navigateToDetail(Activity activity, CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+    public void navigateToDetail(Activity activity, Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
         if (activity != null) {
             Intent intentToLaunch = DetailActivity.getCallingIntent(activity, weather, viewHolder.getTransitionId());
 

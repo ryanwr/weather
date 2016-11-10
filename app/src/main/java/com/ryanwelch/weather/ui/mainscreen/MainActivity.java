@@ -2,16 +2,13 @@ package com.ryanwelch.weather.ui.mainscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.WeatherApplication;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
-import com.ryanwelch.weather.injector.components.ActivityComponent;
-import com.ryanwelch.weather.injector.components.DaggerActivityComponent;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.ui.BaseActivity;
 import com.ryanwelch.weather.ui.navigation.Navigator;
 
@@ -50,7 +47,7 @@ public class MainActivity extends BaseActivity implements MainFragment.MainListe
     }
 
     @Override
-    public void showDetail(CurrentWeather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
+    public void showDetail(Weather weather, WeatherListAdapter.WeatherItemViewHolder viewHolder) {
         getNavigator().navigateToDetail(this, weather, viewHolder);
     }
 

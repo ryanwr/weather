@@ -22,14 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ryanwelch.weather.R;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
 import com.ryanwelch.weather.ui.helpers.ScaleCircleNavigator;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator;
 
 import javax.inject.Inject;
 
@@ -64,7 +63,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     private DetailPagerAdapter mDetailPagerAdapter;
     private ScaleCircleNavigator mCircleNavigator;
 
-    public static DetailFragment newInstance(CurrentWeather weather, String transitionId) {
+    public static DetailFragment newInstance(Weather weather, String transitionId) {
         DetailFragment fragment = new DetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_DATA, weather);
@@ -122,7 +121,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     }
 
     private void setupViewPager() {
-        mDetailPagerAdapter = new DetailPagerAdapter(getChildFragmentManager());
+        mDetailPagerAdapter = new DetailPagerAdapter(getChildFragmentManager(), mDetailPresenter.getData());
         mViewPager.setAdapter(mDetailPagerAdapter);
         mCircleNavigator = new ScaleCircleNavigator(getContext());
         mCircleNavigator.setCircleCount(mDetailPagerAdapter.getCount());
@@ -154,7 +153,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     }
 
     @Override
-    public void showData(CurrentWeather data) {
+    public void showData(Weather data) {
         int color = ContextCompat.getColor(getContext(), data.weatherCondition.getIcon().getColor());
         mMainLayout.setBackgroundColor(color);
         mToolbar.setBackgroundColor(color);
@@ -191,21 +190,24 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
         private static int NUM_ITEMS = 3;
 
-        public DetailPagerAdapter(FragmentManager fm) {
+        private Weather mWeatherData;
+
+        public DetailPagerAdapter(FragmentManager fm, Weather weather) {
             super(fm);
+            mWeatherData = weather;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return DetailForecastFragment.newInstance();
+                    return DetailForecastFragment.newInstance(mWeatherData);
                 case 1: // Fragment # 0 - This will show FirstFragment different title
                     //return FirstFragment.newInstance(1, "Page # 2");
-                    return DetailForecastFragment.newInstance();
+                    return DetailForecastFragment.newInstance(mWeatherData);
                 case 2: // Fragment # 1 - This will show SecondFragment
                     //return SecondFragment.newInstance(2, "Page # 3");
-                    return DetailForecastFragment.newInstance();
+                    return DetailForecastFragment.newInstance(mWeatherData);
                 default:
                     return null;
             }

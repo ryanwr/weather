@@ -6,9 +6,11 @@ import android.os.Parcelable;
 
 import com.ryanwelch.weather.data.db.CurrentWeatherTable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class CurrentWeather implements Parcelable {
+public class Weather implements Parcelable {
 
     public Integer id;
 
@@ -48,9 +50,11 @@ public class CurrentWeather implements Parcelable {
 
     public Integer cloud;
 
-    public CurrentWeather() {}
+    public List<WeatherData> daily = new ArrayList<>();
 
-    public CurrentWeather(Parcel source) {
+    public Weather() {}
+
+    public Weather(Parcel source) {
         this.place = source.readParcelable(Place.class.getClassLoader());
         this.updateTime = new Date();
         this.updateTime.setTime(source.readLong());
@@ -70,6 +74,7 @@ public class CurrentWeather implements Parcelable {
         this.precipitation = source.readDouble();
         this.snow = source.readInt();
         this.cloud = source.readInt();
+        source.readTypedList(daily, WeatherData.CREATOR);
     }
 
     @Override
@@ -95,17 +100,18 @@ public class CurrentWeather implements Parcelable {
         parcel.writeDouble(precipitation);
         parcel.writeInt(snow);
         parcel.writeInt(cloud);
+        parcel.writeTypedList(daily);
     }
 
-    public static final Parcelable.Creator<CurrentWeather> CREATOR = new Parcelable.Creator<CurrentWeather>() {
+    public static final Parcelable.Creator<Weather> CREATOR = new Parcelable.Creator<Weather>() {
         @Override
-        public CurrentWeather createFromParcel(Parcel in) {
-            return new CurrentWeather(in);
+        public Weather createFromParcel(Parcel in) {
+            return new Weather(in);
         }
 
         @Override
-        public CurrentWeather[] newArray(int size) {
-            return new CurrentWeather[size];
+        public Weather[] newArray(int size) {
+            return new Weather[size];
         }
     };
 

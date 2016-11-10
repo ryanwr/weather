@@ -18,7 +18,7 @@ import com.pushtorefresh.storio.sqlite.queries.DeleteQuery;
 import com.pushtorefresh.storio.sqlite.queries.InsertQuery;
 import com.pushtorefresh.storio.sqlite.queries.Query;
 import com.pushtorefresh.storio.sqlite.queries.UpdateQuery;
-import com.ryanwelch.weather.domain.models.CurrentWeather;
+import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.domain.models.WeatherCondition;
 
@@ -126,10 +126,10 @@ public class CurrentWeatherTable {
     }
 
     @NonNull
-    public static final PutResolver<CurrentWeather> PUT_RESOLVER = new DefaultPutResolver<CurrentWeather>() {
+    public static final PutResolver<Weather> PUT_RESOLVER = new DefaultPutResolver<Weather>() {
         @NonNull
         @Override
-        protected InsertQuery mapToInsertQuery(@NonNull CurrentWeather object) {
+        protected InsertQuery mapToInsertQuery(@NonNull Weather object) {
             return InsertQuery.builder()
                     .table(TABLE)
                     .build();
@@ -137,7 +137,7 @@ public class CurrentWeatherTable {
 
         @NonNull
         @Override
-        protected UpdateQuery mapToUpdateQuery(@NonNull CurrentWeather object) {
+        protected UpdateQuery mapToUpdateQuery(@NonNull Weather object) {
             return UpdateQuery.builder()
                     .table(TABLE)
                     .where(COLUMN_LATITUDE + " = ? AND " + COLUMN_LONGITUDE + " = ? ")
@@ -147,17 +147,17 @@ public class CurrentWeatherTable {
 
         @NonNull
         @Override
-        protected ContentValues mapToContentValues(@NonNull CurrentWeather object) {
+        protected ContentValues mapToContentValues(@NonNull Weather object) {
             return object.asContentValues();
         }
     };
 
     @NonNull
-    public static final GetResolver<CurrentWeather> GET_RESOLVER = new DefaultGetResolver<CurrentWeather>() {
+    public static final GetResolver<Weather> GET_RESOLVER = new DefaultGetResolver<Weather>() {
         @NonNull
         @Override
-        public CurrentWeather mapFromCursor(@NonNull Cursor cursor) {
-            CurrentWeather object = new CurrentWeather();
+        public Weather mapFromCursor(@NonNull Cursor cursor) {
+            Weather object = new Weather();
 
             object.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
             object.place = new Place(
@@ -188,10 +188,10 @@ public class CurrentWeatherTable {
     };
 
     @NonNull
-    public static final DeleteResolver<CurrentWeather> DELETE_RESOLVER = new DefaultDeleteResolver<CurrentWeather>() {
+    public static final DeleteResolver<Weather> DELETE_RESOLVER = new DefaultDeleteResolver<Weather>() {
         @NonNull
         @Override
-        public DeleteQuery mapToDeleteQuery(@NonNull CurrentWeather object) {
+        public DeleteQuery mapToDeleteQuery(@NonNull Weather object) {
             return DeleteQuery.builder()
                     .table(TABLE)
                     .where(COLUMN_LATITUDE + " = ? AND " + COLUMN_LONGITUDE + " = ? ")
