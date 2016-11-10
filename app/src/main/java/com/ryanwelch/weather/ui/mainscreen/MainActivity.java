@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity implements MainFragment.MainListe
 
         setSupportActionBar(mToolbar);
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setTitle("Places");
+        getSupportActionBar().setTitle(getString(R.string.title_places));
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setIcon(R.drawable.ic_add_white);
 

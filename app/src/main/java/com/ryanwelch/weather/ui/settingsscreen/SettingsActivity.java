@@ -34,7 +34,7 @@ public class SettingsActivity extends BaseActivity implements SettingsFragment.S
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(getString(R.string.title_settings));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -27,7 +27,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Settin
 
     private Preference mVersionPreference;
     private Preference mFlavorPreference;
-    private ListPreference mListPreference;
+    private ListPreference mWeatherProviderPreference;
+    private ListPreference mUnitPreference;
     private SettingsListener mListener;
 
     public SettingsFragment() {}
@@ -47,7 +48,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Settin
     private void bindPreferences() {
         mVersionPreference = findPreference(getString(R.string.version_preference_key));
         mFlavorPreference = findPreference(getString(R.string.flavor_preference_key));
-        mListPreference = (ListPreference) findPreference(getString(R.string.weather_provider_key));
+        mWeatherProviderPreference = (ListPreference) findPreference(getString(R.string.weather_provider_preference_key));
+        mUnitPreference = (ListPreference) findPreference(getString(R.string.unit_preference_key));
     }
 
     @Override

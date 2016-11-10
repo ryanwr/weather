@@ -6,10 +6,15 @@
     <string name="no_places">No weather data</string>
     <string name="no_places_description">You have no places yet. Tap below to add a place</string>
 
+    <string name="title_places">Places</string>
+    <string name="title_settings">Settings</string>
 
+    <!--Preferences-->
     <string name="title_data_section">Data</string>
-    <string name="title_weather_provider">Weather provider</string>
-    <string name="dialog_title_weather_provider">Choose weather provider</string>
+    <string name="title_weather_provider_preference">Weather provider</string>
+    <string name="dialog_title_weather_provider_preference">Choose weather provider</string>
+    <string name="title_unit_preference">Units</string>
+    <string name="dialog_title_unit_preference">Choose units</string>
 
     <string name="title_about_section">About</string>
     <string name="title_version_preference">Version</string>
@@ -17,8 +22,10 @@
     <string name="title_github_preference">GitHub</string>
     <string name="github_url">https://github.com/ryanwr/weather</string>
 
-    <string name="weather_provider_key">weather_provider</string>
-    <string name="weather_preference_default">apixu</string>
+    <string name="weather_provider_preference_key">weather_provider</string>
+    <string name="weather_provider_preference_default">apixu</string>
+    <string name="unit_preference_key">units</string>
+    <string name="unit_preference_default">imperial</string>
     <string name="version_preference_key">version</string>
     <string name="flavor_preference_key">flavor</string>
 </resources>

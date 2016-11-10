@@ -22,13 +22,23 @@
         android:title="@string/title_data_section">
 
         <ListPreference
-            android:key="@string/weather_provider_key"
-            android:title="@string/title_weather_provider"
-            android:dialogTitle="@string/dialog_title_weather_provider"
-            android:entries="@array/weather_providers"
-            android:entryValues="@array/weather_providers_values"
-            android:defaultValue="@string/weather_preference_default"
+            android:key="@string/weather_provider_preference_key"
+            android:title="@string/title_weather_provider_preference"
+            android:dialogTitle="@string/dialog_title_weather_provider_preference"
+            android:entries="@array/weather_provider_preference_entries"
+            android:entryValues="@array/weather_provider_preference_values"
+            android:defaultValue="@string/weather_provider_preference_default"
             android:summary="%s" />
+
+        <ListPreference
+            android:key="@string/unit_preference_key"
+            android:title="@string/title_unit_preference"
+            android:dialogTitle="@string/dialog_title_unit_preference"
+            android:entries="@array/unit_preference_entries"
+            android:entryValues="@array/unit_preference_values"
+            android:defaultValue="@string/unit_preference_default"
+            android:summary="%s"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory

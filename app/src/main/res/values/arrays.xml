@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="weather_providers">
+    <string-array name="weather_provider_preference_entries">
         <item>Apixu</item>
         <item>Dark Sky</item>
         <item>Open Weather Map</item>
     </string-array>
-    <string-array name="weather_providers_values">
+    <string-array name="weather_provider_preference_values">
         <item>apixu</item>
         <item>dark_sky</item>
         <item>open_weather_map</item>
+    </string-array>
+
+    <string-array name="unit_preference_entries">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <string-array name="unit_preference_values">
+        <item>metric</item>
+        <item>imperial</item>
     </string-array>
 </resources>

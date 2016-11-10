@@ -55,6 +55,6 @@ public class SettingsPresenter implements SettingsContract.Presenter,
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Timber.i("Preference %s changed to %s.", key, sharedPreferences.getString(key, mApplication.getString(R.string.weather_preference_default)));
+        Timber.i("Preference %s changed to %s.", key, sharedPreferences.getString(key, mApplication.getString(R.string.weather_provider_preference_default)));
     }
 }

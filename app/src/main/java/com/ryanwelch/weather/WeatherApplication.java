@@ -50,8 +50,8 @@ public class WeatherApplication extends Application {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         NetModule netModule = new NetModule(NetModule.DataSource.fromString(
-                preferences.getString(getString(R.string.weather_provider_key),
-                        getString(R.string.weather_preference_default))
+                preferences.getString(getString(R.string.weather_provider_preference_key),
+                        getString(R.string.weather_provider_preference_default))
         ));
 
         mApplicationComponent = ApplicationComponentBuilder.build(this)
