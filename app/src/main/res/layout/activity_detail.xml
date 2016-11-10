@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detailscreen.DetailActivity"
-    android:background="@color/sunnyBg">
+    tools:context=".ui.detailscreen.DetailActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -22,7 +21,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/sunnyBg"
+            android:background="@color/colorTransparent"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

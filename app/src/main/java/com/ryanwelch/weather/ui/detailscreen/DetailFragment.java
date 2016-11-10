@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.ryanwelch.weather.R;
 import com.ryanwelch.weather.domain.models.CurrentWeather;
 import com.ryanwelch.weather.ui.BaseFragment;
 import com.ryanwelch.weather.ui.components.WeatherIconView;
+import com.ryanwelch.weather.ui.helpers.ScaleCircleNavigator;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -42,6 +44,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     @Inject DetailPresenter mDetailPresenter;
 
+    Toolbar mToolbar;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     @BindView(R.id.main_section) LinearLayout mMainLayout;
     @BindView(R.id.weather_icon) WeatherIconView mWeatherIcon;
@@ -58,6 +61,8 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     private DetailListener mListener;
     private String mTransitionId;
+    private DetailPagerAdapter mDetailPagerAdapter;
+    private ScaleCircleNavigator mCircleNavigator;
 
     public static DetailFragment newInstance(CurrentWeather weather, String transitionId) {
         DetailFragment fragment = new DetailFragment();
@@ -86,6 +91,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, view);
+        mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar); // TODO: Use butterknife?
         return view;
     }
 
@@ -116,14 +122,16 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
     }
 
     private void setupViewPager() {
-        mViewPager.setAdapter(new DetailPagerAdapter(getChildFragmentManager()));
-        CircleNavigator circleNavigator = new CircleNavigator(getContext());
-        circleNavigator.setCircleCount(mViewPager.getChildCount());
-        circleNavigator.setCircleColor(Color.RED);
-        circleNavigator.setCircleClickListener((index) -> {
+        mDetailPagerAdapter = new DetailPagerAdapter(getChildFragmentManager());
+        mViewPager.setAdapter(mDetailPagerAdapter);
+        mCircleNavigator = new ScaleCircleNavigator(getContext());
+        mCircleNavigator.setCircleCount(mDetailPagerAdapter.getCount());
+        mCircleNavigator.setNormalCircleColor(Color.LTGRAY);
+        mCircleNavigator.setSelectedCircleColor(Color.DKGRAY);
+        mCircleNavigator.setCircleClickListener((index) -> {
                 mViewPager.setCurrentItem(index);
         });
-        mIndicator.setNavigator(circleNavigator);
+        mIndicator.setNavigator(mCircleNavigator);
         ViewPagerHelper.bind(mIndicator, mViewPager);
     }
 
@@ -147,10 +155,12 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     @Override
     public void showData(CurrentWeather data) {
-        mMainLayout.setBackgroundColor(
-                ContextCompat.getColor(
-                        getContext(),
-                        data.weatherCondition.getIcon().getColor()));
+        int color = ContextCompat.getColor(getContext(), data.weatherCondition.getIcon().getColor());
+        mMainLayout.setBackgroundColor(color);
+        mToolbar.setBackgroundColor(color);
+        mCircleNavigator.setNormalCircleColor(Color.LTGRAY);
+        mCircleNavigator.setSelectedCircleColor(color);
+
         mWeatherIcon.setIcon(data.isDay ? data.weatherCondition.getIcon() : data.weatherCondition.getNightIcon());
         mLocation.setText(data.place.getName());
         mCondition.setText(data.isDay ? data.weatherCondition.getName() : data.weatherCondition.getNightName());

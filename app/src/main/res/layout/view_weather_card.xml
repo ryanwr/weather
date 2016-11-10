@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="0°"
                 android:textSize="60sp"
-                android:layout_above="@+id/txt_feels_like"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/colorTextPrimaryLight"/>
 
             <!--<TextView-->

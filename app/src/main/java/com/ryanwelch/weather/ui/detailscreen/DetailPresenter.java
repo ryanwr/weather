@@ -19,7 +19,6 @@ public class DetailPresenter implements DetailContract.Presenter {
     @Override
     public void setView(DetailContract.View view) {
         mView = view;
-        mView.showData(mWeather);
     }
 
     @Override
@@ -29,6 +28,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void resume() {
+        mView.showData(mWeather);
     }
 
     @Override
