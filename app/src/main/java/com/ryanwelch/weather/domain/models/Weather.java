@@ -1,6 +1,7 @@
 package com.ryanwelch.weather.domain.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -55,6 +56,7 @@ public class Weather implements Parcelable {
     public Weather() {}
 
     public Weather(Parcel source) {
+        this.id = source.readInt();
         this.place = source.readParcelable(Place.class.getClassLoader());
         this.updateTime = new Date();
         this.updateTime.setTime(source.readLong());
@@ -84,6 +86,7 @@ public class Weather implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeParcelable(place, i);
         parcel.writeLong(updateTime.getTime());
         parcel.writeInt(weatherCondition.ordinal());
@@ -114,6 +117,33 @@ public class Weather implements Parcelable {
             return new Weather[size];
         }
     };
+
+    // SQL
+    public Weather(Cursor cursor) {
+        id = cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_ID));
+        place = new Place(
+                cursor.getString(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_REGION)),
+                cursor.getString(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_COUNTRY)),
+                cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_LATITUDE)),
+                cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_LONGITUDE))
+        );
+        updateTime = new Date(cursor.getLong(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_UPDATE_TIME)));
+        weatherCondition = WeatherCondition.values()[cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_WEATHER_CONDITION))];
+        temperatureC = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_TEMPERATURE));
+        feelsLikeC = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_FEELS_LIKE));
+        pressure = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_PRESSURE));
+        humidity = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_HUMIDITY));
+        windSpeed = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_WIND_SPEED));
+        windDegree = cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_WIND_DEGREE));
+        windDirection = cursor.getString(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_WIND_DIRECTION));
+        sunriseTime = new Date(cursor.getLong(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_SUNRISE_TIME)));
+        sunsetTime = new Date(cursor.getLong(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_SUNSET_TIME)));
+        isDay = cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_IS_DAY)) != 0;
+        precipitation = cursor.getDouble(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_PRECIPITATION));
+        snow = cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_SNOW));
+        cloud = cursor.getInt(cursor.getColumnIndex(CurrentWeatherTable.COLUMN_CLOUD));
+    }
 
     public ContentValues asContentValues() {
         ContentValues contentValues = new ContentValues();

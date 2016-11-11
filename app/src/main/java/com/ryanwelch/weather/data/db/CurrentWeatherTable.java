@@ -157,33 +157,7 @@ public class CurrentWeatherTable {
         @NonNull
         @Override
         public Weather mapFromCursor(@NonNull Cursor cursor) {
-            Weather object = new Weather();
-
-            object.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-            object.place = new Place(
-                    cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
-                    cursor.getString(cursor.getColumnIndex(COLUMN_REGION)),
-                    cursor.getString(cursor.getColumnIndex(COLUMN_COUNTRY)),
-                    cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)),
-                    cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE))
-            );
-            object.updateTime = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATE_TIME)));
-            object.weatherCondition = WeatherCondition.values()[cursor.getInt(cursor.getColumnIndex(COLUMN_WEATHER_CONDITION))];
-            object.temperatureC = cursor.getDouble(cursor.getColumnIndex(COLUMN_TEMPERATURE));
-            object.feelsLikeC = cursor.getDouble(cursor.getColumnIndex(COLUMN_FEELS_LIKE));
-            object.pressure = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRESSURE));
-            object.humidity = cursor.getDouble(cursor.getColumnIndex(COLUMN_HUMIDITY));
-            object.windSpeed = cursor.getDouble(cursor.getColumnIndex(COLUMN_WIND_SPEED));
-            object.windDegree = cursor.getInt(cursor.getColumnIndex(COLUMN_WIND_DEGREE));
-            object.windDirection = cursor.getString(cursor.getColumnIndex(COLUMN_WIND_DIRECTION));
-            object.sunriseTime = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_SUNRISE_TIME)));
-            object.sunsetTime = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_SUNSET_TIME)));
-            object.isDay = cursor.getInt(cursor.getColumnIndex(COLUMN_IS_DAY)) != 0;
-            object.precipitation = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRECIPITATION));
-            object.snow = cursor.getInt(cursor.getColumnIndex(COLUMN_SNOW));
-            object.cloud = cursor.getInt(cursor.getColumnIndex(COLUMN_CLOUD));
-
-            return object;
+            return new Weather(cursor);
         }
     };
 
