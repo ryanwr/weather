@@ -47,7 +47,7 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         holder.mForecastDay.setText(mDayFormat.format(data.time));
         // TODO
         //holder.mIcon
-        holder.mForecastTemperature.setText(String.format(mTemperatureFormat, data.temperatureC));
+        holder.mForecastTemperature.setText(String.format(mTemperatureFormat, (long) Math.round(data.temperatureC)));
     }
 
     public void replaceData(List<WeatherData> items) {
