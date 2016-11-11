@@ -26,9 +26,11 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
     private List<WeatherData> mItems = new ArrayList<>();
 
+    private String mTemperatureFormat;
     private SimpleDateFormat mDayFormat = new SimpleDateFormat("dd");
 
     public ForecastListAdapter(Context context, ArrayList<WeatherData> items) {
+        mTemperatureFormat = context.getResources().getString(R.string.temperature_format);
         replaceData(items);
     }
 
@@ -43,8 +45,9 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         WeatherData data = mItems.get(position);
 
         holder.mForecastDay.setText(mDayFormat.format(data.time));
+        // TODO
         //holder.mIcon
-        holder.mForecastTemperature.setText(""+data.temperatureC);
+        holder.mForecastTemperature.setText(String.format(mTemperatureFormat, data.temperatureC));
     }
 
     public void replaceData(List<WeatherData> items) {

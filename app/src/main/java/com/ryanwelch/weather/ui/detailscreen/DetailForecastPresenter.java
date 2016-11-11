@@ -19,9 +19,7 @@ public class DetailForecastPresenter implements DetailForecastContract.Presenter
     private Weather mWeather;
 
     @Inject
-    public DetailForecastPresenter() {
-
-    }
+    public DetailForecastPresenter() {}
 
     @Override
     public void setData(Weather weather) {

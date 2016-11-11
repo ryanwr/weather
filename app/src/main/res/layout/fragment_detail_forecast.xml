@@ -2,22 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     tools:context=".ui.detailscreen.DetailForecastFragment">
 
     <TextView
+        android:id="@+id/txt_forecast_detail_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="Forecast"
         android:textSize="24sp"
         android:textColor="@color/colorTextPrimaryDark"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/forecast_recycler_view"
+        android:layout_below="@id/txt_forecast_detail_title"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
