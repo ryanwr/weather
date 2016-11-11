@@ -147,7 +147,7 @@ public class Weather implements Parcelable {
 
     public ContentValues asContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CurrentWeatherTable.COLUMN_ID, this.id);
+        //contentValues.put(CurrentWeatherTable.COLUMN_ID, this.id);
         contentValues.put(CurrentWeatherTable.COLUMN_LATITUDE, this.place.getLatitude());
         contentValues.put(CurrentWeatherTable.COLUMN_LONGITUDE, this.place.getLongitude());
         contentValues.put(CurrentWeatherTable.COLUMN_NAME, this.place.getName());
