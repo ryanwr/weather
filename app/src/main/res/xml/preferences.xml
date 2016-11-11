@@ -60,5 +60,11 @@
             <intent android:action="android.intent.action.VIEW"
                 android:data="@string/github_url" />
         </Preference>
+
+        <Preference
+            android:title="@string/title_license_preference">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="@string/github_url" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
