@@ -13,6 +13,7 @@ public enum WeatherCondition {
     HAZE("Haze", WeatherIcon.CLOUDY),
     SMOKE("Smoke", WeatherIcon.CLOUDY),
     DUST("Dust", WeatherIcon.CLOUDY),
+    WIND("Wind", WeatherIcon.CLOUDY),
 
     LIGHT_DRIZZLE("Light Drizzle", WeatherIcon.RAIN),
     DRIZZLE("Drizzle", WeatherIcon.RAIN),

@@ -22,7 +22,7 @@ public class WeatherLocalDataSource implements WeatherDataSource {
     }
 
     @Override
-    public Observable<Weather> getCurrentWeather(Place place) {
+    public Observable<Weather> getWeather(Place place) {
         Timber.d("LOCAL: getCurrentWeather(): %s", place.getName());
         return mStorIOSQLite
                 .get()
@@ -39,7 +39,7 @@ public class WeatherLocalDataSource implements WeatherDataSource {
                 .take(1);
     }
 
-    public Observable<Void> setCurrentWeather(Weather weather) {
+    public Observable<Void> setWeather(Weather weather) {
         Timber.d("LOCAL: setCurrentWeather(): %s", weather.place.getName());
         return mStorIOSQLite
                 .put()

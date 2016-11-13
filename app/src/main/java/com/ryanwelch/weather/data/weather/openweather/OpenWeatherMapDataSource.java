@@ -25,7 +25,7 @@ public class OpenWeatherMapDataSource implements WeatherRemoteDataSource {
     }
 
     @Override
-    public Observable<Weather> getCurrentWeather(Place place) {
+    public Observable<Weather> getWeather(Place place) {
         return mWeatherService.getCurrentWeather(place.getLatitude(), place.getLongitude())
                 .map((weather) -> this.transform(weather, place));
     }
