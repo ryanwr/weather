@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Completable;
 import rx.Observable;
 import timber.log.Timber;
 
@@ -36,19 +37,20 @@ public class PlaceSharedPreferencesDataSource implements PlaceDataSource {
     }
 
     @Override
-    public Observable<Void> setPlaces(List<Place> places) {
+    public Completable setPlaces(List<Place> places) {
         Timber.v("setPlaces");
-        mSharedPreferences.edit().putString(SP_PLACE_ENTITIES, mGson.toJson(places)).apply();
-        return Observable.empty();
+        return Completable.complete().doOnSubscribe((s) -> {
+            mSharedPreferences.edit().putString(SP_PLACE_ENTITIES, mGson.toJson(places)).apply();
+        });
     }
 
     @Override
-    public Observable<Void> addPlace(Place place) {
+    public Completable addPlace(Place place) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Observable<Void> removePlace(Place place) {
+    public Completable removePlace(Place place) {
         throw new UnsupportedOperationException();
     }
 }

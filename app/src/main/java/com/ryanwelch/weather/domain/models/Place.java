@@ -11,49 +11,53 @@ import com.ryanwelch.weather.data.db.PlaceTable;
 public class Place implements SearchSuggestion {
 
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_ID, key = true)
-    double mId;
+    Double id;
 
     @SerializedName("lat")
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_LATITUDE)
-    double mLatitude;
+    Double latitude;
 
     @SerializedName("lon")
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_LONGITUDE)
-    double mLongitude;
+    Double longitude;
 
     @SerializedName("name")
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_NAME)
-    String mName;
+    String name;
 
     @SerializedName("region")
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_REGION)
-    String mRegion;
+    String region;
 
     @SerializedName("country")
     @StorIOSQLiteColumn(name = PlaceTable.COLUMN_COUNTRY)
-    String mCountry;
+    String country;
+
+    @StorIOSQLiteColumn(name = PlaceTable.COLUMN_DISPLAY_ORDER)
+    Integer displayOrder = 0;
 
     Place() {}
 
     public Place(String name, String region, String country, double latitude, double longitude) {
-        this.mName = name;
-        this.mRegion = region;
-        this.mCountry = country;
-        this.mLatitude = latitude;
-        this.mLongitude = longitude;
+        this.name = name;
+        this.region = region;
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Place(Parcel source) {
-        this.mLatitude = source.readDouble();
-        this.mLongitude = source.readDouble();
-        this.mName = source.readString();
-        this.mRegion = source.readString();
-        this.mCountry = source.readString();
+        this.latitude = source.readDouble();
+        this.longitude = source.readDouble();
+        this.name = source.readString();
+        this.region = source.readString();
+        this.country = source.readString();
+        this.displayOrder = source.readInt();
     }
 
     @Override
     public String getBody() {
-        return mName;
+        return name;
     }
 
     @Override
@@ -63,11 +67,12 @@ public class Place implements SearchSuggestion {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(mLatitude);
-        parcel.writeDouble(mLongitude);
-        parcel.writeString(mName);
-        parcel.writeString(mRegion);
-        parcel.writeString(mCountry);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+        parcel.writeString(name);
+        parcel.writeString(region);
+        parcel.writeString(country);
+        parcel.writeInt(displayOrder);
     }
 
     public static final Creator<Place> CREATOR = new Creator<Place>() {
@@ -83,43 +88,43 @@ public class Place implements SearchSuggestion {
     };
 
     public double getLatitude() {
-        return mLatitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        this.mLatitude = mLatitude;
+        this.latitude = latitude;
     }
 
     public double getLongitude() {
-        return mLongitude;
+        return longitude;
     }
 
     public void setLongitude(double longitude) {
-        this.mLongitude = mLongitude;
+        this.longitude = longitude;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getRegion() {
-        return mRegion;
+        return region;
     }
 
     public void setRegion(String region) {
-        mRegion = region;
+        this.region = region;
     }
 
     public String getCountry() {
-        return mCountry;
+        return country;
     }
 
     public void setCountry(String country) {
-        mCountry = country;
+        this.country = country;
     }
 
     @Override

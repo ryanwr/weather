@@ -4,48 +4,53 @@ import com.ryanwelch.weather.domain.models.Place;
 
 import java.util.List;
 
+import rx.Completable;
 import rx.Observable;
 
 public class PlaceRepository implements PlaceDataSource {
 
     private PlaceMemoryDataSource mPlaceMemoryDataSource;
-    private PlaceSharedPreferencesDataSource mPlaceSharedPreferencesDataSource;
+    private PlaceLocalDataSource mPlaceLocalDataSource;
 
     public PlaceRepository(PlaceMemoryDataSource placeMemoryDataSource,
-                           PlaceSharedPreferencesDataSource placeSharedPreferencesDataSource) {
+                           PlaceLocalDataSource placeLocalDataSource) {
         mPlaceMemoryDataSource = placeMemoryDataSource;
-        mPlaceSharedPreferencesDataSource = placeSharedPreferencesDataSource;
+        mPlaceLocalDataSource = placeLocalDataSource;
     }
 
     @Override
     public Observable<List<Place>> getPlaces() {
-        return mPlaceMemoryDataSource.getPlaces()
+        return mPlaceMemoryDataSource
+                .getPlaces()
                 .filter(v -> !v.isEmpty())
                 .switchIfEmpty(
-                        mPlaceSharedPreferencesDataSource.getPlaces()
+                        mPlaceLocalDataSource
+                                .getPlaces()
                                 .doOnNext((places) -> mPlaceMemoryDataSource.setPlaces(places).subscribe())
                 );
     }
 
     @Override
-    public Observable<Void> setPlaces(List<Place> places) {
+    public Completable setPlaces(List<Place> places) {
         return mPlaceMemoryDataSource.setPlaces(places);
     }
 
     @Override
-    public Observable<Void> addPlace(Place place) {
-        return mPlaceMemoryDataSource.addPlace(place).doOnCompleted(() -> {
-            mPlaceMemoryDataSource.getPlaces()
-                    .subscribe((places) -> mPlaceSharedPreferencesDataSource.setPlaces(places).subscribe());
-        });
+    public Completable addPlace(Place place) {
+        return mPlaceMemoryDataSource
+                .addPlace(place)
+                .doOnSubscribe((s) -> {
+                    mPlaceLocalDataSource.addPlace(place).subscribe();
+                });
     }
 
     @Override
-    public Observable<Void> removePlace(Place place) {
-        return mPlaceMemoryDataSource.removePlace(place).doOnCompleted(() -> {
-            mPlaceMemoryDataSource.getPlaces()
-                    .subscribe(mPlaceSharedPreferencesDataSource::setPlaces);
-        });
+    public Completable removePlace(Place place) {
+        return mPlaceMemoryDataSource
+                .removePlace(place)
+                .doOnSubscribe((s) -> {
+                    mPlaceLocalDataSource.removePlace(place).subscribe();
+                });
     }
 
 }

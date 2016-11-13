@@ -6,7 +6,7 @@ package com.ryanwelch.weather.data.weather;
 
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.Query;
-import com.ryanwelch.weather.data.db.CurrentWeatherTable;
+import com.ryanwelch.weather.data.db.WeatherTable;
 import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 
@@ -29,8 +29,8 @@ public class WeatherLocalDataSource implements WeatherDataSource {
                 .object(Weather.class)
                 .withQuery(
                         Query.builder()
-                                .table(CurrentWeatherTable.TABLE)
-                                .where(CurrentWeatherTable.COLUMN_LATITUDE + " = ? AND " + CurrentWeatherTable.COLUMN_LONGITUDE + " = ? ")
+                                .table(WeatherTable.TABLE)
+                                .where(WeatherTable.COLUMN_LATITUDE + " = ? AND " + WeatherTable.COLUMN_LONGITUDE + " = ? ")
                                 .whereArgs(place.getLatitude(), place.getLongitude())
                                 .build()
                 )

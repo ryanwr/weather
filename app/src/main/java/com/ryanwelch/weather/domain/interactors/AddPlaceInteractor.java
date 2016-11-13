@@ -23,7 +23,7 @@ public class AddPlaceInteractor extends Interactor {
 
     @Override
     public Observable run() {
-        return mPlaceRepository.addPlace(mPlace);
+        return mPlaceRepository.addPlace(mPlace).toObservable();
     }
 
 }

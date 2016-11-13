@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
-import com.ryanwelch.weather.data.db.CurrentWeatherTable;
+import com.ryanwelch.weather.data.db.WeatherTable;
 import com.ryanwelch.weather.data.db.DbOpenHelper;
 import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
@@ -38,9 +38,9 @@ public class DatabaseModule {
                 .sqliteOpenHelper(openHelper)
                 .addTypeMapping(Place.class, new PlaceSQLiteTypeMapping())
                 .addTypeMapping(Weather.class, SQLiteTypeMapping.<Weather>builder()
-                        .putResolver(CurrentWeatherTable.PUT_RESOLVER)
-                        .getResolver(CurrentWeatherTable.GET_RESOLVER)
-                        .deleteResolver(CurrentWeatherTable.DELETE_RESOLVER)
+                        .putResolver(WeatherTable.PUT_RESOLVER)
+                        .getResolver(WeatherTable.GET_RESOLVER)
+                        .deleteResolver(WeatherTable.DELETE_RESOLVER)
                         .build())
                 .build();
     }

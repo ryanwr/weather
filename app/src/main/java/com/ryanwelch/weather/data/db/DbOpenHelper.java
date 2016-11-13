@@ -20,7 +20,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(PlaceTable.getCreateTableQuery());
-        sqLiteDatabase.execSQL(CurrentWeatherTable.getCreateTableQuery());
+        sqLiteDatabase.execSQL(WeatherTable.getCreateTableQuery());
+        sqLiteDatabase.execSQL(DailyWeatherTable.getCreateTableQuery());
     }
 
     @Override

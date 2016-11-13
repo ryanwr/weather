@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
+import com.ryanwelch.weather.data.place.PlaceLocalDataSource;
 import com.ryanwelch.weather.data.place.PlaceMemoryDataSource;
 import com.ryanwelch.weather.data.place.PlaceRepository;
 import com.ryanwelch.weather.data.place.PlaceSharedPreferencesDataSource;
@@ -72,7 +74,7 @@ public class ApplicationModule {
 
     @Provides
     @ApplicationScope
-    PlaceRepository providePlaceRepository(SharedPreferences preferences, Gson gson) {
-        return new PlaceRepository(new PlaceMemoryDataSource(), new PlaceSharedPreferencesDataSource(preferences, gson));
+    PlaceRepository providePlaceRepository(StorIOSQLite storIOSQLite) {
+        return new PlaceRepository(new PlaceMemoryDataSource(), new PlaceLocalDataSource(storIOSQLite));
     }
 }

@@ -32,8 +32,12 @@ public class PlaceTable {
     public static final String COLUMN_COUNTRY = "country";
 
     @NonNull
+    public static final String COLUMN_DISPLAY_ORDER = "display_order";
+
+    @NonNull
     public static final Query QUERY_ALL = Query.builder()
             .table(TABLE)
+            .orderBy(COLUMN_DISPLAY_ORDER)
             .build();
 
     @NonNull
@@ -44,7 +48,12 @@ public class PlaceTable {
                 + COLUMN_LONGITUDE + " TEXT NULL, "
                 + COLUMN_NAME + " TEXT NULL, "
                 + COLUMN_REGION + " TEXT NULL, "
-                + COLUMN_COUNTRY + " TEXT NULL "
+                + COLUMN_COUNTRY + " TEXT NULL, "
+                + COLUMN_DISPLAY_ORDER + " TEXT NULL "
                 + ");";
+    }
+
+    private PlaceTable() {
+        throw new IllegalStateException("No instances");
     }
 }

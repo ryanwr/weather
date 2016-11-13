@@ -23,7 +23,7 @@ public class DeletePlaceInteractor extends Interactor {
 
     @Override
     public Observable run() {
-        return mPlaceRepository.removePlace(mPlace);
+        return mPlaceRepository.removePlace(mPlace).toObservable();
     }
 
 }
