@@ -7,7 +7,6 @@ package com.ryanwelch.weather.data.weather.darksky;
 
 import com.ryanwelch.weather.BuildConfig;
 import com.ryanwelch.weather.data.weather.WeatherRemoteDataSource;
-import com.ryanwelch.weather.data.weather.apixu.ApixuForecastResponse;
 import com.ryanwelch.weather.domain.models.Weather;
 import com.ryanwelch.weather.domain.models.Place;
 import com.ryanwelch.weather.domain.models.WeatherCondition;

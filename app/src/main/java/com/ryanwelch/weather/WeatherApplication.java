@@ -7,8 +7,6 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.frogermcs.androiddevmetrics.AndroidDevMetrics;
 import com.ryanwelch.weather.injector.components.ApplicationComponent;
-import com.ryanwelch.weather.injector.components.DaggerApplicationComponent;
-import com.ryanwelch.weather.injector.modules.ApplicationModule;
 import com.ryanwelch.weather.injector.modules.DebugModule;
 import com.ryanwelch.weather.injector.modules.NetModule;
 import com.squareup.leakcanary.LeakCanary;

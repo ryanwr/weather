@@ -32,19 +32,15 @@ public class ApixuDataSource implements WeatherRemoteDataSource {
 
     @Override
     public Observable<Weather> getWeather(Place place) {
-//        return Observable.zip(
-//                mWeatherService.getCurrentWeather(place.getLatitude() + ", " + place.getLongitude()),
-//                mWeatherService.getForecast(place.getLatitude() + ", " + place.getLongitude(), 5),
-//                this::transform);
         return mWeatherService.getForecast(place.getLatitude() + ", " + place.getLongitude(), 5)
-                .map(this::transform);
+                .map((weatherResponse -> transform(weatherResponse, place)));
     }
 
-    private Weather transform(ApixuForecastResponse forecastResponse) {
+    private Weather transform(ApixuForecastResponse forecastResponse, Place place) {
         if(forecastResponse == null) return null;
 
         Weather weather = new Weather();
-        weather.place = forecastResponse.place;
+        weather.place = place;
         weather.updateTime = new Date();
         weather.temperatureC = forecastResponse.current.tempC;
         weather.feelsLikeC = forecastResponse.current.feelsLikeC;

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -45,7 +46,7 @@ public class DetailFragment extends BaseFragment implements DetailContract.View 
 
     Toolbar mToolbar;
     @BindView(R.id.view_pager) ViewPager mViewPager;
-    @BindView(R.id.main_section) LinearLayout mMainLayout;
+    @BindView(R.id.main_section) ConstraintLayout mMainLayout;
     @BindView(R.id.weather_icon) WeatherIconView mWeatherIcon;
     @BindView(R.id.txt_location) TextView mLocation;
     @BindView(R.id.txt_condition) TextView mCondition;

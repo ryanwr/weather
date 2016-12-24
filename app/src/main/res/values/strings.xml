@@ -11,6 +11,7 @@
     <!--Page titles-->
     <string name="title_places">Places</string>
     <string name="title_settings">Settings</string>
+    <string name="title_forecast">Forecast</string>
 
     <!--Preferences-->
     <string name="title_data_section">Data</string>
